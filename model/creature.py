@@ -9,4 +9,4 @@ class Creature(BaseModel):
     id: str
     name: str
     hp: PositiveInt  # Health points
-    max_hp: PositiveInt  # TODO: make sure hp < max_hp
+    max_hp: PositiveInt  # TODO: make sure hp <= max_hp

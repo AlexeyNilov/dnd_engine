@@ -20,7 +20,7 @@ def get_new_id() -> str:
 def save_creature(data: dict, db: SqliteDict) -> None:
     data['id'] = get_new_id()
     creature = Creature(**data)
-    data = creature.model_dump(mode='python')
+    data = creature.model_dump()
     db[creature.id] = data
     logger.debug(f'{creature} saved')
 
