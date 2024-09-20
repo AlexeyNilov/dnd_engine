@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from pydantic import PositiveInt
 
 
-class Something(BaseModel):
+class Creature(BaseModel):
     """ TBD
     """
 

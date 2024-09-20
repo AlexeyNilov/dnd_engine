@@ -7,3 +7,4 @@ __pycache__
 rnd.py
 cache
 conf/settings.py
+*.sqlite
