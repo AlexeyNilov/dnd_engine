@@ -8,4 +8,4 @@ class Something(BaseModel):
 
     id: str
     name: str
-    health_points: PositiveInt
+    hp: PositiveInt  # Health points
