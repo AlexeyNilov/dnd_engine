@@ -7,19 +7,22 @@ set_logging()
 
 data = {
     'name': 'hunter',
-    'hp': 10
+    'hp': 10,
+    'max_hp': 10
 }
 save_creature(data, DB)
 
 data = {
     'name': 'prey',
-    'hp': 5
+    'hp': 5,
+    'max_hp': 5
 }
 save_creature(data, DB)
 
 data = {
     'name': 'tree',
-    'hp': 500
+    'hp': 500,
+    'max_hp': 500
 }
 save_creature(data, DB)
 
