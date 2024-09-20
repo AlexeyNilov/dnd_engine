@@ -12,7 +12,7 @@ class Creature(BaseModel):
     max_hp: PositiveInt
 
     @model_validator(mode='after')
-    def check_hp_less_than_max_hp(self):  # TODO: test it
+    def check_hp_less_than_max_hp(self):
         if self.hp > self.max_hp:
             raise ValueError('hp must be less than max_hp')
         return self
