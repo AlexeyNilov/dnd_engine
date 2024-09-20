@@ -1,0 +1,39 @@
+import logging
+
+from sqlitedict import SqliteDict
+
+from model.creature import Creature
+
+
+logger = logging.getLogger(__name__)
+DB = SqliteDict("db.sqlite", autocommit=True)
+last_id = 0
+
+
+def get_new_id() -> str:
+    global last_id
+    current_id = last_id
+    last_id += 1
+    return str(current_id)
+
+
+def save_creature(data: dict, db: SqliteDict) -> None:
+    data['id'] = get_new_id()
+    creature = Creature(**data)
+    data = creature.model_dump(mode='python')
+    db[creature.id] = data
+    logger.debug(f'{creature} saved')
+
+
+def load_creatures(db: SqliteDict) -> list:
+    creatures = list()
+    for _, item in db.items():
+        creatures.append(Creature(**item))
+    return creatures
+
+
+def get_creature(id: str) -> Creature:
+    return Creature(**DB[id])
+
+
+CREATURES = load_creatures(DB)

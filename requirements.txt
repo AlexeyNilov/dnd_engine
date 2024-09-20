@@ -3,3 +3,4 @@ pydantic
 pre-commit
 mypy
 sqlitedict
+pyyaml
