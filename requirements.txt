@@ -4,3 +4,4 @@ pre-commit
 mypy
 sqlitedict
 pyyaml
+flake8
