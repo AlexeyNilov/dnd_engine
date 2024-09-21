@@ -42,5 +42,8 @@ class Creature(BaseObject):
 
     def apply(self, what: Consume, to: BaseObject) -> None:
         logger.debug(f'{self.id} uses {what.__class__.__name__} level {what.level} on {to.id}')
-        gain = what.use(to)
-        self.hp += gain
+        if to.core in self.compatible_with:
+            gain = what.use(to)
+            self.hp += gain
+        else:
+            logger.debug(f'{what.__class__.__name__} failed: {to.core} is not compatible with {self.name}')

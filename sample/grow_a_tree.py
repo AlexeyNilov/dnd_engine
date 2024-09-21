@@ -15,7 +15,17 @@ data = {
 water = Resource(**data)
 print(water)
 
+data = {
+    'name': 'Food',
+    'value': 10,
+    'core': 'organic'
+}
+food = Resource(**data)
+print(food)
+
+
 while water.value > 0:
     tree.apply(what=tree.skills['drain'], to=water)
+    tree.apply(what=tree.skills['drain'], to=food)
 
 print(tree)

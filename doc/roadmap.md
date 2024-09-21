@@ -8,3 +8,5 @@
 * Space
 * Time
 * Log history and events to external(out of object) event storage
+* Luck
+* Skill learning

@@ -1,5 +1,6 @@
 from threading import Lock
 from typing import ClassVar
+from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -19,6 +20,7 @@ class BaseObject(BaseModel):
 
     id: str  # Must be uniq globally
     name: str
+    core: Optional[str] = None
 
     # Class-level variables for uniq id generation
     _id_counter: ClassVar[int] = 0
@@ -37,4 +39,3 @@ class BaseObject(BaseModel):
 
 class Resource(BaseObject):
     value: PositiveInt = 1
-    core: str
