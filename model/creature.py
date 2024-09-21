@@ -9,7 +9,7 @@ class Creature(BaseModel):
     id: str
     name: str
     is_alive: bool
-    hp: PositiveInt  # Health points
+    hp: PositiveInt  # Health points (measure of aliveness)
     max_hp: PositiveInt
 
     @model_validator(mode='after')
@@ -18,10 +18,17 @@ class Creature(BaseModel):
             self.hp = self.max_hp
         return self
 
+    def check_hp_above_zero(self):
+        if self.hp < 1:
+            self.is_alive = False
+            self.hp = 1  # HP looses its value when creatue is no longr alive and we set it to 1 to comply with PositiveInt
+        return self
+
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
         if name == 'hp':
             self.check_hp_less_than_max_hp()
+            self.check_hp_above_zero()
 
 
 last_id = 0
