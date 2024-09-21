@@ -1,6 +1,7 @@
 import pytest
 
 from model.object import Resource
+from model.skill import calculate_level
 from model.skill import Consume
 
 
@@ -14,7 +15,12 @@ def food():
     return Resource(**data)
 
 
-def test_consume_food_skill(food):
+def test_calculate_level():
+    assert calculate_level(500) == 3
+    assert calculate_level(0) == 1
+
+
+def test_consume_skill(food):
     skill = Consume()
     gain = skill.use(to=food)
     assert gain == 1

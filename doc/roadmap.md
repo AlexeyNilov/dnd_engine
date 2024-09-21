@@ -2,7 +2,6 @@
 
 * Grow a tree: increase max_hp
 * Grow food
-* Skills: skill upgrade
 * Distance
 * Space
 * Time

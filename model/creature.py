@@ -40,7 +40,6 @@ class Creature(BaseObject):
         if self.is_alive and self.hp <= 0:
             self.is_alive = False
             self.hp = 0
-        return self
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
@@ -53,5 +52,6 @@ class Creature(BaseObject):
         if to.core in self.compatible_with:
             gain = what.use(to)
             self.hp += gain
+            logger.debug(f'{self.id} gained {gain} HP')
         else:
             logger.debug(f'{what.__class__.__name__} failed: {to.core} is not compatible with {self.name}')

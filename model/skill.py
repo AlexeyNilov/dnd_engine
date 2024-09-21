@@ -1,16 +1,36 @@
+import logging
+
 from pydantic import BaseModel
 from pydantic import PositiveInt
 
 from model.object import GEZeroInt
 from model.object import Resource
 
+logger = logging.getLogger(__name__)
+
 
 class SkillMethodNotImplemented(NotImplementedError):
     pass
 
 
+skill_upgrade_levels = {
+    '2': 10,
+    '3': 100,
+    '4': 1000
+}
+
+
+def calculate_level(use: int) -> int:
+    level = 1  # Default level
+    for lvl, threshold in skill_upgrade_levels.items():
+        if use >= threshold:
+            level = int(lvl)
+        else:
+            break
+    return level
+
+
 class Skill(BaseModel):
-    description: str
     used: GEZeroInt = 0
     level: GEZeroInt = 1
 
@@ -21,20 +41,28 @@ class Skill(BaseModel):
         attr = super().__getattribute__(name)
         if callable(attr) and name == "use":
             self.__setattr__('used', self.used + 1)
-            # TODO implement skill level upgrade based on usage
-
         return attr
+
+    def __setattr__(self, name, value):
+        super().__setattr__(name, value)
+
+        if name == 'used':
+            new_level = calculate_level(self.used)
+            if new_level != self.level:
+                logger.debug(f'{self.__class__.__name__} level changed from {self.level} to {new_level}')
+            self.level = new_level
 
 
 class Consume(Skill):
-    description: str = 'Consume something with the given rate'
+    """Consume something with the given rate * skill level"""
     rate: PositiveInt = 1
 
     def use(self, to: Resource) -> int:
+        effective_rate = self.rate * self.level
         if to.value <= 0:
             return 0
 
-        gain = min(self.rate, to.value)
+        gain = min(effective_rate, to.value)
         to.value -= gain
         return gain
 

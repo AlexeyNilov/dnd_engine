@@ -8,7 +8,7 @@ tree = get_creature(name='The first oak')
 
 data = {
     'name': 'Water',
-    'value': 10,
+    'value': 20,
     'core': 'water'
 }
 water = Resource(**data)
@@ -24,4 +24,4 @@ while water.value > 0:
     tree.apply(what=tree.skills['drain'], to=water)
     tree.apply(what=tree.skills['drain'], to=food)
 
-print(tree.model_dump(include=['name', 'hp', 'max_hp', 'is_alive']))
+print(tree.model_dump(include=['name', 'hp', 'max_hp', 'is_alive', 'skills']))
