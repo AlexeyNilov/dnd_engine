@@ -23,3 +23,7 @@ It feels like HP must have an upper limit. Is it so? If so, growth is the expans
 Very often levels are used as a measure of growth. I'm not sure we need them.
 
 To grow a creature must consume something(food, energy, knowledge, etc).
+
+# Skills
+
+To do anything a creature must know how to do it, to have a skill.

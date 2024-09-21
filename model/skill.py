@@ -14,8 +14,15 @@ class Skill(BaseModel):
     used: GEZeroInt = 0
 
     def use(self, *args, **kargs):
-        self.used += 1
         raise SkillMethodNotImplemented
+
+    def __getattribute__(self, name):
+        attr = super().__getattribute__(name)
+        if callable(attr) and name == "use":
+            self.__setattr__('used', self.used + 1)
+            # TODO implement skill upgrade
+
+        return attr
 
 
 class ConsumeFood(Skill):
@@ -23,7 +30,6 @@ class ConsumeFood(Skill):
     rate: PositiveInt = 1
 
     def use(self, to: Food) -> int:
-        self.used += 1
         if to.value <= 0:
             return 0
 

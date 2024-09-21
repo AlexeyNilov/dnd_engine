@@ -27,4 +27,3 @@ while food.value > 0:
     tree.apply(what=tree.skills['eat'], to=food)
 
 print(tree)
-print(tree.skills['eat'].used)
