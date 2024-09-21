@@ -1,6 +1,13 @@
 from pydantic import BaseModel
-# from pydantic import PositiveInt
-# from typing import Optional
+from pydantic import Field
+from typing_extensions import Annotated
+
+
+GEZeroInt = Annotated[int, Field(ge=0)]
+
+
+class ModelException(Exception):
+    pass
 
 
 class BaseObject(BaseModel):
@@ -8,4 +15,3 @@ class BaseObject(BaseModel):
 
     id: str  # Must be uniq globally
     name: str
-    # value: Optional[PositiveInt] = 1

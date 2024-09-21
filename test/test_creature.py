@@ -19,6 +19,6 @@ def test_hp_limit(creature):
 
 
 def test_aliveness(creature):
-    creature.hp = 0
+    creature.hp = -1
     assert creature.is_alive is False
-    assert creature.hp == 1
+    assert creature.hp == 0

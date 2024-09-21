@@ -2,13 +2,14 @@ from pydantic import model_validator
 from pydantic import PositiveInt
 
 from model.object import BaseObject
+from model.object import GEZeroInt
 
 
 class Creature(BaseObject):
     """ Simple creature, see doc/creature.md for details"""
 
     is_alive: bool
-    hp: PositiveInt  # Health points (measure of aliveness)
+    hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
 
     @model_validator(mode='after')
@@ -18,9 +19,9 @@ class Creature(BaseObject):
         return self
 
     def check_hp_above_zero(self):
-        if self.hp < 1:
+        if self.is_alive and self.hp <= 0:
             self.is_alive = False
-            self.hp = 1  # HP looses its value when a creature is no longer alive and we set it to 1 to comply with PositiveInt
+            self.hp = 0
         return self
 
     def __setattr__(self, name, value):
