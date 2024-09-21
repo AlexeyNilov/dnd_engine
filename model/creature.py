@@ -6,11 +6,11 @@ from pydantic import PositiveInt
 class Creature(BaseModel):
     """ Simple creature, see doc/creature.md for details"""
 
-    id: str
+    id: str  # Must be uniq globally
     name: str
     is_alive: bool
     hp: PositiveInt  # Health points (measure of aliveness)
-    max_hp: PositiveInt
+    max_hp: PositiveInt  # Upper limit for health points (measure of growth)
 
     @model_validator(mode='after')
     def check_hp_less_than_max_hp(self):
