@@ -10,7 +10,12 @@ DB.clear()
 data = {
     'name': 'hunter',
     'hp': 8,
-    'max_hp': 10
+    'max_hp': 10,
+    'skill_book': [
+        ['eat', 'Consume', 1]
+    ],
+    'compatible_with': ['organic'],
+    'core': 'organic'
 }
 save_creature(Creature(**data), DB)
 
@@ -31,7 +36,7 @@ data = {
     'hp': 400,
     'max_hp': 500,
     'skill_book': [
-        ['drain', 'Consume', 1]
+        ['eat', 'Consume', 1]
     ],
     'compatible_with': ['water'],
     'core': 'organic'

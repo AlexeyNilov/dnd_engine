@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from sqlitedict import SqliteDict
 
@@ -19,10 +20,10 @@ def save_creature(creature: Creature, db: SqliteDict) -> None:
     logger.debug(f'{creature} saved')
 
 
-def load_creatures(db: SqliteDict = DB) -> dict:
-    creatures = dict()
+def load_creatures(db: SqliteDict = DB) -> List[Creature]:
+    creatures = list()
     for _, item in db.items():
-        creatures[item['id']] = Creature(**item)
+        creatures.append(Creature(**item))
     return creatures
 
 
