@@ -17,8 +17,8 @@ pre-commit install
 Run linters and tests
 
 ```
-flake8 . --extend-exclude .venv,.pytest_cache,.mypy_cache --count --select=E9,F63,F7,F82 --show-source --statistics
-flake8 . --extend-exclude .venv,.pytest_cache,.mypy_cache --count --exit-zero --max-complexity=5 --max-line-length=128 --statistics --ignore=E402
+python -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+python -m flake8 . --count --exit-zero --statistics
 python -m pytest test/test_*.py
 python -m mypy .
 ```
