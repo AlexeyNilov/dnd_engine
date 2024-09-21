@@ -31,19 +31,7 @@ class Creature(BaseObject):
             self.check_hp_above_zero()
 
 
-last_id = 0
-
-
-def get_new_id() -> str:
-    global last_id
-    current_id = last_id
-    last_id += 1
-    return str(current_id)
-
-
 def add_defaults(data: dict) -> dict:
-    if 'id' not in data.keys():
-        data['id'] = get_new_id()
     if 'is_alive' not in data.keys():
         data['is_alive'] = True
 
