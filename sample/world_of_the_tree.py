@@ -20,7 +20,7 @@ water = {
 
 food = {
     'name': 'Food',
-    'value': 10,
+    'value': 20,
     'core': 'organic'
 }
 
@@ -38,11 +38,14 @@ def remove_empty_resource():
 
 for _ in range(50):
     for creature in creatures:
+        if not creature.is_alive:
+            continue
+
         if resources:
             resource = random.choice(resources)
             creature.apply(what=creature.skills['eat'], to=resource)
-        else:
-            break
+
+        creature.hp -= 1
 
     remove_empty_resource()
 
