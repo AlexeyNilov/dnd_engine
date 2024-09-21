@@ -35,5 +35,6 @@ class BaseObject(BaseModel):
         return self.__class__._id_counter
 
 
-class Food(BaseObject):
+class Resource(BaseObject):
     value: PositiveInt = 1
+    core: str

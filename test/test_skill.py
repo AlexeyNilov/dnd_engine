@@ -1,20 +1,21 @@
 import pytest
 
-from model.object import Food
-from model.skill import ConsumeFood
+from model.object import Resource
+from model.skill import Consume
 
 
 @pytest.fixture
 def food():
     data = {
-        'name': 'The tree food',
-        'value': 10
+        'name': 'food',
+        'value': 10,
+        'core': 'organic'
     }
-    return Food(**data)
+    return Resource(**data)
 
 
 def test_consume_food_skill(food):
-    skill = ConsumeFood()
+    skill = Consume()
     gain = skill.use(to=food)
     assert gain == 1
     assert food.value == 9

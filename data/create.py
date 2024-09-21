@@ -2,7 +2,7 @@ from data.logger import set_logging
 from data.storage import DB
 from data.storage import save_creature
 from model.creature import Creature
-from model.skill import ConsumeFood
+from model.skill import Consume
 
 
 set_logging()
@@ -20,7 +20,7 @@ data = {
     'hp': 5,
     'max_hp': 5,
     'skills': {
-        'eat': ConsumeFood()
+        'eat': Consume()
     }
 }
 save_creature(Creature(**data), DB)
@@ -29,6 +29,9 @@ data = {
     'name': 'The first oak',
     'hp': 400,
     'max_hp': 500,
+    'skills': {
+        'drain': Consume()
+    }
 }
 save_creature(Creature(**data), DB)
 

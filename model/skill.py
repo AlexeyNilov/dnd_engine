@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 from pydantic import PositiveInt
 
-from model.object import Food
 from model.object import GEZeroInt
+from model.object import Resource
 
 
 class SkillMethodNotImplemented(NotImplementedError):
@@ -12,6 +12,7 @@ class SkillMethodNotImplemented(NotImplementedError):
 class Skill(BaseModel):
     description: str
     used: GEZeroInt = 0
+    level: GEZeroInt = 1
 
     def use(self, *args, **kargs):
         raise SkillMethodNotImplemented
@@ -20,16 +21,16 @@ class Skill(BaseModel):
         attr = super().__getattribute__(name)
         if callable(attr) and name == "use":
             self.__setattr__('used', self.used + 1)
-            # TODO implement skill upgrade
+            # TODO implement skill level upgrade based on usage
 
         return attr
 
 
-class ConsumeFood(Skill):
+class Consume(Skill):
     description: str = 'Consume something with the given rate'
     rate: PositiveInt = 1
 
-    def use(self, to: Food) -> int:
+    def use(self, to: Resource) -> int:
         if to.value <= 0:
             return 0
 
