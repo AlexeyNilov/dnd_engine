@@ -20,3 +20,9 @@ def load_creatures(db: SqliteDict = DB) -> dict:
     for _, item in db.items():
         creatures[item['id']] = Creature(**item)
     return creatures
+
+
+def get_creature(name: str, db: SqliteDict = DB) -> Creature:
+    for _, item in db.items():
+        if name == item['name']:
+            return Creature(**item)

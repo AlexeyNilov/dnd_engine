@@ -31,7 +31,8 @@ data = {
     'max_hp': 500,
     'skills': {
         'drain': Consume()
-    }
+    },
+    'compatible_with': ['water']
 }
 save_creature(Creature(**data), DB)
 

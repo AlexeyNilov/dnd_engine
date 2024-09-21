@@ -1,19 +1,10 @@
 from data.logger import set_logging
-from model.creature import Creature
+from data.storage import get_creature
 from model.object import Resource
-from model.skill import Consume
 
 
 set_logging()
-data = {
-    'name': 'The first oak',
-    'hp': 400,
-    'max_hp': 500,
-    'skills': {
-        'drain': Consume()
-    }
-}
-tree = Creature(**data)
+tree = get_creature(name='The first oak')
 print(tree)
 
 data = {
