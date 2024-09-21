@@ -9,6 +9,10 @@ logger = logging.getLogger(__name__)
 DB = SqliteDict("db.sqlite", autocommit=True)
 
 
+class CreatureNotFound(Exception):
+    pass
+
+
 def save_creature(creature: Creature, db: SqliteDict) -> None:
     data = creature.model_dump()
     db[creature.id] = data
@@ -26,3 +30,4 @@ def get_creature(name: str, db: SqliteDict = DB) -> Creature:
     for _, item in db.items():
         if name == item['name']:
             return Creature(**item)
+    raise CreatureNotFound

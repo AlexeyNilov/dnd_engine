@@ -37,3 +37,9 @@ class Consume(Skill):
         gain = min(self.rate, to.value)
         to.value -= gain
         return gain
+
+
+available_skills = {
+    'Consume': Consume,
+    'Skill': Skill
+}

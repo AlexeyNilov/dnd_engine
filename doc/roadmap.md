@@ -1,6 +1,5 @@
 # Roadmap and plans
 
-* Solve Skill class save/load conversion issue
 * Grow a tree: increase max_hp
 * Grow food
 * Skills: skill upgrade
