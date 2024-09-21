@@ -32,7 +32,7 @@ def calculate_level(use: int) -> int:
 
 class Skill(BaseModel):
     used: GEZeroInt = 0
-    level: GEZeroInt = 1
+    level: PositiveInt = 1
 
     def use(self, *args, **kargs):
         raise SkillMethodNotImplemented

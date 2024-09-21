@@ -1,7 +1,10 @@
 # Roadmap and plans
 
-* Grow a tree: increase max_hp
-* Grow food
+* World: creatures and resources
+* Tree: grow fruit
+* Tree: create small tree
+* How to visualize the world?
+* Tree: increase max_hp based on what?
 * Distance
 * Space
 * Time
