@@ -1,8 +1,7 @@
 # Roadmap and plans
 
-* Alive and HP
 * Grow a tree: power source?
-* Levels and XP
+* Skills
 * Distance
 * Space
 * Time
