@@ -1,6 +1,6 @@
 # What is the simplest creature?
 
-See model/creature.py for the current implementation
+*See model/creature.py for the current implementation*
 
 # Name and ID
 A creature must have a name, right? Human names are not uniq but we probably want to distinguish creatures.
@@ -25,5 +25,7 @@ Very often levels are used as a measure of growth. I'm not sure we need them.
 To grow a creature must consume something(food, energy, knowledge, etc).
 
 # Skills
+
+*See model/skill.py for the current implementation*
 
 To do anything a creature must know how to do it, to have a skill.
