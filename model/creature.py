@@ -1,4 +1,5 @@
-from typing import List
+import logging
+from typing import Dict
 
 from pydantic import model_validator
 from pydantic import PositiveInt
@@ -8,13 +9,16 @@ from model.object import GEZeroInt
 from model.skill import Skill
 
 
+logger = logging.getLogger(__name__)
+
+
 class Creature(BaseObject):
     """ Simple creature, see doc/creature.md for details"""
 
     is_alive: bool = True
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
-    skills: List[Skill] = None
+    skills: Dict[str, Skill] = None
 
     @model_validator(mode='after')
     def check_hp_less_than_max_hp(self):
@@ -33,3 +37,6 @@ class Creature(BaseObject):
         if name == 'hp':
             self.check_hp_less_than_max_hp()
             self.check_hp_above_zero()
+
+    def apply(self, what: Skill, to: BaseObject):
+        logger.debug(f'{self.id} applies {what.__class__.__name__} to {to.id}')

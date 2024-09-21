@@ -1,6 +1,5 @@
 from threading import Lock
 from typing import ClassVar
-from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -37,4 +36,4 @@ class BaseObject(BaseModel):
 
 
 class TreeFood(BaseObject):
-    value: Optional[PositiveInt] = 1
+    value: PositiveInt = 1
