@@ -1,18 +1,20 @@
-from typing import Optional
+from typing import List
 
 from pydantic import model_validator
 from pydantic import PositiveInt
 
 from model.object import BaseObject
 from model.object import GEZeroInt
+from model.skill import Skill
 
 
 class Creature(BaseObject):
     """ Simple creature, see doc/creature.md for details"""
 
-    is_alive: Optional[bool] = True
+    is_alive: bool = True
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
+    skills: List[Skill] = None
 
     @model_validator(mode='after')
     def check_hp_less_than_max_hp(self):
