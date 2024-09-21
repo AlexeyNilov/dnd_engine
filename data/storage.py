@@ -15,15 +15,15 @@ def save_creature(creature: Creature, db: SqliteDict) -> None:
     logger.debug(f'{creature} saved')
 
 
-def load_creatures(db: SqliteDict) -> list:
-    creatures = list()
+def load_creatures(db: SqliteDict) -> dict:
+    creatures = dict()
     for _, item in db.items():
-        creatures.append(Creature(**item))
+        creatures[item['id']] = Creature(**item)
     return creatures
 
 
-def get_creature(id: str) -> Creature:
-    return Creature(**DB[id])
-
-
 CREATURES = load_creatures(DB)
+
+
+def get_creature(id: str) -> Creature:
+    return CREATURES[id]
