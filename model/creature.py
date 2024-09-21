@@ -49,7 +49,7 @@ class Creature(BaseObject):
             self.check_hp_above_zero()
 
     def apply(self, what: Skill, to: BaseObject) -> None:
-        logger.debug(f'{self.id} uses {what.__class__.__name__} level {what.level} on {to.id}')
+        logger.debug(f'{self.id} uses {what.__class__.__name__}_level_{what.level} on {to.id}')
         if to.core in self.compatible_with:
             gain = what.use(to)
             self.hp += gain

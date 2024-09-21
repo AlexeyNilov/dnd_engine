@@ -5,7 +5,6 @@ from model.object import Resource
 
 set_logging()
 tree = get_creature(name='The first oak')
-print(tree)
 
 data = {
     'name': 'Water',
@@ -13,7 +12,6 @@ data = {
     'core': 'water'
 }
 water = Resource(**data)
-print(water)
 
 data = {
     'name': 'Food',
@@ -21,11 +19,9 @@ data = {
     'core': 'organic'
 }
 food = Resource(**data)
-print(food)
-
 
 while water.value > 0:
     tree.apply(what=tree.skills['drain'], to=water)
     tree.apply(what=tree.skills['drain'], to=food)
 
-print(tree)
+print(tree.model_dump(include=['name', 'hp', 'max_hp', 'is_alive']))
