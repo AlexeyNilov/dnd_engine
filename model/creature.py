@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import model_validator
 from pydantic import PositiveInt
 
@@ -8,7 +10,7 @@ from model.object import GEZeroInt
 class Creature(BaseObject):
     """ Simple creature, see doc/creature.md for details"""
 
-    is_alive: bool
+    is_alive: Optional[bool] = True
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
 
@@ -29,15 +31,3 @@ class Creature(BaseObject):
         if name == 'hp':
             self.check_hp_less_than_max_hp()
             self.check_hp_above_zero()
-
-
-def add_defaults(data: dict) -> dict:
-    if 'is_alive' not in data.keys():
-        data['is_alive'] = True
-
-    return data
-
-
-def create_creature(data: dict) -> Creature:
-    data = add_defaults(data)
-    return Creature(**data)

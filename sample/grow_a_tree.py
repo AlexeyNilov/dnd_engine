@@ -1,4 +1,4 @@
-from model.creature import create_creature
+from model.creature import Creature
 from model.object import TreeFood
 
 
@@ -7,7 +7,7 @@ data = {
     'hp': 100,
     'max_hp': 500
 }
-tree = create_creature(data)
+tree = Creature(**data)
 print(tree)
 
 data = {

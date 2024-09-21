@@ -1,6 +1,6 @@
 import pytest
 
-from model.creature import create_creature
+from model.creature import Creature
 
 
 @pytest.fixture
@@ -10,7 +10,7 @@ def creature():
         'hp': 10,
         'max_hp': 10
     }
-    return create_creature(data)
+    return Creature(**data)
 
 
 def test_hp_limit(creature):
