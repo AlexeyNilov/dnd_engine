@@ -7,19 +7,9 @@ from model.creature import Creature
 
 logger = logging.getLogger(__name__)
 DB = SqliteDict("db.sqlite", autocommit=True)
-last_id = 0
 
 
-def get_new_id() -> str:
-    global last_id
-    current_id = last_id
-    last_id += 1
-    return str(current_id)
-
-
-def save_creature(data: dict, db: SqliteDict) -> None:
-    data['id'] = get_new_id()
-    creature = Creature(**data)
+def save_creature(creature: Creature, db: SqliteDict) -> None:
     data = creature.model_dump()
     db[creature.id] = data
     logger.debug(f'{creature} saved')
