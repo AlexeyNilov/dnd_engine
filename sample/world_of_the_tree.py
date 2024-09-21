@@ -12,17 +12,8 @@ set_logging()
 creatures = load_creatures()
 resources: List[Resource] = list()
 
-water = {
-    'name': 'Water',
-    'value': 20,
-    'core': 'water'
-}
-
-food = {
-    'name': 'Food',
-    'value': 20,
-    'core': 'organic'
-}
+water = {'name': 'Water', 'value': 20, 'core': 'water'}
+food = {'name': 'Food', 'value': 20, 'core': 'organic'}
 
 for _ in range(5):
     resources.append(Resource(**water))
