@@ -21,3 +21,5 @@ Being alive gives possibility to grow!
 
 It feels like HP must have an upper limit. Is it so? If so, growth is the expansion of this limit.
 Very often levels are used as a measure of growth. I'm not sure we need them.
+
+To grow a creature must consume something(food, energy, knowledge, etc).

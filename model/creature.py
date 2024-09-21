@@ -1,13 +1,12 @@
-from pydantic import BaseModel
 from pydantic import model_validator
 from pydantic import PositiveInt
 
+from model.object import BaseObject
 
-class Creature(BaseModel):
+
+class Creature(BaseObject):
     """ Simple creature, see doc/creature.md for details"""
 
-    id: str  # Must be uniq globally
-    name: str
     is_alive: bool
     hp: PositiveInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
