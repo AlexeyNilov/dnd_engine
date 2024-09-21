@@ -47,4 +47,4 @@ for _ in range(50):
     remove_empty_resource()
 
 for item in creatures:
-    pprint(item.model_dump(include=['name', 'hp', 'max_hp', 'is_alive', 'skills']))
+    pprint(item.model_dump(include={'name', 'hp', 'max_hp', 'is_alive', 'skills'}))
