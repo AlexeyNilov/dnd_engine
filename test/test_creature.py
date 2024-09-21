@@ -22,3 +22,11 @@ def test_aliveness(creature):
     creature.hp = -1
     assert creature.is_alive is False
     assert creature.hp == 0
+
+    # Revive!
+    creature.hp = 10
+    creature.is_alive = True
+    assert creature.hp == 10
+
+    creature.hp = 0
+    assert creature.is_alive is False
