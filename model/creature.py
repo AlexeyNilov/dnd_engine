@@ -18,7 +18,7 @@ class Creature(BaseObject):
     is_alive: bool = True
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
-    skills: Dict[str, Skill] = None
+    skills: Dict[str, Skill] = {}
 
     @model_validator(mode='after')
     def check_hp_less_than_max_hp(self):
