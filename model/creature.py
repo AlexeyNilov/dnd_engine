@@ -4,7 +4,7 @@ from pydantic import PositiveInt
 
 
 class Creature(BaseModel):
-    """ Simple creature """
+    """ Simple creature, see doc/creature.md for details"""
 
     id: str
     name: str
@@ -21,7 +21,7 @@ class Creature(BaseModel):
     def check_hp_above_zero(self):
         if self.hp < 1:
             self.is_alive = False
-            self.hp = 1  # HP looses its value when creatue is no longr alive and we set it to 1 to comply with PositiveInt
+            self.hp = 1  # HP looses its value when a creature is no longer alive and we set it to 1 to comply with PositiveInt
         return self
 
     def __setattr__(self, name, value):

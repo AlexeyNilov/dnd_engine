@@ -1,4 +1,4 @@
-# dnd_engine: intoxicated by litrpg
+# dnd_engine: intoxicated by LitRPG
 
 ## Install
 
