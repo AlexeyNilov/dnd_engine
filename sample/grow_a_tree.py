@@ -1,16 +1,16 @@
 from data.logger import set_logging
 from model.creature import Creature
-from model.object import TreeFood
-from model.skill import Consume
+from model.object import Food
+from model.skill import ConsumeFood
 
 
 set_logging()
 data = {
     'name': 'The first oak',
-    'hp': 100,
+    'hp': 400,
     'max_hp': 500,
     'skills': {
-        'Consume': Consume()
+        'eat': ConsumeFood()
     }
 }
 tree = Creature(**data)
@@ -20,7 +20,11 @@ data = {
     'name': 'The tree food',
     'value': 10
 }
-tree_food = TreeFood(**data)
-print(tree_food)
+food = Food(**data)
+print(food)
 
-tree.apply(what=tree.skills['Consume'], to=tree_food)
+while food.value > 0:
+    tree.apply(what=tree.skills['eat'], to=food)
+
+print(tree)
+print(tree.skills['eat'].used)

@@ -38,5 +38,7 @@ class Creature(BaseObject):
             self.check_hp_less_than_max_hp()
             self.check_hp_above_zero()
 
-    def apply(self, what: Skill, to: BaseObject):
+    def apply(self, what: Skill, to: BaseObject) -> None:
         logger.debug(f'{self.id} applies {what.__class__.__name__} to {to.id}')
+        gain = what.use(to)
+        self.hp += gain

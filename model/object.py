@@ -35,5 +35,5 @@ class BaseObject(BaseModel):
         return self.__class__._id_counter
 
 
-class TreeFood(BaseObject):
+class Food(BaseObject):
     value: PositiveInt = 1
