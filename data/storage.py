@@ -3,7 +3,7 @@ from typing import List
 
 from sqlitedict import SqliteDict
 
-from model.creature import Creature
+from dnd_engine.model.creature import Creature
 
 
 logger = logging.getLogger(__name__)

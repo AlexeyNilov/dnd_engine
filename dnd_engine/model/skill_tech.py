@@ -4,9 +4,9 @@ from typing import List
 from pydantic import BaseModel
 from pydantic import PositiveInt
 
-from model.shared import GEZeroInt
-from model.skill import Skill
-from model.skill_library import Consume
+from dnd_engine.model.shared import GEZeroInt
+from dnd_engine.model.skill import Skill
+from dnd_engine.model.skill_library import Consume
 
 
 class SkillRecord(BaseModel):

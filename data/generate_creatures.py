@@ -1,8 +1,8 @@
 from data.logger import set_logging
 from data.storage import DB
 from data.storage import save_creature
-from model.creature import Creature
-from model.skill_tech import SkillRecord
+from dnd_engine.model.creature import Creature
+from dnd_engine.model.skill_tech import SkillRecord
 
 
 set_logging()

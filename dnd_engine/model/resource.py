@@ -1,6 +1,6 @@
 from pydantic import PositiveInt
 
-from model.entity import Entity
+from dnd_engine.model.entity import Entity
 
 
 class Resource(Entity):

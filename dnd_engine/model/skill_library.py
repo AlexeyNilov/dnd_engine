@@ -2,8 +2,8 @@ import logging
 
 from pydantic import PositiveInt
 
-from model.resource import Resource
-from model.skill import Skill
+from dnd_engine.model.resource import Resource
+from dnd_engine.model.skill import Skill
 
 
 logger = logging.getLogger(__name__)

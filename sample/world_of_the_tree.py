@@ -4,7 +4,7 @@ from typing import List
 
 from data.logger import set_logging
 from data.storage import load_creatures
-from model.resource import Resource
+from dnd_engine.model.resource import Resource
 
 
 set_logging()

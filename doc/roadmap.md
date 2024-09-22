@@ -3,7 +3,6 @@
 * Tree: grow fruit
 * Tree: increase max_hp based on what?
 * Tree: create small tree
-* Create a package (how to manage settings for the package?)
 * Death and new resources
 * Create balanced system (oak-pig-wolf)
 * Distance

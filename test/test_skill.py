@@ -1,7 +1,7 @@
 import pytest
 
-from model.skill import calculate_level
-from model.skill import Skill
+from dnd_engine.model.skill import calculate_level
+from dnd_engine.model.skill import Skill
 
 
 @pytest.fixture

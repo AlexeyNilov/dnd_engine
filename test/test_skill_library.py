@@ -1,7 +1,7 @@
 import pytest
 
-from model.resource import Resource
-from model.skill_library import Consume
+from dnd_engine.model.resource import Resource
+from dnd_engine.model.skill_library import Consume
 
 
 @pytest.fixture

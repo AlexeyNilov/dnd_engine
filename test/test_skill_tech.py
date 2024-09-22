@@ -1,8 +1,8 @@
 import pytest
 
-from model.skill_library import Consume
-from model.skill_tech import get_skills_from_book
-from model.skill_tech import SkillRecord
+from dnd_engine.model.skill_library import Consume
+from dnd_engine.model.skill_tech import get_skills_from_book
+from dnd_engine.model.skill_tech import SkillRecord
 
 
 @pytest.fixture

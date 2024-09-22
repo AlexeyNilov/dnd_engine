@@ -5,12 +5,12 @@ from typing import List
 from pydantic import model_validator
 from pydantic import PositiveInt
 
-from model.entity import Entity
-from model.shared import GEZeroInt
-from model.skill import Skill
-from model.skill import SkillTypeNotFound
-from model.skill_tech import get_skills_from_book
-from model.skill_tech import SkillRecord
+from dnd_engine.model.entity import Entity
+from dnd_engine.model.shared import GEZeroInt
+from dnd_engine.model.skill import Skill
+from dnd_engine.model.skill import SkillTypeNotFound
+from dnd_engine.model.skill_tech import get_skills_from_book
+from dnd_engine.model.skill_tech import SkillRecord
 
 
 logger = logging.getLogger(__name__)

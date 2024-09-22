@@ -1,12 +1,12 @@
 import pytest
 
 from data.logger import set_logging
-from model.creature import Creature
-from model.creature import use_consume_skill
-from model.resource import Resource
-from model.skill import Skill
-from model.skill import SkillTypeNotFound
-from model.skill_library import Consume
+from dnd_engine.model.creature import Creature
+from dnd_engine.model.creature import use_consume_skill
+from dnd_engine.model.resource import Resource
+from dnd_engine.model.skill import Skill
+from dnd_engine.model.skill import SkillTypeNotFound
+from dnd_engine.model.skill_library import Consume
 
 
 set_logging()

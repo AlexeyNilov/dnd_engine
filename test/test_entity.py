@@ -1,4 +1,4 @@
-from model.entity import Entity
+from dnd_engine.model.entity import Entity
 
 
 def test_id_increment():

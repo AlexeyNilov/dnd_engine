@@ -3,7 +3,7 @@ import logging
 from pydantic import BaseModel
 from pydantic import PositiveInt
 
-from model.shared import GEZeroInt
+from dnd_engine.model.shared import GEZeroInt
 
 logger = logging.getLogger(__name__)
 
