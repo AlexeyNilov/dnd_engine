@@ -1,9 +1,10 @@
 # Roadmap and plans
 
-* How to visualize the world?
 * Tree: grow fruit
-* Tree: create small tree
 * Tree: increase max_hp based on what?
+* Tree: create small tree
+* Create a package (how to manage settings for the package?)
+* Death and new resources
 * Create balanced system (oak-pig-wolf)
 * Distance
 * Space
