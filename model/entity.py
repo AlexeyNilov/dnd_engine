@@ -11,7 +11,7 @@ class Entity(BaseModel):
     name: str
     nature: str = 'unknown'
 
-    # The following code is needed to automatic unique ID generation
+    # Generate unique ID
     _id_counter: ClassVar[int] = 0
     _lock: ClassVar[Lock] = Lock()
 

@@ -44,20 +44,20 @@ class Skill(BaseModel):
     def use(self, *args, **kargs):
         raise SkillMethodNotImplemented
 
-    # To track usage of skill
+    # Track usage of skill
     def __getattribute__(self, name):
         attr = super().__getattribute__(name)
         if callable(attr) and name == "use":
             self.__setattr__('used', self.used + 1)
         return attr
 
-    # To level up skill
+    # Level up skill
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
 
         if name == 'used':
             new_level = calculate_level(self.used)
-            if new_level != self.level:
+            if new_level > self.level:
                 logger.debug(f'{self.__class__.__name__} level changed from {self.level} to {new_level}')
                 self.level = new_level
 
