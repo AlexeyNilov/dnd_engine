@@ -23,6 +23,6 @@ To grow, a creature must consume something—whether it's food, energy, knowledg
 
 ## Skills
 
-*Refer to model/skill.py for the current implementation*
-
 For a creature to perform any action, it must know how to do it — this is where skills come into play.
+
+*See doc/skill.md for more details*

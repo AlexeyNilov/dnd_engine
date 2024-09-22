@@ -28,6 +28,7 @@ class Creature(Entity):
     def load_skills(self):
         for item in self.skill_book:
             self.skills[item[0]] = available_skills[item[1]](level=item[2])
+            # TODO load usage too?
         return self
 
     @model_validator(mode='after')
