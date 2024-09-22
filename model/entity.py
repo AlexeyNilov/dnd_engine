@@ -1,26 +1,15 @@
 from threading import Lock
 from typing import ClassVar
-from typing import Optional
 
 from pydantic import BaseModel
-from pydantic import Field
-from pydantic import PositiveInt
-from typing_extensions import Annotated
 
 
-GEZeroInt = Annotated[int, Field(ge=0)]
-
-
-class ModelException(Exception):
-    pass
-
-
-class BaseObject(BaseModel):
-    """ Simple object"""
+class Entity(BaseModel):
+    """ See doc/entity.md for details"""
 
     id: str  # Must be uniq globally
     name: str
-    core: Optional[str] = None
+    nature: str = 'unknown'
 
     # Class-level variables for uniq id generation
     _id_counter: ClassVar[int] = 0
@@ -32,10 +21,5 @@ class BaseObject(BaseModel):
         super().__init__(**data)
 
     def _get_next_id(self) -> int:
-        """Fetch and increment the global id."""
         self.__class__._id_counter += 1
         return self.__class__._id_counter
-
-
-class Resource(BaseObject):
-    value: PositiveInt = 1

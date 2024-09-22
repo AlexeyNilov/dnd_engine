@@ -1,6 +1,6 @@
 import pytest
 
-from model.object import Resource
+from model.resource import Resource
 from model.skill import calculate_level
 from model.skill import Consume
 

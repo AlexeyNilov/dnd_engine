@@ -3,8 +3,8 @@ import logging
 from pydantic import BaseModel
 from pydantic import PositiveInt
 
-from model.object import GEZeroInt
-from model.object import Resource
+from model.resource import Resource
+from model.shared import GEZeroInt
 
 logger = logging.getLogger(__name__)
 

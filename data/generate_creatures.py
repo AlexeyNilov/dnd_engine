@@ -15,7 +15,7 @@ data = {
         ['eat', 'Consume', 1]
     ],
     'compatible_with': ['organic'],
-    'core': 'organic'
+    'nature': 'organic'
 }
 save_creature(Creature(**data), DB)
 
@@ -27,7 +27,7 @@ data = {
         ['eat', 'Consume', 1]
     ],
     'compatible_with': ['organic'],
-    'core': 'organic'
+    'nature': 'organic'
 }
 save_creature(Creature(**data), DB)
 
@@ -39,7 +39,7 @@ data = {
         ['eat', 'Consume', 1]
     ],
     'compatible_with': ['water'],
-    'core': 'organic'
+    'nature': 'organic'
 }
 save_creature(Creature(**data), DB)
 

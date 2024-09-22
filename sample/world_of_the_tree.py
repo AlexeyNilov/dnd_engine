@@ -4,7 +4,7 @@ from typing import List
 
 from data.logger import set_logging
 from data.storage import load_creatures
-from model.object import Resource
+from model.resource import Resource
 
 
 set_logging()
@@ -12,8 +12,8 @@ set_logging()
 creatures = load_creatures()
 resources: List[Resource] = list()
 
-water = {'name': 'Water', 'value': 20, 'core': 'water'}
-food = {'name': 'Food', 'value': 20, 'core': 'organic'}
+water = {'name': 'Water', 'value': 10, 'core': 'water'}
+food = {'name': 'Food', 'value': 10, 'core': 'organic'}
 
 for _ in range(5):
     resources.append(Resource(**water))

@@ -1,6 +1,6 @@
 from data.logger import set_logging
 from data.storage import get_creature
-from model.object import Resource
+from model.resource import Resource
 
 
 set_logging()
@@ -9,14 +9,14 @@ tree = get_creature(name='The first oak')
 data = {
     'name': 'Water',
     'value': 20,
-    'core': 'water'
+    'nature': 'water'
 }
 water = Resource(**data)
 
 data = {
     'name': 'Food',
     'value': 10,
-    'core': 'organic'
+    'nature': 'organic'
 }
 food = Resource(**data)
 

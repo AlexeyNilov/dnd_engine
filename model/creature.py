@@ -5,8 +5,8 @@ from typing import List
 from pydantic import model_validator
 from pydantic import PositiveInt
 
-from model.object import BaseObject
-from model.object import GEZeroInt
+from model.entity import Entity
+from model.shared import GEZeroInt
 from model.skill import available_skills
 from model.skill import Skill
 
@@ -14,7 +14,7 @@ from model.skill import Skill
 logger = logging.getLogger(__name__)
 
 
-class Creature(BaseObject):
+class Creature(Entity):
     """ Simple creature, see doc/creature.md for details"""
 
     is_alive: bool = True
@@ -47,11 +47,11 @@ class Creature(BaseObject):
             self.check_hp_less_than_max_hp()
             self.check_hp_above_zero()
 
-    def apply(self, what: Skill, to: BaseObject) -> None:
+    def apply(self, what: Skill, to: Entity) -> None:
         logger.debug(f'{self.id} uses {what.__class__.__name__}_level_{what.level} on {to.id}')
-        if to.core in self.compatible_with:
+        if to.nature in self.compatible_with:
             gain = what.use(to)
             self.hp += gain
             logger.debug(f'{self.id} gained {gain} HP')
         else:
-            logger.debug(f'{what.__class__.__name__} failed: {to.core} is not compatible with {self.name}')
+            logger.debug(f'{what.__class__.__name__} failed: {to.nature} is not compatible with {self.name}')
