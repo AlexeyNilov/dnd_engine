@@ -65,8 +65,12 @@ def use_consume_skill(creature: Creature, skill: Skill, to: Entity) -> bool:
         logger.debug(f'{skill.__class__.__name__} failed: {to.nature} is not compatible with {creature.name}')
         return False
 
+    if creature.hp == creature.max_hp:
+        logger.debug(f'{creature.id} {creature.name} has max HP already')
+        return False
+
     gain = skill.use(to)
-    logger.debug(f'{creature.id} gained {gain} HP')
+    logger.debug(f'{creature.id} {creature.name} gained {gain} HP')
     if gain == 0:
         return False
     creature.hp += gain

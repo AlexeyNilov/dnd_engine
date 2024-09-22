@@ -32,12 +32,13 @@ for _ in range(50):
         if not creature.is_alive:
             continue
 
+        creature.hp -= 1  # Live sucks!
+
         if resources:
             resource = random.choice(resources)
             creature.apply(skill=creature.skills['eat'], to=resource)
             remove_empty_resource()
 
-        creature.hp -= 1
 
 for item in creatures:
     pprint(item.model_dump(include={'name', 'hp', 'max_hp', 'is_alive', 'skills'}))
