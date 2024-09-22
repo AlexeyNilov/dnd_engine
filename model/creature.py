@@ -8,6 +8,7 @@ from pydantic import PositiveInt
 from model.entity import Entity
 from model.shared import GEZeroInt
 from model.skill import Skill
+from model.skill import SkillTypeNotFound
 from model.skill_tech import get_skills_from_book
 from model.skill_tech import SkillRecord
 
@@ -49,14 +50,24 @@ class Creature(Entity):
             self.check_hp_less_than_max_hp()
             self.check_hp_above_zero()
 
-    def apply(self, skill: Skill, to: Entity) -> bool:  # TODO test
+    def apply(self, skill: Skill, to: Entity) -> bool:
         """ Apply given skill to the Entity if they are compatible, return False otherwise """
         logger.debug(f'{self.id} {self.name} uses {skill.__class__.__name__}_level_{skill.level} on {to.id}')
-        if to.nature in self.compatible_with:
-            gain = skill.use(to)
-            self.hp += gain  # TODO it is not universal, why HP?
-            logger.debug(f'{self.id} gained {gain} HP')
-            return True
-        else:
-            logger.debug(f'{skill.__class__.__name__} failed: {to.nature} is not compatible with {self.name}')
-            return False
+
+        if skill.__class__.__name__ in ['Consume']:
+            return use_consume_skill(creature=self, skill=skill, to=to)
+
+        raise SkillTypeNotFound
+
+
+def use_consume_skill(creature: Creature, skill: Skill, to: Entity) -> bool:  # TODO test
+    if to.nature not in creature.compatible_with:
+        logger.debug(f'{skill.__class__.__name__} failed: {to.nature} is not compatible with {creature.name}')
+        return False
+
+    gain = skill.use(to)
+    logger.debug(f'{creature.id} gained {gain} HP')
+    if gain == 0:
+        return False
+    creature.hp += gain
+    return True

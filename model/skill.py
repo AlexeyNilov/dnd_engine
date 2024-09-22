@@ -12,6 +12,10 @@ class SkillMethodNotImplemented(NotImplementedError):
     pass
 
 
+class SkillTypeNotFound(NotImplementedError):
+    pass
+
+
 class SkillRecord(BaseModel):
     name: str
     skill_class: str

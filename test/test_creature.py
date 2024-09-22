@@ -1,6 +1,13 @@
 import pytest
 
+from data.logger import set_logging
 from model.creature import Creature
+from model.skill import Skill
+from model.skill import SkillTypeNotFound
+from model.skill_library import Consume
+
+
+set_logging()
 
 
 @pytest.fixture
@@ -29,3 +36,17 @@ def test_aliveness(creature):
     creature.is_alive = True
     creature.hp = 0
     assert creature.is_alive is False
+
+
+def test_apply_base_skill(creature):
+    creature.skills['test'] = Skill()
+    with pytest.raises(SkillTypeNotFound):
+        creature.apply(skill=creature.skills['test'], to=creature)
+
+
+def test_consume_self(creature):
+    hp = creature.hp
+    creature.skills['test'] = Consume()
+    creature.compatible_with.append(creature.nature)
+    assert creature.apply(skill=creature.skills['test'], to=creature) is False
+    assert creature.hp == hp
