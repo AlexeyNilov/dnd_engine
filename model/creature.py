@@ -41,17 +41,21 @@ class Creature(Entity):
             self.is_alive = False
             self.hp = 0
 
+    # Core logic and limitations
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
         if name == 'hp':
             self.check_hp_less_than_max_hp()
             self.check_hp_above_zero()
 
-    def apply(self, what: Skill, to: Entity) -> None:
-        logger.debug(f'{self.id} uses {what.__class__.__name__}_level_{what.level} on {to.id}')
+    def apply(self, skill: Skill, to: Entity) -> bool:  # TODO test
+        """ Apply given skill to the Entity if they are compatible, return False otherwise """
+        logger.debug(f'{self.id} uses {skill.__class__.__name__}_level_{skill.level} on {to.id}')
         if to.nature in self.compatible_with:
-            gain = what.use(to)
-            self.hp += gain
+            gain = skill.use(to)
+            self.hp += gain  # TODO it is not universal, why HP?
             logger.debug(f'{self.id} gained {gain} HP')
+            return True
         else:
-            logger.debug(f'{what.__class__.__name__} failed: {to.nature} is not compatible with {self.name}')
+            logger.debug(f'{skill.__class__.__name__} failed: {to.nature} is not compatible with {self.name}')
+            return False

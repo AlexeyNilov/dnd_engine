@@ -21,7 +21,7 @@ data = {
 food = Resource(**data)
 
 while water.value > 0:
-    tree.apply(what=tree.skills['eat'], to=water)
-    tree.apply(what=tree.skills['eat'], to=food)
+    tree.apply(skill=tree.skills['eat'], to=water)
+    tree.apply(skill=tree.skills['eat'], to=food)
 
 print(tree.model_dump(include={'name', 'hp', 'max_hp', 'is_alive', 'skills'}))

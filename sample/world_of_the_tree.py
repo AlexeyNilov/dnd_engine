@@ -34,7 +34,7 @@ for _ in range(50):
 
         if resources:
             resource = random.choice(resources)
-            creature.apply(what=creature.skills['eat'], to=resource)
+            creature.apply(skill=creature.skills['eat'], to=resource)
 
         creature.hp -= 1
 
