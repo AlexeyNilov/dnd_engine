@@ -1,6 +1,5 @@
 # Roadmap and plans
 
-* Tree: grow fruit
 * Tree: increase max_hp based on what?
 * Tree: create small tree
 * Death and new resources

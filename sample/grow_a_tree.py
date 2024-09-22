@@ -9,9 +9,17 @@ tree.hp = tree.max_hp - 10
 data = {'name': 'Water', 'value': 100, 'nature': 'water'}
 water = Resource(**data)
 
+fruit_data = {'name': 'Fruit', 'value': 50, 'nature': 'organic'}
+fruits = list()
+
 while water.value > 0:
     tree.hp -= 1
     tree.apply(skill=tree.skills['eat'], to=water)
+    if tree.hp == tree.max_hp:
+        fruits.append(Resource(**fruit_data))
+        tree.hp -= fruit_data['value']
+        print('New fruit created')
     print(tree.model_dump(include={'name', 'hp'}))
 
+print(len(fruits))
 print(tree.model_dump(include={'name', 'hp', 'max_hp', 'is_alive', 'skills'}))
