@@ -10,8 +10,8 @@ DB.clear()
 
 data = {
     'name': 'Wolf',
-    'hp': 8,
-    'max_hp': 10,
+    'hp': 16,
+    'max_hp': 20,
     'skill_book': [
         SkillRecord(name='eat', skill_class='Consume')
     ],
@@ -22,8 +22,8 @@ save_creature(Creature(**data), DB)
 
 data = {
     'name': 'Pig',
-    'hp': 4,
-    'max_hp': 5,
+    'hp': 8,
+    'max_hp': 10,
     'skill_book': [
         SkillRecord(name='eat', skill_class='Consume')
     ],
