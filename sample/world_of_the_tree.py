@@ -15,7 +15,7 @@ resources: List[Resource] = list()
 water = {'name': 'Water', 'value': 20, 'nature': 'water'}
 food = {'name': 'Food', 'value': 20, 'nature': 'organic'}
 
-for _ in range(10):
+for _ in range(20):
     resources.append(Resource(**water))
     resources.append(Resource(**food))
 

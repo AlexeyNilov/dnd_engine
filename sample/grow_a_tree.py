@@ -5,23 +5,13 @@ from model.resource import Resource
 
 set_logging()
 tree = get_creature(name='The first oak')
-
-data = {
-    'name': 'Water',
-    'value': 20,
-    'nature': 'water'
-}
+tree.hp = tree.max_hp - 10
+data = {'name': 'Water', 'value': 100, 'nature': 'water'}
 water = Resource(**data)
 
-data = {
-    'name': 'Food',
-    'value': 10,
-    'nature': 'organic'
-}
-food = Resource(**data)
-
 while water.value > 0:
+    tree.hp -= 1
     tree.apply(skill=tree.skills['eat'], to=water)
-    tree.apply(skill=tree.skills['eat'], to=food)
+    print(tree.model_dump(include={'name', 'hp'}))
 
 print(tree.model_dump(include={'name', 'hp', 'max_hp', 'is_alive', 'skills'}))

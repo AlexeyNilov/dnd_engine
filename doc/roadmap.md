@@ -4,6 +4,7 @@
 * Tree: grow fruit
 * Tree: create small tree
 * Tree: increase max_hp based on what?
+* Create balanced system (oak-pig-wolf)
 * Distance
 * Space
 * Time
