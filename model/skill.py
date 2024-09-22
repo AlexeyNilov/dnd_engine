@@ -13,10 +13,17 @@ class SkillMethodNotImplemented(NotImplementedError):
     pass
 
 
+# Fibonacci-based sequence
 skill_upgrade_levels = {
     '2': 10,
-    '3': 100,
-    '4': 1000
+    '3': 20,
+    '4': 30,
+    '5': 50,
+    '6': 80,
+    '7': 130,
+    '8': 210,
+    '9': 340,
+    '10': 550
 }
 
 

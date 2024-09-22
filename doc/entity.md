@@ -10,9 +10,8 @@ Domain-Driven Design (DDD) introduces the concept of entities, which represent t
 
 To be distinguishable, an entity must have a unique ID. To ensure this uniqueness, IDs are generated automatically. Additionally, a name property is provided to allow users to assign meaningful names to entities.
 
-## Nature
+## Nature (dao?)
 
 For compatibility checks.
 
 TODO: explain why we need nature in more detail.
-TODO: should the nature be mandatory?

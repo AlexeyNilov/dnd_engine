@@ -10,13 +10,12 @@ def food():
     data = {
         'name': 'food',
         'value': 10,
-        'core': 'organic'
     }
     return Resource(**data)
 
 
 def test_calculate_level():
-    assert calculate_level(500) == 3
+    assert calculate_level(500) == 9
     assert calculate_level(0) == 1
 
 
