@@ -2,7 +2,11 @@
 
 ## Install
 
-python 3.9+ is required, 3.11+ is recommended
+```
+pip install git+https://github.com/AlexeyNilov/dnd_engine.git
+```
+
+## Development
 
 ```
 git clone https://github.com/AlexeyNilov/dnd_engine.git
