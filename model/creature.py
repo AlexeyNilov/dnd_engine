@@ -60,7 +60,7 @@ class Creature(Entity):
         raise SkillTypeNotFound
 
 
-def use_consume_skill(creature: Creature, skill: Skill, to: Entity) -> bool:  # TODO test
+def use_consume_skill(creature: Creature, skill: Skill, to: Entity) -> bool:
     if to.nature not in creature.compatible_with:
         logger.debug(f'{skill.__class__.__name__} failed: {to.nature} is not compatible with {creature.name}')
         return False

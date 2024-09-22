@@ -2,6 +2,8 @@ import pytest
 
 from data.logger import set_logging
 from model.creature import Creature
+from model.creature import use_consume_skill
+from model.resource import Resource
 from model.skill import Skill
 from model.skill import SkillTypeNotFound
 from model.skill_library import Consume
@@ -14,7 +16,7 @@ set_logging()
 def creature():
     data = {
         'name': 'hunter',
-        'hp': 10,
+        'hp': 9,
         'max_hp': 10
     }
     return Creature(**data)
@@ -44,9 +46,16 @@ def test_apply_base_skill(creature):
         creature.apply(skill=creature.skills['test'], to=creature)
 
 
-def test_consume_self(creature):
+def test_use_consume_skill_on_self(creature):
     hp = creature.hp
-    creature.skills['test'] = Consume()
     creature.compatible_with.append(creature.nature)
-    assert creature.apply(skill=creature.skills['test'], to=creature) is False
+    assert use_consume_skill(creature=creature, skill=Consume(), to=creature) is False
     assert creature.hp == hp
+
+
+def test_use_consume_skill(creature):
+    hp = creature.hp
+    food = Resource(name='food')
+    creature.compatible_with.append(food.nature)
+    assert use_consume_skill(creature=creature, skill=Consume(), to=food)
+    assert creature.hp == hp + 1

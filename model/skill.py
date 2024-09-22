@@ -51,7 +51,7 @@ class Skill(BaseModel):
     used: GEZeroInt = 0
     level: PositiveInt = 1
 
-    def use(self, *args, **kargs):
+    def use(self, *args, **kargs) -> int:
         raise SkillMethodNotImplemented
 
     # Track usage of skill
