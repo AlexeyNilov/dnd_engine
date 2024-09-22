@@ -40,6 +40,7 @@ class Creature(Entity):
         if self.is_alive and self.hp <= 0:
             self.is_alive = False
             self.hp = 0
+            logger.debug(f'{self.id} {self.name} is dead')
 
     # Core logic and limitations
     def __setattr__(self, name, value):
@@ -50,7 +51,7 @@ class Creature(Entity):
 
     def apply(self, skill: Skill, to: Entity) -> bool:  # TODO test
         """ Apply given skill to the Entity if they are compatible, return False otherwise """
-        logger.debug(f'{self.id} uses {skill.__class__.__name__}_level_{skill.level} on {to.id}')
+        logger.debug(f'{self.id} {self.name} uses {skill.__class__.__name__}_level_{skill.level} on {to.id}')
         if to.nature in self.compatible_with:
             gain = skill.use(to)
             self.hp += gain  # TODO it is not universal, why HP?

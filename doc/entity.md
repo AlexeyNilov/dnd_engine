@@ -10,8 +10,8 @@ Domain-Driven Design (DDD) introduces the concept of entities, which represent t
 
 To be distinguishable, an entity must have a unique ID. To ensure this uniqueness, IDs are generated automatically. Additionally, a name property is provided to allow users to assign meaningful names to entities.
 
-## Nature (dao?)
+## Nature (Dao?)
 
-For compatibility checks.
+In reality, we are bound by many limitations — laws, ethics, and so on. To replicate similar constraints in a simulation, we need something. I'm not entirely sure what to call it, but for now, I’ll refer to it as the "nature of things" or Dao.
 
-TODO: explain why we need nature in more detail.
+This concept is used to check compatibility between skills and entities.

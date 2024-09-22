@@ -35,10 +35,9 @@ for _ in range(50):
         if resources:
             resource = random.choice(resources)
             creature.apply(skill=creature.skills['eat'], to=resource)
+            remove_empty_resource()
 
         creature.hp -= 1
-
-    remove_empty_resource()
 
 for item in creatures:
     pprint(item.model_dump(include={'name', 'hp', 'max_hp', 'is_alive', 'skills'}))
