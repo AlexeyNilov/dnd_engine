@@ -1,27 +1,28 @@
-# What is the simplest creature?
+# Creature
 
 *Refer to model/creature.py for the current implementation*
 
-Creature class inherits from the Object class. The main difference creatures can be alive.
+The Creature class inherits from the Entity class. The key difference is that creatures can be alive.
 
 ## Aliveness
 
-What does it mean to be alive? Are undeads alive? I guess so.
-Being alive gives possibility to become dead(is_alive=False).
-HP(health point) is a measure of aliveness. When amount of HP becomes < 1 creature dies.
+What does it mean to be alive? Are undead beings alive? I suppose so.
+Being alive means a creature has the potential to become dead (is_alive=False).
+Health Points serve as a measure of aliveness. When HP drops below 1, the creature dies.
 
-Being dead means a creature can't initiate any action on its own, but it can be used by other creatures.
+When a creature is dead, it cannot initiate any actions on its own, but it can still be used by other creatures.
 
 ## Growth
-Being alive gives possibility to grow!
 
-It feels like HP must have an upper limit. Is it so? If so, growth is the expansion of this limit.
-Very often levels are used as a measure of growth. I'm not sure we need them.
+Being alive also means the ability to grow!
 
-To grow a creature must consume something(food, energy, knowledge, etc).
+It seems logical that HP should have an upper limit. If that’s the case, growth refers to the expansion of this limit.
+Often, levels are used as a measure of growth, although I'm not sure if we need them.
+
+To grow, a creature must consume something—whether it's food, energy, knowledge, or something else.
 
 ## Skills
 
-*See model/skill.py for the current implementation*
+*Refer to model/skill.py for the current implementation*
 
-To do anything a creature must know how to do it, to have a skill.
+For a creature to perform any action, it must know how to do it — this is where skills come into play.
