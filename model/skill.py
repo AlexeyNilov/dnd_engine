@@ -3,7 +3,6 @@ import logging
 from pydantic import BaseModel
 from pydantic import PositiveInt
 
-from model.resource import Resource
 from model.shared import GEZeroInt
 
 logger = logging.getLogger(__name__)
@@ -11,6 +10,13 @@ logger = logging.getLogger(__name__)
 
 class SkillMethodNotImplemented(NotImplementedError):
     pass
+
+
+class SkillRecord(BaseModel):
+    name: str
+    skill_class: str
+    used: GEZeroInt = 0
+    level: PositiveInt = 1
 
 
 # Fibonacci-based sequence
@@ -60,22 +66,3 @@ class Skill(BaseModel):
             if new_level > self.level:
                 logger.debug(f'{self.__class__.__name__} level changed from {self.level} to {new_level}')
                 self.level = new_level
-
-
-class Consume(Skill):
-    """Consume something with the given rate * skill level"""
-    rate: PositiveInt = 1
-
-    def use(self, to: Resource) -> int:
-        effective_rate = self.rate * self.level
-        if to.value <= 0:
-            return 0
-
-        gain = min(effective_rate, to.value)
-        to.value -= gain
-        return gain
-
-
-available_skills = {
-    'Consume': Consume
-}

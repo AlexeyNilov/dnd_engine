@@ -7,8 +7,9 @@ from pydantic import PositiveInt
 
 from model.entity import Entity
 from model.shared import GEZeroInt
-from model.skill import available_skills
 from model.skill import Skill
+from model.skill_tech import get_skills_from_book
+from model.skill_tech import SkillRecord
 
 
 logger = logging.getLogger(__name__)
@@ -20,15 +21,13 @@ class Creature(Entity):
     is_alive: bool = True
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
-    skill_book: List[list] = []
-    skills: Dict[str, Skill] = {}
+    skill_book: List[SkillRecord] = []  # Needed for serialization (loading/dumping stuff to json)
+    skills: Dict[str, Skill] = {}  # These are actual skills (they are loaded from the skill book during initial validation)
     compatible_with: List[str] = []
 
     @model_validator(mode='after')
-    def load_skills(self):
-        for item in self.skill_book:
-            self.skills[item[0]] = available_skills[item[1]](level=item[2])
-            # TODO load usage too?
+    def load_skills_from_skill_book(self):
+        self.skills = get_skills_from_book(self.skill_book)
         return self
 
     @model_validator(mode='after')
