@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class Entity(BaseModel):
-    """ See doc/entity.md for details"""
+    """ See doc/entity.md for details """
 
     id: str  # Must be uniq globally
     name: str

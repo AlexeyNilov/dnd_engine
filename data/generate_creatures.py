@@ -9,7 +9,7 @@ set_logging()
 DB.clear()
 
 data = {
-    'name': 'hunter',
+    'name': 'Wolf',
     'hp': 8,
     'max_hp': 10,
     'skill_book': [
@@ -21,7 +21,7 @@ data = {
 save_creature(Creature(**data), DB)
 
 data = {
-    'name': 'prey',
+    'name': 'Pig',
     'hp': 4,
     'max_hp': 5,
     'skill_book': [

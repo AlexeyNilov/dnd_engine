@@ -16,13 +16,13 @@ logger = logging.getLogger(__name__)
 
 
 class Creature(Entity):
-    """ Simple creature, see doc/creature.md for details"""
+    """ Simple creature, see doc/creature.md for details """
 
     is_alive: bool = True
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
     skill_book: List[SkillRecord] = []  # Needed for serialization (loading/dumping stuff to json)
-    skills: Dict[str, Skill] = {}  # These are actual skills (they are loaded from the skill book during initial validation)
+    skills: Dict[str, Skill] = {}  # These are actual skills (they are loaded from the skill book after initial validation)
     compatible_with: List[str] = []
 
     @model_validator(mode='after')
