@@ -67,12 +67,12 @@ def check_hp_less_than_max_hp(creature: Creature):
         publish_event(creature, "is full")
 
 
-def hp_change_handler(creature: Creature):
+def hp_tracker(creature: Creature):
     check_hp_less_than_max_hp(creature)
     check_hp_above_zero(creature)
 
 
-default_reactions = {"hp": hp_change_handler}
+default_reactions = {"hp": hp_tracker}
 
 
 def use_consume_skill(creature: Creature, skill: Skill, to: Entity) -> bool:
