@@ -23,5 +23,4 @@ while water.value > 0:
         print("New fruit created")
     print(tree.model_dump(include={"name", "hp"}))
 
-print(len(fruits))
 print(tree.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills"}))
