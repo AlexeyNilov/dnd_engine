@@ -12,8 +12,8 @@ set_logging()
 creatures = load_creatures()
 resources: List[Resource] = list()
 
-water = {'name': 'Water', 'value': 20, 'nature': 'water'}
-food = {'name': 'Food', 'value': 20, 'nature': 'organic'}
+water = {"name": "Water", "value": 20, "nature": "water"}
+food = {"name": "Food", "value": 20, "nature": "organic"}
 
 for _ in range(20):
     resources.append(Resource(**water))
@@ -36,9 +36,9 @@ for _ in range(50):
 
         if resources:
             resource = random.choice(resources)
-            creature.apply(skill=creature.skills['eat'], to=resource)
+            creature.apply(skill=creature.skills["eat"], to=resource)
             remove_empty_resource()
 
 
 for item in creatures:
-    pprint(item.model_dump(include={'name', 'hp', 'max_hp', 'is_alive', 'skills'}))
+    pprint(item.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills"}))

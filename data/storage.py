@@ -17,7 +17,7 @@ class CreatureNotFound(Exception):
 def save_creature(creature: Creature, db: SqliteDict) -> None:
     data = creature.model_dump()
     db[creature.id] = data
-    logger.debug(f'{creature} saved')
+    logger.debug(f"{creature} saved")
 
 
 def load_creatures(db: SqliteDict = DB) -> List[Creature]:
@@ -29,6 +29,6 @@ def load_creatures(db: SqliteDict = DB) -> List[Creature]:
 
 def get_creature(name: str, db: SqliteDict = DB) -> Creature:
     for _, item in db.items():
-        if name == item['name']:
+        if name == item["name"]:
             return Creature(**item)
     raise CreatureNotFound

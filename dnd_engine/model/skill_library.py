@@ -10,12 +10,15 @@ logger = logging.getLogger(__name__)
 
 
 class Consume(Skill):
-    """ Consume Resource entity with the given rate * skill level """
+    """Consume Resource entity with the given rate * skill level"""
+
     rate: PositiveInt = 1
 
     def use(self, to: Resource) -> int:
         if not isinstance(to, Resource):
-            logger.error(f'Consume skill can be used only on Resource, tried on {type(to)}')
+            logger.error(
+                f"Consume skill can be used only on Resource, tried on {type(to)}"
+            )
             return 0
 
         effective_rate = self.rate * self.level

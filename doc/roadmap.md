@@ -1,5 +1,7 @@
 # Roadmap and plans
 
+* Refactor data layer, use DataMiniAPI
+* Creature get rid of the spell book
 * Tree: increase max_hp based on what?
 * Tree: create small tree
 * Death and new resources

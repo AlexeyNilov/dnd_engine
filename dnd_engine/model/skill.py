@@ -25,15 +25,15 @@ class SkillRecord(BaseModel):
 
 # Fibonacci-based sequence
 skill_upgrade_levels = {
-    '2': 10,
-    '3': 20,
-    '4': 30,
-    '5': 50,
-    '6': 80,
-    '7': 130,
-    '8': 210,
-    '9': 340,
-    '10': 550
+    "2": 10,
+    "3": 20,
+    "4": 30,
+    "5": 50,
+    "6": 80,
+    "7": 130,
+    "8": 210,
+    "9": 340,
+    "10": 550,
 }
 
 
@@ -58,15 +58,17 @@ class Skill(BaseModel):
     def __getattribute__(self, name):
         attr = super().__getattribute__(name)
         if callable(attr) and name == "use":
-            self.__setattr__('used', self.used + 1)
+            self.__setattr__("used", self.used + 1)
         return attr
 
     # Level up skill
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
 
-        if name == 'used':
+        if name == "used":
             new_level = calculate_level(self.used)
             if new_level > self.level:
-                logger.debug(f'{self.__class__.__name__} level changed from {self.level} to {new_level}')
+                logger.debug(
+                    f"{self.__class__.__name__} level changed from {self.level} to {new_level}"
+                )
                 self.level = new_level

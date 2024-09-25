@@ -16,13 +16,13 @@ class SkillRecord(BaseModel):
     level: PositiveInt = 1
 
 
-available_skills = {
-    'Consume': Consume
-}
+available_skills = {"Consume": Consume}
 
 
 def get_skills_from_book(skill_book: List[SkillRecord]) -> Dict[str, Skill]:
     skills: Dict[str, Skill] = {}
     for item in skill_book:
-        skills[item.name] = available_skills[item.skill_class](level=item.level, used=item.used)
+        skills[item.name] = available_skills[item.skill_class](
+            level=item.level, used=item.used
+        )
     return skills

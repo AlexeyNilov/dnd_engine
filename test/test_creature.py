@@ -2,6 +2,7 @@ import pytest
 
 from data.logger import set_logging
 from dnd_engine.model.creature import Creature
+from dnd_engine.model.creature import default_reactions
 from dnd_engine.model.creature import use_consume_skill
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill import Skill
@@ -14,11 +15,7 @@ set_logging()
 
 @pytest.fixture
 def creature():
-    data = {
-        'name': 'hunter',
-        'hp': 9,
-        'max_hp': 10
-    }
+    data = {"name": "hunter", "hp": 9, "max_hp": 10, "reactions": default_reactions}
     return Creature(**data)
 
 
@@ -41,9 +38,9 @@ def test_aliveness(creature):
 
 
 def test_apply_base_skill(creature):
-    creature.skills['test'] = Skill()
+    creature.skills["test"] = Skill()
     with pytest.raises(SkillTypeNotFound):
-        creature.apply(skill=creature.skills['test'], to=creature)
+        creature.apply(skill=creature.skills["test"], to=creature)
 
 
 def test_use_consume_skill_on_self(creature):
@@ -55,7 +52,7 @@ def test_use_consume_skill_on_self(creature):
 
 def test_use_consume_skill(creature):
     hp = creature.hp
-    food = Resource(name='food')
+    food = Resource(name="food")
     value = food.value
     creature.compatible_with.append(food.nature)
     assert use_consume_skill(creature=creature, skill=Consume(), to=food)
@@ -65,7 +62,7 @@ def test_use_consume_skill(creature):
 
 def test_use_consume_skill_above_max_hp(creature):
     creature.hp = creature.max_hp
-    food = Resource(name='food')
+    food = Resource(name="food")
     value = food.value
     creature.compatible_with.append(food.nature)
     assert use_consume_skill(creature=creature, skill=Consume(), to=food) is False

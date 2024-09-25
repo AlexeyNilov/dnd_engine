@@ -5,11 +5,11 @@ from pydantic import BaseModel
 
 
 class Entity(BaseModel):
-    """ See doc/entity.md for details """
+    """See doc/entity.md for details"""
 
     id: str  # Must be uniq globally
     name: str
-    nature: str = 'unknown'
+    nature: str = "unknown"
 
     # Generate unique ID
     _id_counter: ClassVar[int] = 0
@@ -17,7 +17,7 @@ class Entity(BaseModel):
 
     def __init__(self, **data):
         with self._lock:
-            data['id'] = f'{self.__class__.__name__}_{self._get_next_id()}'
+            data["id"] = f"{self.__class__.__name__}_{self._get_next_id()}"
         super().__init__(**data)
 
     def _get_next_id(self) -> int:
