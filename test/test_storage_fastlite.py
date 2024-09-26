@@ -28,7 +28,7 @@ def filled_db():
     if "skill_records" in db.t:
         db.t.skill_records.drop()
     skill_records = sf.create_skill_records_table(db)
-    skill_records.insert(creature_id="Test_Creature_1", name="eat", type="consume")
+    skill_records.insert(creature_id="Test_Creature_1", name="eat", type="Consume")
 
     if "creatures" in db.t:
         db.t.creatures.drop()
@@ -44,9 +44,11 @@ def test_create_creatures_table(empty_db):
 
 
 def test_load_creature(filled_db):
-    r = sf.load_creature(creature_id="Test_Creature_1", db=filled_db)
-    assert isinstance(r, Creature)
-    assert r.name == "Test_Creature"
+    c = sf.load_creature(creature_id="Test_Creature_1", db=filled_db)
+    assert isinstance(c, Creature)
+    assert c.name == "Test_Creature"
+    assert isinstance(c.skills, dict)
+    assert "eat" in c.skills.keys()
 
 
 def test_create_skill_records_table(empty_db):

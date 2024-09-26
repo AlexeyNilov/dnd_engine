@@ -4,6 +4,7 @@ import fastlite as fl
 from sqlite_minutils.db import Database
 
 from dnd_engine.model.creature import Creature
+from dnd_engine.model.skill_tech import get_skills_from_book
 from dnd_engine.model.skill_tech import SkillRecord
 
 
@@ -55,4 +56,19 @@ def load_creature(creature_id: int, db: Database = DB) -> Creature:
     c["id"] = creature_id
     if c["nature"] is None:
         del c["nature"]
-    return Creature(**c)
+    creature = Creature(**c)
+
+    # Load skills
+    sql = f"SELECT skill_record_id FROM skill_records WHERE creature_id = '{creature_id}';"
+    data = db.q(sql)
+    skill_book = []
+    for item in data:
+        skill_book.append(load_skill_record(skill_record_id=item["skill_record_id"], db=db))
+    if skill_book:
+        creature.skills = get_skills_from_book(skill_book)
+
+    # Load compatibility
+
+    # Load reactions
+
+    return creature
