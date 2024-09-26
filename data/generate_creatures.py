@@ -16,7 +16,7 @@ data = {
     "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["organic"],
     "nature": "organic",
-    "reactions": default_reactions
+    "reactions": default_reactions,
 }
 save_creature(Creature(**data), DB)
 
@@ -27,7 +27,7 @@ data = {
     "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["organic"],
     "nature": "organic",
-    "reactions": default_reactions
+    "reactions": default_reactions,
 }
 save_creature(Creature(**data), DB)
 
@@ -38,7 +38,7 @@ data = {
     "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["water"],
     "nature": "organic",
-    "reactions": default_reactions
+    "reactions": default_reactions,
 }
 save_creature(Creature(**data), DB)
 
