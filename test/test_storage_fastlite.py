@@ -13,19 +13,18 @@ logger = logging.getLogger(__name__)
 @pytest.fixture
 def empty_db():
     db = fl.database("db/test_empty.sqlite")
-    skill_records = db.t.skill_records
-    if skill_records in db.t:
-        skill_records.drop()
+    if "skill_records" in db.t:
+        db.t.skill_records.drop()
     return db
 
 
 @pytest.fixture
 def filled_db():
     db = fl.database("db/test_filled.sqlite")
-    if 'skill_records' in db.t:
+    if "skill_records" in db.t:
         db.t.skill_records.drop()
     skill_records = sf.create_skill_records_table(db)
-    skill_records.insert(name="eat", type="consume")
+    skill_records.insert(creature_id="Test_Creature_1", name="eat", type="consume")
     return db
 
 
@@ -40,3 +39,10 @@ def test_get_skill_record(filled_db):
     assert isinstance(r, SkillRecord)
     assert r.used == 0
     assert r.level == 1
+
+
+def test_set_skill_record_new(empty_db):
+    sf.create_skill_records_table(empty_db)
+    record = SkillRecord(name="test", type="consume")
+    r = sf.set_skill_record(id=1, creature_id="Test_Creature", record=record, db=empty_db)
+    assert r == {"id": 1, "level": 1, "name": "test", "type": "consume", "used": 0, "creature_id": "Test_Creature"}
