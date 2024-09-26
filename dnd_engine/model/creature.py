@@ -3,7 +3,6 @@ from typing import Callable
 from typing import Dict
 from typing import List
 
-from pydantic import model_validator
 from pydantic import PositiveInt
 
 from dnd_engine.model.entity import Entity
@@ -11,8 +10,9 @@ from dnd_engine.model.event import publish_event
 from dnd_engine.model.shared import GEZeroInt
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.skill import SkillTypeNotFound
-from dnd_engine.model.skill_tech import get_skills_from_book
-from dnd_engine.model.skill_tech import SkillRecord
+# from pydantic import model_validator
+# from dnd_engine.model.skill_tech import get_skills_from_book
+# from dnd_engine.model.skill_tech import SkillRecord
 
 
 logger = logging.getLogger(__name__)
@@ -24,15 +24,15 @@ class Creature(Entity):
     is_alive: bool = True
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
-    skill_book: List[SkillRecord] = []
+    # skill_book: List[SkillRecord] = []
     skills: Dict[str, Skill] = {}
     compatible_with: List[str] = []
     reactions: Dict[str, Callable] = {}
 
-    @model_validator(mode="after")
-    def load_skills_from_skill_book(self):
-        self.skills = get_skills_from_book(self.skill_book)
-        return self
+    # @model_validator(mode="after")
+    # def load_skills_from_skill_book(self):
+    #     self.skills = get_skills_from_book(self.skill_book)
+    #     return self
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)

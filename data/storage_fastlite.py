@@ -16,7 +16,7 @@ def create_skill_records_table(db=DB) -> fl.Table:
     skill_records = db.t.skill_records
     if skill_records not in db.t:
         data = dict(
-            skill_record_id=int,
+            skill_record_id=str,
             name=str,
             type=str,
             used=int,
@@ -43,6 +43,7 @@ def save_skill_record(
     data = record.model_dump()
     data["creature_id"] = creature_id
     data["skill_record_id"] = skill_record_id
+
     try:
         skill_records[data["skill_record_id"]]
     except fl.NotFoundError:
@@ -107,10 +108,9 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
     data["creature_id"] = creature.id
     data["compatible_with"] = ";".join(data["compatible_with"])
     del data["id"]
-    del data["skill_book"]
 
     for k, v in creature.skills.items():
-        r = SkillRecord(name=k, type=v["type"], used=v["used"], level=v["level"])
+        r = SkillRecord(name=k, type=v.__class__.__name__, used=v.used, level=v.level)
         save_skill_record(skill_record_id=f"{creature.id}_{k}", creature_id=creature.id, record=r, db=db)
     del data["skills"]
 
