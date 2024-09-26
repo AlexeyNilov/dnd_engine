@@ -1,12 +1,13 @@
 from typing import List
 
 from data.logger import set_logging
-from data.storage_sqlite_dict import get_creature
+from data.storage_fastlite import load_creature
 from dnd_engine.model.resource import Resource
 
 
 set_logging()
-tree = get_creature(name="The first oak")
+tree = load_creature(creature_id="Creature_3")
+
 tree.hp = tree.max_hp - 10
 data = {"name": "Water", "value": 100, "nature": "water"}
 water = Resource(**data)

@@ -63,6 +63,15 @@ def hp_tracker(creature: Creature):
     check_hp_above_zero(creature)
 
 
+trackers = [hp_tracker]
+
+
+def get_tracker(name):
+    for tracker in trackers:
+        if tracker.__name__ == name:
+            return tracker
+
+
 default_reactions = {"hp": hp_tracker}
 
 

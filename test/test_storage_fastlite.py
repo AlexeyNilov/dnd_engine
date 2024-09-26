@@ -59,6 +59,7 @@ def test_load_creature(filled_db):
     assert isinstance(c.skills, dict)
     assert "eat" in c.skills.keys()
     assert c.compatible_with == ["water", "organic"]
+    assert "hp" in c.reactions.keys()
 
 
 def test_create_skill_records_table(empty_db):

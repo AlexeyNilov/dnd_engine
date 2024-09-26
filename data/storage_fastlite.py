@@ -4,6 +4,7 @@ import fastlite as fl
 from sqlite_minutils.db import Database
 
 from dnd_engine.model.creature import Creature
+from dnd_engine.model.creature import get_tracker
 from dnd_engine.model.skill_tech import get_skills_from_book
 from dnd_engine.model.skill_tech import SkillRecord
 
@@ -90,7 +91,14 @@ def load_creature(creature_id: int, db: Database = DB) -> Creature:
     if c.get("compatible_with"):
         c["compatible_with"] = c["compatible_with"].split(";")
 
-    c.pop("reactions", None)
+    if c.get("reactions"):
+        pairs = c["reactions"].split(";")
+        c["reactions"] = {}
+        for pair in pairs:
+            items = pair.split(":")
+            c["reactions"][items[0]] = get_tracker(items[1])
+    else:
+        c.pop("reactions", None)
 
     creature = Creature(**c)
 
