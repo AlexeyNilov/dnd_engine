@@ -114,6 +114,11 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
         save_skill_record(skill_record_id=f"{creature.id}_{k}", creature_id=creature.id, record=r, db=db)
     del data["skills"]
 
+    reactions = []
+    for k, v in creature.reactions.items():
+        reactions.append(f"{k}:{v.__name__}")
+    data["reactions"] = ";".join(reactions)
+
     try:
         ct[data["creature_id"]]
     except fl.NotFoundError:
