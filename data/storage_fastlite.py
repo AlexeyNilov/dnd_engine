@@ -38,7 +38,7 @@ def load_skill_record(skill_record_id: int, db: Database = DB) -> SkillRecord:
 
 
 def save_skill_record(
-    skill_record_id: int, creature_id: str, record: SkillRecord, db: Database = DB
+    skill_record_id: str, creature_id: str, record: SkillRecord, db: Database = DB
 ) -> dict:
     skill_records = db.t.skill_records
     data = record.model_dump()
@@ -81,7 +81,7 @@ def load_skill_book(creature_id: str, db: Database = DB) -> list:
     return skill_book
 
 
-def load_creature(creature_id: int, db: Database = DB) -> Creature:
+def load_creature(creature_id: str, db: Database = DB) -> Creature:
     c = db.t.creatures[creature_id]
     c["is_alive"] = bool(c["is_alive"])
     c["id"] = creature_id
@@ -117,8 +117,8 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
     data["compatible_with"] = ";".join(data["compatible_with"])
     del data["id"]
 
-    for k, v in creature.skills.items():
-        r = SkillRecord(name=k, type=v.__class__.__name__, used=v.used, level=v.level)
+    for k, skill in creature.skills.items():
+        r = SkillRecord(name=k, type=skill.__class__.__name__, used=skill.used, level=skill.level)
         save_skill_record(
             skill_record_id=f"{creature.id}_{k}",
             creature_id=creature.id,
@@ -128,8 +128,8 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
     del data["skills"]
 
     reactions = []
-    for k, v in creature.reactions.items():
-        reactions.append(f"{k}:{v.__name__}")
+    for k, call in creature.reactions.items():
+        reactions.append(f"{k}:{call.__name__}")
     data["reactions"] = ";".join(reactions)
 
     try:
