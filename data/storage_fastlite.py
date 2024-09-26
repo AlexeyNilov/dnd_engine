@@ -13,13 +13,13 @@ DB: Database = fl.database("db/dnd.sqlite")
 def create_skill_records_table(db=DB) -> fl.Table:
     skill_records = db.t.skill_records
     if skill_records not in db.t:
-        data = dict(id=int, name=str, type=str, used=int, level=int, creature_id=str)
-        skill_records.create(data, pk="id")
+        data = dict(skill_record_id=int, name=str, type=str, used=int, level=int, creature_id=str)
+        skill_records.create(data, pk="skill_record_id")
     return skill_records
 
 
-def get_skill_record(id: int, db: Database = DB) -> SkillRecord:
-    record = db.t.skill_records[id]
+def get_skill_record(skill_record_id: int, db: Database = DB) -> SkillRecord:
+    record = db.t.skill_records[skill_record_id]
     if record['used'] is None:
         record['used'] = 0
     if record['level'] is None:
@@ -27,13 +27,13 @@ def get_skill_record(id: int, db: Database = DB) -> SkillRecord:
     return SkillRecord(**record)
 
 
-def set_skill_record(id: int, creature_id: str, record: SkillRecord, db: Database = DB) -> dict:
+def set_skill_record(skill_record_id: int, creature_id: str, record: SkillRecord, db: Database = DB) -> dict:
     skill_records = db.t.skill_records
     data = record.model_dump()
     data["creature_id"] = creature_id
-    data["id"] = id
+    data["skill_record_id"] = skill_record_id
     try:
-        skill_records[data["id"]]
+        skill_records[data["skill_record_id"]]
     except fl.NotFoundError:
         return skill_records.insert(**data)
     else:
@@ -43,6 +43,6 @@ def set_skill_record(id: int, creature_id: str, record: SkillRecord, db: Databas
 def create_creatures_table(db=DB) -> fl.Table:
     table = db.t.creatures
     if table not in db.t:
-        data = dict(id=str, name=str, type=str, used=int, level=int)
-        table.create(data, pk="id")
+        data = dict(creature_id=str, name=str, nature=str, is_alive=bool, hp=int, max_hp=int)
+        table.create(data, pk="creature_id")
     return table
