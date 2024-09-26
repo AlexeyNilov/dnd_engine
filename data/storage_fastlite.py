@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 import fastlite as fl
 from sqlite_minutils.db import Database
@@ -81,10 +82,9 @@ def load_skill_book(creature_id: str, db: Database = DB) -> list:
     return skill_book
 
 
-def load_creature(creature_id: str, db: Database = DB) -> Creature:
-    c = db.t.creatures[creature_id]
+def convert_dict_to_creature(c: dict) -> Creature:
     c["is_alive"] = bool(c["is_alive"])
-    c["id"] = creature_id
+    c["id"] = c["creature_id"]
 
     c.pop("nature", None)
 
@@ -100,14 +100,28 @@ def load_creature(creature_id: str, db: Database = DB) -> Creature:
     else:
         c.pop("reactions", None)
 
-    creature = Creature(**c)
+    return Creature(**c)
 
-    # Load skills
+
+def load_creature(creature_id: str, db: Database = DB) -> Creature:
+    c = db.t.creatures[creature_id]
+    creature = convert_dict_to_creature(c)
+
     skill_book = load_skill_book(creature_id=creature_id, db=db)
     if skill_book:
         creature.skills = get_skills_from_book(skill_book)
 
     return creature
+
+
+def load_creatures(db: Database = DB) -> List[Creature]:
+    creatures = list()
+    sql = "SELECT creature_id FROM creatures;"
+    data = db.q(sql)
+    for item in data:
+        creatures.append(load_creature(creature_id=item['creature_id'], db=db))
+
+    return creatures
 
 
 def save_creature(creature: Creature, db: Database = DB) -> dict:
