@@ -3,6 +3,7 @@ import logging
 import fastlite as fl
 from sqlite_minutils.db import Database
 
+from dnd_engine.model.creature import Creature
 from dnd_engine.model.skill_tech import SkillRecord
 
 
@@ -18,7 +19,7 @@ def create_skill_records_table(db=DB) -> fl.Table:
     return skill_records
 
 
-def get_skill_record(skill_record_id: int, db: Database = DB) -> SkillRecord:
+def load_skill_record(skill_record_id: int, db: Database = DB) -> SkillRecord:
     record = db.t.skill_records[skill_record_id]
     if record['used'] is None:
         record['used'] = 0
@@ -27,7 +28,7 @@ def get_skill_record(skill_record_id: int, db: Database = DB) -> SkillRecord:
     return SkillRecord(**record)
 
 
-def set_skill_record(skill_record_id: int, creature_id: str, record: SkillRecord, db: Database = DB) -> dict:
+def save_skill_record(skill_record_id: int, creature_id: str, record: SkillRecord, db: Database = DB) -> dict:
     skill_records = db.t.skill_records
     data = record.model_dump()
     data["creature_id"] = creature_id
@@ -46,3 +47,12 @@ def create_creatures_table(db=DB) -> fl.Table:
         data = dict(creature_id=str, name=str, nature=str, is_alive=bool, hp=int, max_hp=int)
         table.create(data, pk="creature_id")
     return table
+
+
+def load_creature(creature_id: int, db: Database = DB) -> Creature:
+    c = db.t.creatures[creature_id]
+    c["is_alive"] = bool(c["is_alive"])
+    c["id"] = creature_id
+    if c["nature"] is None:
+        del c["nature"]
+    return Creature(**c)

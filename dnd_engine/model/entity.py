@@ -16,8 +16,9 @@ class Entity(BaseModel):
     _lock: ClassVar[Lock] = Lock()
 
     def __init__(self, **data):
-        with self._lock:
-            data["id"] = f"{self.__class__.__name__}_{self._get_next_id()}"
+        if "id" not in data.keys() or data["id"] is None:
+            with self._lock:
+                data["id"] = f"{self.__class__.__name__}_{self._get_next_id()}"
         super().__init__(**data)
 
     def _get_next_id(self) -> int:
