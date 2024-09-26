@@ -7,7 +7,7 @@ from dnd_engine.model.skill_tech import SkillRecord
 
 @pytest.fixture
 def skill_book():
-    return [SkillRecord(name="eat", skill_class="Consume")]
+    return [SkillRecord(name="eat", type="Consume")]
 
 
 def test_get_skills_from_book(skill_book):

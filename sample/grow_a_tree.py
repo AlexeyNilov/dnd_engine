@@ -1,7 +1,7 @@
 from typing import List
 
 from data.logger import set_logging
-from data.storage import get_creature
+from data.storage_sqlite_dict import get_creature
 from dnd_engine.model.resource import Resource
 
 

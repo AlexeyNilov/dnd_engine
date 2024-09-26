@@ -3,7 +3,7 @@ from pprint import pprint
 from typing import List
 
 from data.logger import set_logging
-from data.storage import load_creatures
+from data.storage_sqlite_dict import load_creatures
 from dnd_engine.model.resource import Resource
 
 

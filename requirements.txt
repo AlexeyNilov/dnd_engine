@@ -5,3 +5,4 @@ mypy
 sqlitedict
 pyyaml
 flake8
+fastlite

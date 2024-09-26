@@ -7,7 +7,7 @@ from dnd_engine.model.creature import Creature
 
 
 logger = logging.getLogger(__name__)
-DB = SqliteDict("db.sqlite", autocommit=True)
+DB = SqliteDict("db/dict.sqlite", autocommit=True)
 
 
 class CreatureNotFound(Exception):

@@ -11,7 +11,7 @@ from dnd_engine.model.skill_library import Consume
 
 class SkillRecord(BaseModel):
     name: str
-    skill_class: str
+    type: str
     used: GEZeroInt = 0
     level: PositiveInt = 1
 
@@ -22,7 +22,7 @@ available_skills = {"Consume": Consume}
 def get_skills_from_book(skill_book: List[SkillRecord]) -> Dict[str, Skill]:
     skills: Dict[str, Skill] = {}
     for item in skill_book:
-        skills[item.name] = available_skills[item.skill_class](
+        skills[item.name] = available_skills[item.type](
             level=item.level, used=item.used
         )
     return skills
