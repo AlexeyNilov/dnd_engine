@@ -9,9 +9,10 @@ from dnd_engine.model.resource import Resource
 
 
 set_logging()
-tree = load_creature(creature_id="Creature_3")
 
+tree = load_creature(creature_id="Creature_3")
 tree.hp = tree.max_hp - 10
+
 water_data = {"name": "Water", "value": 200, "nature": "water"}
 water = Resource(**water_data)
 

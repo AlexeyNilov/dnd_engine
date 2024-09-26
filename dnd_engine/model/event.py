@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from dnd_engine.model.entity import Entity
 
 MAIN_QUEUE: Queue = Queue(1)
+ACCEPT_EVENTS = False
 END = object()
 
 
@@ -16,7 +17,8 @@ class Event(BaseModel):
 
 
 def publish_event(entity: Entity, msg: str, q: Queue = MAIN_QUEUE, timeout: int = 5) -> None:
-    q.put(Event(entity=entity, msg=msg), timeout=timeout)
+    if ACCEPT_EVENTS:
+        q.put(Event(entity=entity, msg=msg), timeout=timeout)
 
 
 def get_event(q: Queue = MAIN_QUEUE, timeout: int = 5) -> Event:
@@ -39,11 +41,15 @@ def event_manager(func: Callable, q: Queue = MAIN_QUEUE):
 
 
 def start_event_manager(func: Callable, q: Queue = MAIN_QUEUE) -> Thread:
+    global ACCEPT_EVENTS
+    ACCEPT_EVENTS = True
     thread = Thread(target=event_manager, args=(func, q))
     thread.start()
     return thread
 
 
 def stop_event_manager(thread: Thread, q: Queue = MAIN_QUEUE):
+    global ACCEPT_EVENTS
+    ACCEPT_EVENTS = False
     stop(q=q)
     thread.join()
