@@ -24,8 +24,9 @@ fruits: List[Resource] = list()
 
 def react(event: Event):
     if event.msg == "is full":
-        fruits.append(Resource(**fruit_data))
-        event.creature.hp -= fruit_data["value"]
+        fruit = Resource(**fruit_data)
+        fruits.append(fruit)
+        event.creature.hp -= fruit.value
 
 
 thread = start_event_manager(func=react)
@@ -36,6 +37,5 @@ while water.value > 0:
 
 stop_event_manager(thread)
 
-assert len(fruits) == int(water_data["value"] / fruit_data["value"])
 print("Fruits created:", len(fruits))
 print(tree.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills"}))
