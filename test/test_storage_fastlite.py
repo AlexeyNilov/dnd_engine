@@ -29,7 +29,9 @@ def filled_db():
     if "skill_records" in db.t:
         db.t.skill_records.drop()
     skill_records = sf.create_skill_records_table(db)
-    skill_records.insert(skill_record_id="1", creature_id="Test_Creature_1", name="eat", type="Consume")
+    skill_records.insert(
+        skill_record_id="1", creature_id="Test_Creature_1", name="eat", type="Consume"
+    )
 
     if "creatures" in db.t:
         db.t.creatures.drop()
@@ -93,7 +95,13 @@ def test_save_skill_record_new(empty_db):
 
 def test_save_creature(empty_db):
     sf.create_creatures_table(empty_db)
-    c = Creature(name="test", hp=10, max_hp=20, compatible_with=["water"], reactions=default_reactions)
+    c = Creature(
+        name="test",
+        hp=10,
+        max_hp=20,
+        compatible_with=["water"],
+        reactions=default_reactions,
+    )
     r = sf.save_creature(creature=c, db=empty_db)
     assert r == {
         "compatible_with": "water",

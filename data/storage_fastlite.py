@@ -119,7 +119,12 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
 
     for k, v in creature.skills.items():
         r = SkillRecord(name=k, type=v.__class__.__name__, used=v.used, level=v.level)
-        save_skill_record(skill_record_id=f"{creature.id}_{k}", creature_id=creature.id, record=r, db=db)
+        save_skill_record(
+            skill_record_id=f"{creature.id}_{k}",
+            creature_id=creature.id,
+            record=r,
+            db=db,
+        )
     del data["skills"]
 
     reactions = []
