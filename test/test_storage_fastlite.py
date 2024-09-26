@@ -5,7 +5,7 @@ import pytest
 
 from data import storage_fastlite as sf
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import default_reactions
+from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.skill_tech import SkillRecord
 
 
@@ -100,7 +100,7 @@ def test_save_creature(empty_db):
         hp=10,
         max_hp=20,
         compatible_with=["water"],
-        reactions=default_reactions,
+        reactions=DEFAULT_REACTIONS,
     )
     r = sf.save_creature(creature=c, db=empty_db)
     assert r == {

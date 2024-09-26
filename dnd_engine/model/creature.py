@@ -33,11 +33,7 @@ class Creature(Entity):
             self.reactions[name](self)
 
     def apply(self, skill: Skill, to: Entity) -> bool:
-        """Apply given skill to the Entity if they are compatible, return False otherwise"""
-        logger.debug(
-            f"{self.id} {self.name} uses {skill.__class__.__name__}_level_{skill.level} on {to.id}"
-        )
-
+        """Apply given skill to the Entity"""
         if skill.__class__.__name__ in ["Consume"]:
             return use_consume_skill(creature=self, skill=skill, to=to)
 
@@ -63,19 +59,20 @@ def hp_tracker(creature: Creature):
     check_hp_above_zero(creature)
 
 
-trackers = [hp_tracker]
+TRACKERS = [hp_tracker]
 
 
 def get_tracker(name):
-    for tracker in trackers:
+    for tracker in TRACKERS:
         if tracker.__name__ == name:
             return tracker
 
 
-default_reactions = {"hp": hp_tracker}
+DEFAULT_REACTIONS = {"hp": hp_tracker}
 
 
 def use_consume_skill(creature: Creature, skill: Skill, to: Entity) -> bool:
+    """Apply given skill to the Entity if they are compatible, return False otherwise"""
     if to.nature not in creature.compatible_with:
         logger.debug(
             f"{skill.__class__.__name__} failed: {to.nature} is not compatible with {creature.name}"

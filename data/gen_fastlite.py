@@ -5,7 +5,7 @@ import fastlite as fl
 from data import storage_fastlite as sf
 from data.logger import set_logging
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import default_reactions
+from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.skill_library import Consume
 
 
@@ -20,7 +20,7 @@ data = {
     "skills": {"eat": Consume()},
     "compatible_with": ["organic"],
     "nature": "organic",
-    "reactions": default_reactions,
+    "reactions": DEFAULT_REACTIONS,
 }
 sf.save_creature(Creature(**data))
 
@@ -32,7 +32,7 @@ data = {
     "skills": {"eat": Consume()},
     "compatible_with": ["organic"],
     "nature": "organic",
-    "reactions": default_reactions,
+    "reactions": DEFAULT_REACTIONS,
 }
 sf.save_creature(Creature(**data))
 
@@ -43,7 +43,7 @@ data = {
     "skills": {"eat": Consume()},
     "compatible_with": ["water"],
     "nature": "organic",
-    "reactions": default_reactions,
+    "reactions": DEFAULT_REACTIONS,
 }
 sf.save_creature(Creature(**data))
 

@@ -2,7 +2,7 @@ import pytest
 
 from data.logger import set_logging
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import default_reactions
+from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.creature import use_consume_skill
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill import Skill
@@ -15,7 +15,7 @@ set_logging()
 
 @pytest.fixture
 def creature():
-    data = {"name": "hunter", "hp": 9, "max_hp": 10, "reactions": default_reactions}
+    data = {"name": "hunter", "hp": 9, "max_hp": 10, "reactions": DEFAULT_REACTIONS}
     return Creature(**data)
 
 
