@@ -127,6 +127,7 @@ def load_creatures(db: Database = DB) -> List[Creature]:
 def save_creature(creature: Creature, db: Database = DB) -> dict:
     ct = db.t.creatures
     data = creature.model_dump()
+    del data["events_publisher"]
     data["creature_id"] = creature.id
     data["compatible_with"] = ";".join(data["compatible_with"])
     del data["id"]

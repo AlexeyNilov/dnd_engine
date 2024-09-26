@@ -2,11 +2,11 @@ import logging
 from typing import Callable
 from typing import Dict
 from typing import List
+from typing import Optional
 
 from pydantic import PositiveInt
 
 from dnd_engine.model.entity import Entity
-from dnd_engine.model.event import publish_event
 from dnd_engine.model.shared import GEZeroInt
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.skill import SkillTypeNotFound
@@ -24,6 +24,7 @@ class Creature(Entity):
     skills: Dict[str, Skill] = {}
     compatible_with: List[str] = []
     reactions: Dict[str, Callable] = {}
+    events_publisher: Optional[Callable] = None
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
@@ -38,6 +39,11 @@ class Creature(Entity):
             return use_consume_skill(creature=self, skill=skill, to=to)
 
         raise SkillTypeNotFound
+
+
+def publish_event(creature: Creature, msg: str):
+    if callable(creature.events_publisher):
+        creature.events_publisher(creature, msg)
 
 
 def check_hp_above_zero(creature: Creature):

@@ -4,7 +4,7 @@ from typing import Callable
 
 from pydantic import BaseModel
 
-from dnd_engine.model.entity import Entity
+from dnd_engine.model.creature import Creature
 
 MAIN_QUEUE: Queue = Queue(1)
 ACCEPT_EVENTS = False
@@ -12,13 +12,13 @@ END = object()
 
 
 class Event(BaseModel):
-    entity: Entity
+    creature: Creature
     msg: str
 
 
-def publish_event(entity: Entity, msg: str, q: Queue = MAIN_QUEUE, timeout: int = 5) -> None:
+def publish_event(creature: Creature, msg: str, q: Queue = MAIN_QUEUE, timeout: int = 5) -> None:
     if ACCEPT_EVENTS:
-        q.put(Event(entity=entity, msg=msg), timeout=timeout)
+        q.put(Event(creature=creature, msg=msg), timeout=timeout)
 
 
 def get_event(q: Queue = MAIN_QUEUE, timeout: int = 5) -> Event:
