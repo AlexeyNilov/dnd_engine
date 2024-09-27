@@ -65,17 +65,14 @@ def is_full(creature: Creature):
         )
         creatures.append(new_pig)
         creature.hp -= start_hp
-        # print("New Pig created")
 
     if creature.name == "The first oak":
         new_food = Resource(**food)
         resources.append(new_food)
         creature.hp -= new_food.value
-        # print("New Food created")
 
     if creature.name == "Wolf":
         creature.max_hp *= 2
-        # print("Wolf upgraded")
 
 
 def is_dead(creature: Creature):
@@ -106,7 +103,7 @@ for _ in range(100):
         creature.hp -= 1  # Live sucks!
 
         if resources:
-            resource = random.choice(resources)
+            resource = random.choice(resources)  # TODO get compatible resource
             creature.apply(skill=creature.get_skill_by_class("Consume"), to=resource)
 
         exec_on_deque(react)
