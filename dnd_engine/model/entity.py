@@ -3,13 +3,15 @@ from typing import ClassVar
 
 from pydantic import BaseModel
 
+from dnd_engine.model.shared import ConstrainedStr
+
 
 class Entity(BaseModel):
     """See doc/entity.md for details"""
 
     id: str  # Must be uniq globally
     name: str
-    nature: str = "unknown"
+    nature: ConstrainedStr = "unknown"
 
     # Generate unique ID
     _id_counter: ClassVar[int] = 0

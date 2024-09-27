@@ -80,17 +80,12 @@ DEFAULT_REACTIONS = {"hp": hp_tracker}
 def use_consume_skill(creature: Creature, skill: Skill, to: Entity) -> bool:
     """Apply given skill to the Entity if they are compatible, return False otherwise"""
     if to.nature not in creature.compatible_with:
-        logger.debug(
-            f"{skill.__class__.__name__} failed: {to.nature} is not compatible with {creature.name}"
-        )
         return False
 
     if creature.hp == creature.max_hp:
-        logger.debug(f"{creature.id} {creature.name} has max HP already")
         return False
 
     gain = skill.use(to)
-    logger.debug(f"{creature.id} {creature.name} gained {gain} HP")
     if gain == 0:
         return False
     creature.hp += gain
