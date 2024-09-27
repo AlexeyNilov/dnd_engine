@@ -1,5 +1,3 @@
-import fastlite as fl
-
 from dnd_engine.data import storage_fastlite as sf
 from dnd_engine.data.logger import set_logging
 from dnd_engine.model.creature import Creature
@@ -47,9 +45,8 @@ data = {
 }
 sf.save_creature(Creature(**data))
 
-db = fl.database("db/dnd.sqlite")
-for c in db.t.creatures():
+for c in sf.DB.t.creatures():
     print(c)
 
-for s in db.t.skill_records():
+for s in sf.DB.t.skill_records():
     print(s)
