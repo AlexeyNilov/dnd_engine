@@ -6,6 +6,7 @@ from sqlite_minutils.db import Database
 
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import get_tracker
+from dnd_engine.model.shared import LockList
 from dnd_engine.model.skill_tech import get_skills_from_book
 from dnd_engine.model.skill_tech import SkillRecord
 
@@ -110,7 +111,7 @@ def load_creature(creature_id: str, db: Database = DB) -> Creature:
 
 
 def load_creatures(db: Database = DB) -> List[Creature]:
-    creatures = list()
+    creatures = LockList()
     sql = "SELECT creature_id FROM creatures;"
     data = db.q(sql)
     for item in data:

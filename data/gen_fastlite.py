@@ -13,8 +13,8 @@ sf.create_skill_records_table()
 
 data = {
     "name": "Wolf",
-    "hp": 16,
-    "max_hp": 20,
+    "hp": 40,
+    "max_hp": 50,
     "skills": {"eat": Consume()},
     "compatible_with": ["organic"],
     "nature": "organic",
@@ -25,8 +25,8 @@ sf.save_creature(Creature(**data))
 
 data = {
     "name": "Pig",
-    "hp": 8,
-    "max_hp": 10,
+    "hp": 40,
+    "max_hp": 50,
     "skills": {"eat": Consume()},
     "compatible_with": ["organic"],
     "nature": "organic",
