@@ -18,7 +18,7 @@ def publish_deque(creature: Creature, msg: str) -> None:
     EVENTS.append(Event(creature=creature, msg=msg))
 
 
-def read_deque(func: Callable) -> None:
+def exec_on_deque(func: Callable) -> None:
     while True:
         try:
             func(EVENTS.popleft())

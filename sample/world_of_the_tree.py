@@ -6,8 +6,8 @@ from data.storage_fastlite import load_creatures
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.event import Event
+from dnd_engine.model.event import exec_on_deque
 from dnd_engine.model.event import publish_deque
-from dnd_engine.model.event import read_deque
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill_library import Consume
 
@@ -88,7 +88,8 @@ def is_dead(creature: Creature):
 def react(event: Event):
     global creatures
     global resources
-    # print(event.creature.name, event.msg)
+
+    # TODO save to Events table
 
     if event.msg == "is full":
         is_full(event.creature)
@@ -108,7 +109,7 @@ for _ in range(100):
             resource = random.choice(resources)
             creature.apply(skill=creature.get_skill_by_class("Consume"), to=resource)
 
-        read_deque(react)
+        exec_on_deque(react)
 
 for item in creatures:
     print(item.model_dump(include={"id", "name", "hp", "max_hp", "is_alive", "skills"}))
