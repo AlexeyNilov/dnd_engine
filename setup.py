@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-VERSION = "0.1.4"
+VERSION = "0.1.5"
 DESCRIPTION = "DnD Engine"
 
 # Setting up
@@ -10,9 +10,9 @@ setup(
     version=VERSION,
     description=DESCRIPTION,
     include_package_data=True,
-    packages=find_packages(exclude=["conf", "data", "db", "sample", "team", "test"]),
+    packages=find_packages(exclude=["conf", "db", "sample", "team", "test"]),
     install_requires=[
-        "pydantic",
+        "pydantic", "fastlite"
     ],
     python_requires=">=3.10",
 )
