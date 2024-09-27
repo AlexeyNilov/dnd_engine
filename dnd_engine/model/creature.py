@@ -68,8 +68,9 @@ def check_hp_less_than_max_hp(creature: Creature):
 
 
 def hp_tracker(creature: Creature):
-    check_hp_less_than_max_hp(creature)
     check_hp_above_zero(creature)
+    if creature.is_alive:
+        check_hp_less_than_max_hp(creature)
 
 
 TRACKERS = [hp_tracker]
