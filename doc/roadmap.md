@@ -1,8 +1,9 @@
 # Roadmap and plans
 
+* Delete Creature from the table
 * Create balanced system (oak-pig-wolf)
 * Events table
-* Fastlite + UI
+* Fastlite + UI + API(to start sim)
 
 ## Fido combat
 

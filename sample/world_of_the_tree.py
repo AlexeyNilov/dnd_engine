@@ -1,8 +1,10 @@
 import random
+from time import sleep
 from typing import List
 
 from dnd_engine.data.logger import set_logging
 from dnd_engine.data.storage_fastlite import load_creatures
+from dnd_engine.data.storage_fastlite import save_creature
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.event import Event
@@ -107,6 +109,8 @@ for _ in range(100):
             creature.apply(skill=creature.get_skill_by_class("Consume"), to=resource)
 
         exec_on_deque(react)
+        save_creature(creature)
+        sleep(0.1)
 
 for item in creatures:
     print(item.model_dump(include={"id", "name", "hp", "max_hp", "is_alive", "skills"}))
