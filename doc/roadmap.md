@@ -3,6 +3,7 @@
 * Tree: increase max_hp based on what?
 * Tree: create small tree
 * Fastlite + UI
+* Events table
 * Death and new resources
 * Create balanced system (oak-pig-wolf)
 * Distance

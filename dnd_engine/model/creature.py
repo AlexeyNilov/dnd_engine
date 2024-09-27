@@ -7,6 +7,7 @@ from typing import Optional
 from pydantic import PositiveInt
 
 from dnd_engine.model.entity import Entity
+from dnd_engine.model.shared import ConstrainedStr
 from dnd_engine.model.shared import GEZeroInt
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.skill import SkillTypeNotFound
@@ -22,7 +23,7 @@ class Creature(Entity):
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
     skills: Dict[str, Skill] = {}
-    compatible_with: List[str] = []
+    compatible_with: List[ConstrainedStr] = []
     reactions: Dict[str, Callable] = {}
     events_publisher: Optional[Callable] = None
 
