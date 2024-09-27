@@ -8,3 +8,4 @@ rnd.py
 cache
 conf/settings.py
 *.sqlite
+*.sqlite*

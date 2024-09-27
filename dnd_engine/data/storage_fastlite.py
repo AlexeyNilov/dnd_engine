@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import List
 
 import fastlite as fl
@@ -11,7 +12,9 @@ from dnd_engine.model.skill_tech import SkillRecord
 
 
 logger = logging.getLogger(__name__)
-DB: Database = fl.database("db/dnd.sqlite")
+
+db_path = os.environ.get("DB_PATH", "db/dnd.sqlite")
+DB: Database = fl.database(db_path)
 
 skill_record_structure = dict(
     skill_record_id=str,
