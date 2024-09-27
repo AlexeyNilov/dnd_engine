@@ -1,5 +1,3 @@
-from pprint import pprint
-
 import fastlite as fl
 
 from data import storage_fastlite as sf
@@ -48,8 +46,8 @@ data = {
 sf.save_creature(Creature(**data))
 
 db = fl.database("db/dnd.sqlite")
-t = db.t.creatures
-pprint(t())
+for c in db.t.creatures():
+    print(c)
 
-t = db.t.skill_records
-pprint(t())
+for s in db.t.skill_records():
+    print(s)
