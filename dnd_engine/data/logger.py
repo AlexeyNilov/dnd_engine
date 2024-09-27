@@ -1,7 +1,7 @@
 """ Logging configuration"""
 import logging
 
-from data.config import get_ff
+from dnd_engine.data.config import get_ff
 
 
 logger = logging.getLogger(__name__)

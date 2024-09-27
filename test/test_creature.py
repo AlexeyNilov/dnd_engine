@@ -1,6 +1,6 @@
 import pytest
 
-from data.logger import set_logging
+from dnd_engine.data.logger import set_logging
 from dnd_engine.model import creature as cr
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill import Skill

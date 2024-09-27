@@ -1,9 +1,6 @@
 """Access to configuration data"""
 import os
-from functools import lru_cache
 from typing import Optional
-
-import yaml
 
 import conf.default as default
 import conf.settings as settings
@@ -20,10 +17,3 @@ def get_ff(name: str) -> Optional[str]:
         if value
         else get_feature_flag(name=name, module=settings, fallback_module=default)
     )
-
-
-@lru_cache
-def load_yaml(name: str, folder: str = "conf") -> dict:
-    path = os.path.join(folder, name)
-    with open(path, "r") as fp:
-        return yaml.safe_load(stream=fp)

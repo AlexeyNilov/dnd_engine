@@ -1,53 +1,46 @@
-import fastlite as fl
-
-from data import storage_fastlite as sf
 from data.logger import set_logging
+
+from deprecated.storage_sqlite_dict import DB
+from deprecated.storage_sqlite_dict import save_creature
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
-from dnd_engine.model.skill_library import Consume
+from dnd_engine.model.skill_tech import SkillRecord
 
 
 set_logging()
-sf.create_creatures_table()
-sf.create_skill_records_table()
+DB.clear()
 
 data = {
     "name": "Wolf",
-    "hp": 40,
-    "max_hp": 50,
-    "skills": {"eat": Consume()},
+    "hp": 16,
+    "max_hp": 20,
+    "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["organic"],
     "nature": "organic",
     "reactions": DEFAULT_REACTIONS,
 }
-sf.save_creature(Creature(**data))
-
+save_creature(Creature(**data), DB)
 
 data = {
     "name": "Pig",
-    "hp": 40,
-    "max_hp": 50,
-    "skills": {"eat": Consume()},
+    "hp": 8,
+    "max_hp": 10,
+    "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["organic"],
     "nature": "organic",
     "reactions": DEFAULT_REACTIONS,
 }
-sf.save_creature(Creature(**data))
+save_creature(Creature(**data), DB)
 
 data = {
     "name": "The first oak",
     "hp": 400,
     "max_hp": 500,
-    "skills": {"eat": Consume()},
+    "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["water"],
     "nature": "organic",
     "reactions": DEFAULT_REACTIONS,
 }
-sf.save_creature(Creature(**data))
+save_creature(Creature(**data), DB)
 
-db = fl.database("db/dnd.sqlite")
-for c in db.t.creatures():
-    print(c)
-
-for s in db.t.skill_records():
-    print(s)
+DB.close()

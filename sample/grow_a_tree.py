@@ -1,7 +1,7 @@
 from typing import List
 
-from data.logger import set_logging
-from data.storage_fastlite import load_creature
+from dnd_engine.data.logger import set_logging
+from dnd_engine.data.storage_fastlite import load_creature
 from dnd_engine.model.event import Event
 from dnd_engine.model.event import exec_on_deque
 from dnd_engine.model.event import publish_deque

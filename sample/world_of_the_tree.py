@@ -1,8 +1,8 @@
 import random
 from typing import List
 
-from data.logger import set_logging
-from data.storage_fastlite import load_creatures
+from dnd_engine.data.logger import set_logging
+from dnd_engine.data.storage_fastlite import load_creatures
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.event import Event
