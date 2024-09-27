@@ -16,9 +16,6 @@ class Consume(Skill):
 
     def use(self, to: Resource) -> int:
         if not isinstance(to, Resource):
-            logger.error(
-                f"Consume skill can be used only on Resource, tried on {type(to)}"
-            )
             return 0
 
         effective_rate = self.base_rate * self.level

@@ -13,45 +13,37 @@ from dnd_engine.model.skill_tech import SkillRecord
 logger = logging.getLogger(__name__)
 DB: Database = fl.database("db/dnd.sqlite")
 
+skill_record_structure = dict(
+    skill_record_id=str,
+    name=str,
+    type=str,
+    used=int,
+    level=int,
+    creature_id=str,
+)
+
 
 def create_skill_records_table(db=DB) -> fl.Table:
     skill_records = db.t.skill_records
     if skill_records not in db.t:
-        data = dict(
-            skill_record_id=str,
-            name=str,
-            type=str,
-            used=int,
-            level=int,
-            creature_id=str,
-        )
-        skill_records.create(data, pk="skill_record_id")
+        skill_records.create(skill_record_structure, pk="skill_record_id")
     return skill_records
 
 
 def load_skill_record(skill_record_id: int, db: Database = DB) -> SkillRecord:
-    record = db.t.skill_records[skill_record_id]
-    if record["used"] is None:
-        record["used"] = 0
-    if record["level"] is None:
-        record["level"] = 1
+    record: dict = db.t.skill_records[skill_record_id]
+    record["used"] = 0 if record["used"] is None else record["used"]
+    record["level"] = 1 if record["level"] is None else record["level"]
     return SkillRecord(**record)
 
 
-def save_skill_record(
-    skill_record_id: str, creature_id: str, record: SkillRecord, db: Database = DB
-) -> dict:
+def save_skill_record(creature_id: str, record: SkillRecord, db: Database = DB) -> dict:
     skill_records = db.t.skill_records
     data = record.model_dump()
     data["creature_id"] = creature_id
-    data["skill_record_id"] = skill_record_id
+    data["skill_record_id"] = f"{creature_id}_{record.name}"
 
-    try:
-        skill_records[data["skill_record_id"]]
-    except fl.NotFoundError:
-        return skill_records.insert(**data)
-    else:
-        return skill_records.update(**data)
+    return skill_records.upsert(**data)
 
 
 def create_creatures_table(db=DB) -> fl.Table:
@@ -119,7 +111,7 @@ def load_creatures(db: Database = DB) -> List[Creature]:
     sql = "SELECT creature_id FROM creatures;"
     data = db.q(sql)
     for item in data:
-        creatures.append(load_creature(creature_id=item['creature_id'], db=db))
+        creatures.append(load_creature(creature_id=item["creature_id"], db=db))
 
     return creatures
 
@@ -133,13 +125,10 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
     del data["id"]
 
     for k, skill in creature.skills.items():
-        r = SkillRecord(name=k, type=skill.__class__.__name__, used=skill.used, level=skill.level)
-        save_skill_record(
-            skill_record_id=f"{creature.id}_{k}",
-            creature_id=creature.id,
-            record=r,
-            db=db,
+        r = SkillRecord(
+            name=k, type=skill.__class__.__name__, used=skill.used, level=skill.level
         )
+        save_skill_record(creature_id=creature.id, record=r, db=db)
     del data["skills"]
 
     reactions = []

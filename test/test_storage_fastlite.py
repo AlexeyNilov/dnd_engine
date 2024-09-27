@@ -80,11 +80,9 @@ def test_load_skill_record(filled_db):
 def test_save_skill_record_new(empty_db):
     sf.create_skill_records_table(empty_db)
     record = SkillRecord(name="test", type="consume")
-    r = sf.save_skill_record(
-        skill_record_id="1", creature_id="Test_Creature", record=record, db=empty_db
-    )
+    r = sf.save_skill_record(creature_id="Test_Creature", record=record, db=empty_db)
     assert r == {
-        "skill_record_id": "1",
+        "skill_record_id": "Test_Creature_test",
         "level": 1,
         "name": "test",
         "type": "consume",
