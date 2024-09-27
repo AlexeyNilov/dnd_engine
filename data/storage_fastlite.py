@@ -22,6 +22,17 @@ skill_record_structure = dict(
     creature_id=str,
 )
 
+creature_structure = dict(
+    creature_id=str,
+    name=str,
+    nature=str,
+    is_alive=bool,
+    hp=int,
+    max_hp=int,
+    compatible_with=str,
+    reactions=str,
+)
+
 
 def create_skill_records_table(db=DB) -> fl.Table:
     skill_records = db.t.skill_records
@@ -49,17 +60,7 @@ def save_skill_record(creature_id: str, record: SkillRecord, db: Database = DB) 
 def create_creatures_table(db=DB) -> fl.Table:
     table = db.t.creatures
     if table not in db.t:
-        data = dict(
-            creature_id=str,
-            name=str,
-            nature=str,
-            is_alive=bool,
-            hp=int,
-            max_hp=int,
-            compatible_with=str,
-            reactions=str,
-        )
-        table.create(data, pk="creature_id")
+        table.create(creature_structure, pk="creature_id")
     return table
 
 
@@ -81,20 +82,20 @@ def del_none(d: dict):
     return d
 
 
-def convert_dict_to_creature(c: dict) -> Creature:
-    c["is_alive"] = bool(c["is_alive"])
-    c["id"] = c["creature_id"]
-    c["compatible_with"] = c.get("compatible_with", "none").split(";")
+def convert_dict_to_creature(d: dict) -> Creature:
+    d["is_alive"] = bool(d["is_alive"])
+    d["id"] = d["creature_id"]
+    d["compatible_with"] = d.get("compatible_with", "none").split(";")
 
-    if c.get("reactions"):
-        c["reactions"] = {
+    if d.get("reactions"):
+        d["reactions"] = {
             items[0]: get_tracker(items[1])
-            for pair in c["reactions"].split(";")
+            for pair in d["reactions"].split(";")
             for items in [pair.split(":")]
         }
 
-    c = del_none(c)
-    return Creature(**c)
+    d = del_none(d)
+    return Creature(**d)
 
 
 def load_creature(creature_id: str, db: Database = DB) -> Creature:
