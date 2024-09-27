@@ -1,5 +1,4 @@
 import random
-from time import sleep
 from typing import List
 
 from data.logger import set_logging
@@ -7,11 +6,9 @@ from data.storage_fastlite import load_creatures
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.event import Event
-from dnd_engine.model.event import publish_event
-from dnd_engine.model.event import start_event_manager
-from dnd_engine.model.event import stop_event_manager
+from dnd_engine.model.event import publish_deque
+from dnd_engine.model.event import read_deque
 from dnd_engine.model.resource import Resource
-from dnd_engine.model.shared import LockList
 from dnd_engine.model.skill_library import Consume
 
 
@@ -21,9 +18,9 @@ creatures = load_creatures()
 head_count = 0
 for creature in creatures:
     head_count += 1
-    creature.events_publisher = publish_event
+    creature.events_publisher = publish_deque
 
-resources: List[Resource] = LockList()
+resources: List[Resource] = []
 
 water = {"name": "Water", "value": 50, "nature": "water"}
 food = {"name": "Food", "value": 50, "nature": "organic"}
@@ -61,24 +58,24 @@ def is_full(creature: Creature):
             skills={"eat": Consume()},
             hp=start_hp,
             max_hp=50,
-            events_publisher=publish_event,
+            events_publisher=publish_deque,
             reactions=DEFAULT_REACTIONS,
             nature="organic",
             compatible_with=["organic"]
         )
         creatures.append(new_pig)
         creature.hp -= start_hp
-        print("New Pig created")
+        # print("New Pig created")
 
     if creature.name == "The first oak":
         new_food = Resource(**food)
         resources.append(new_food)
         creature.hp -= new_food.value
-        print("New Food created")
+        # print("New Food created")
 
     if creature.name == "Wolf":
         creature.max_hp *= 2
-        print("Wolf upgraded")
+        # print("Wolf upgraded")
 
 
 def is_dead(creature: Creature):
@@ -91,7 +88,7 @@ def is_dead(creature: Creature):
 def react(event: Event):
     global creatures
     global resources
-    print(event.creature.name, event.msg)
+    # print(event.creature.name, event.msg)
 
     if event.msg == "is full":
         is_full(event.creature)
@@ -100,10 +97,7 @@ def react(event: Event):
         is_dead(creature)
 
 
-thread = start_event_manager(func=react)
-
 for _ in range(100):
-    sleep(0.01)
     for creature in creatures:
         if not creature.is_alive:
             continue
@@ -113,12 +107,11 @@ for _ in range(100):
         if resources:
             resource = random.choice(resources)
             creature.apply(skill=creature.get_skill_by_class("Consume"), to=resource)
-            remove_empty_resources()
 
-
-stop_event_manager(thread)
+        read_deque(react)
 
 for item in creatures:
     print(item.model_dump(include={"id", "name", "hp", "max_hp", "is_alive", "skills"}))
 
+remove_empty_resources()
 print(len(resources))

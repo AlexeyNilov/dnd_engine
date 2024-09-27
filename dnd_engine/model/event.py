@@ -1,5 +1,5 @@
+from collections import deque
 from queue import Queue
-from threading import Thread
 from typing import Callable
 
 from pydantic import BaseModel
@@ -16,40 +16,16 @@ class Event(BaseModel):
     msg: str
 
 
-def publish_event(creature: Creature, msg: str, q: Queue = MAIN_QUEUE, timeout: int = 5) -> None:
-    if ACCEPT_EVENTS:
-        q.put(Event(creature=creature, msg=msg), timeout=timeout)
+EVENTS = deque([])
 
 
-def get_event(q: Queue = MAIN_QUEUE, timeout: int = 5) -> Event:
-    return q.get(timeout=timeout)
+def publish_deque(creature: Creature, msg: str) -> None:
+    EVENTS.append(Event(creature=creature, msg=msg))
 
 
-def stop(q: Queue = MAIN_QUEUE):
-    q.put(END)
-
-
-def event_manager(func: Callable, q: Queue = MAIN_QUEUE):
+def read_deque(func: Callable) -> None:
     while True:
-        event = get_event(q=q)
-        if event == END:
-            return
-
-        func(event)
-
-        q.task_done()
-
-
-def start_event_manager(func: Callable, q: Queue = MAIN_QUEUE) -> Thread:
-    global ACCEPT_EVENTS
-    ACCEPT_EVENTS = True
-    thread = Thread(target=event_manager, args=(func, q))
-    thread.start()
-    return thread
-
-
-def stop_event_manager(thread: Thread, q: Queue = MAIN_QUEUE):
-    global ACCEPT_EVENTS
-    ACCEPT_EVENTS = False
-    stop(q=q)
-    thread.join()
+        try:
+            func(EVENTS.popleft())
+        except IndexError:
+            break
