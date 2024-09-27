@@ -1,11 +1,9 @@
 from dnd_engine.data import storage_fastlite as sf
-from dnd_engine.data.logger import set_logging
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.skill_library import Consume
 
 
-set_logging()
 sf.DB.t.creatures.drop()
 sf.create_creatures_table()
 sf.DB.t.skill_records.drop()
