@@ -1,9 +1,7 @@
 import pytest
 
 from data.logger import set_logging
-from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import DEFAULT_REACTIONS
-from dnd_engine.model.creature import use_consume_skill
+from dnd_engine.model import creature as cr
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.skill import SkillTypeNotFound
@@ -15,8 +13,8 @@ set_logging()
 
 @pytest.fixture
 def creature():
-    data = {"name": "hunter", "hp": 9, "max_hp": 10, "reactions": DEFAULT_REACTIONS}
-    return Creature(**data)
+    data = {"name": "hunter", "hp": 9, "max_hp": 10, "reactions": cr.DEFAULT_REACTIONS}
+    return cr.Creature(**data)
 
 
 def test_hp_limit(creature):
@@ -46,7 +44,7 @@ def test_apply_base_skill(creature):
 def test_use_consume_skill_on_self(creature):
     hp = creature.hp
     creature.compatible_with.append(creature.nature)
-    assert use_consume_skill(creature=creature, skill=Consume(), to=creature) is False
+    assert cr.use_consume_skill(creature=creature, skill=Consume(), to=creature) is False
     assert creature.hp == hp
 
 
@@ -55,7 +53,7 @@ def test_use_consume_skill(creature):
     food = Resource(name="food")
     value = food.value
     creature.compatible_with.append(food.nature)
-    assert use_consume_skill(creature=creature, skill=Consume(), to=food)
+    assert cr.use_consume_skill(creature=creature, skill=Consume(), to=food)
     assert creature.hp == hp + 1
     assert food.value == value - 1
 
@@ -65,5 +63,10 @@ def test_use_consume_skill_above_max_hp(creature):
     food = Resource(name="food")
     value = food.value
     creature.compatible_with.append(food.nature)
-    assert use_consume_skill(creature=creature, skill=Consume(), to=food) is False
+    assert cr.use_consume_skill(creature=creature, skill=Consume(), to=food) is False
     assert food.value == value
+
+
+def test_get_skill_by_class(creature):
+    creature.skills["eat"] = Consume()
+    assert creature.get_skill_by_class("Consume") == creature.skills["eat"]

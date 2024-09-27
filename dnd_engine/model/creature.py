@@ -41,6 +41,12 @@ class Creature(Entity):
 
         raise SkillTypeNotFound
 
+    def get_skill_by_class(self, skill_class: str) -> Skill:
+        for skill in self.skills.values():
+            if skill.__class__.__name__ == skill_class:
+                return skill
+        raise SkillTypeNotFound
+
 
 def publish_event(creature: Creature, msg: str):
     if callable(creature.events_publisher):

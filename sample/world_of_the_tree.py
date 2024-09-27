@@ -36,7 +36,7 @@ for _ in range(50):
 
         if resources:
             resource = random.choice(resources)
-            creature.apply(skill=creature.skills["eat"], to=resource)
+            creature.apply(skill=creature.get_skill_by_class("Consume"), to=resource)
             remove_empty_resource()
 
 
