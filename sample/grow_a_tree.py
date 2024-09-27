@@ -3,9 +3,8 @@ from typing import List
 from data.logger import set_logging
 from data.storage_fastlite import load_creature
 from dnd_engine.model.event import Event
-from dnd_engine.model.event import publish_event
-from dnd_engine.model.event import start_event_manager
-from dnd_engine.model.event import stop_event_manager
+from dnd_engine.model.event import publish_deque
+from dnd_engine.model.event import read_deque
 from dnd_engine.model.resource import Resource
 
 
@@ -13,7 +12,7 @@ set_logging()
 
 tree = load_creature(creature_id="Creature_3")
 tree.hp = tree.max_hp - 10
-tree.events_publisher = publish_event
+tree.events_publisher = publish_deque
 
 water_data = {"name": "Water", "value": 200, "nature": "water"}
 water = Resource(**water_data)
@@ -29,13 +28,10 @@ def react(event: Event):
         event.creature.hp -= fruit.value
 
 
-thread = start_event_manager(func=react)
-
 while water.value > 0:
     tree.hp -= 1
     tree.apply(skill=tree.skills["eat"], to=water)
-
-stop_event_manager(thread)
+    read_deque(react)
 
 print("Fruits created:", len(fruits))
 print(tree.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills", "nature"}))

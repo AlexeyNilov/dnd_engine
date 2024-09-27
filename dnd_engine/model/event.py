@@ -1,14 +1,9 @@
 from collections import deque
-from queue import Queue
 from typing import Callable
 
 from pydantic import BaseModel
 
 from dnd_engine.model.creature import Creature
-
-MAIN_QUEUE: Queue = Queue(1)
-ACCEPT_EVENTS = False
-END = object()
 
 
 class Event(BaseModel):
@@ -16,7 +11,7 @@ class Event(BaseModel):
     msg: str
 
 
-EVENTS = deque([])
+EVENTS = deque[Event]()
 
 
 def publish_deque(creature: Creature, msg: str) -> None:
