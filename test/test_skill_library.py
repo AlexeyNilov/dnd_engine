@@ -33,6 +33,11 @@ def test_consume_empty_resource(food, consume):
 
 def test_consume_when_value_less_then_rate(food, consume):
     food.value = 1
-    consume.rate = 2
+    consume.base_rate = 2
     gain = consume.use(to=food)
     assert gain == 1
+
+
+def test_consume_rate_increase(food, consume):
+    consume.level = 2
+    assert consume.use(to=food) == 2

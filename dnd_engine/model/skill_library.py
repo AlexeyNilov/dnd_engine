@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class Consume(Skill):
     """Consume Resource entity with the given rate * skill level"""
 
-    rate: PositiveInt = 1
+    base_rate: PositiveInt = 1
 
     def use(self, to: Resource) -> int:
         if not isinstance(to, Resource):
@@ -21,7 +21,7 @@ class Consume(Skill):
             )
             return 0
 
-        effective_rate = self.rate * self.level
+        effective_rate = self.base_rate * self.level
         if to.value <= 0:
             return 0
 

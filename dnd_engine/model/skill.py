@@ -68,7 +68,4 @@ class Skill(BaseModel):
         if name == "used":
             new_level = calculate_level(self.used)
             if new_level > self.level:
-                logger.debug(
-                    f"{self.__class__.__name__} level changed from {self.level} to {new_level}"
-                )
                 self.level = new_level
