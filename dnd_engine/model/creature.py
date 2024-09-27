@@ -23,7 +23,7 @@ class Creature(Entity):
     hp: GEZeroInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
     skills: Dict[str, Skill] = {}
-    compatible_with: List[ConstrainedStr] = []
+    compatible_with: List[ConstrainedStr] = ["none"]
     reactions: Dict[str, Callable] = {}
     events_publisher: Optional[Callable] = None
 

@@ -74,24 +74,26 @@ def load_skill_book(creature_id: str, db: Database = DB) -> list:
     return skill_book
 
 
+def del_none(d: dict):
+    for k, v in d.items():
+        if v is None:
+            del d[k]
+    return d
+
+
 def convert_dict_to_creature(c: dict) -> Creature:
     c["is_alive"] = bool(c["is_alive"])
     c["id"] = c["creature_id"]
-
-    c.pop("nature", None)
-
-    if c.get("compatible_with"):
-        c["compatible_with"] = c["compatible_with"].split(";")
+    c["compatible_with"] = c.get("compatible_with", "none").split(";")
 
     if c.get("reactions"):
-        pairs = c["reactions"].split(";")
-        c["reactions"] = {}
-        for pair in pairs:
-            items = pair.split(":")
-            c["reactions"][items[0]] = get_tracker(items[1])
-    else:
-        c.pop("reactions", None)
+        c["reactions"] = {
+            items[0]: get_tracker(items[1])
+            for pair in c["reactions"].split(";")
+            for items in [pair.split(":")]
+        }
 
+    c = del_none(c)
     return Creature(**c)
 
 
@@ -119,26 +121,21 @@ def load_creatures(db: Database = DB) -> List[Creature]:
 def save_creature(creature: Creature, db: Database = DB) -> dict:
     ct = db.t.creatures
     data = creature.model_dump()
-    del data["events_publisher"]
     data["creature_id"] = creature.id
     data["compatible_with"] = ";".join(data["compatible_with"])
-    del data["id"]
 
     for k, skill in creature.skills.items():
         r = SkillRecord(
             name=k, type=skill.__class__.__name__, used=skill.used, level=skill.level
         )
         save_skill_record(creature_id=creature.id, record=r, db=db)
-    del data["skills"]
+
+    for item in ["skills", "id", "events_publisher"]:
+        del data[item]
 
     reactions = []
     for k, call in creature.reactions.items():
         reactions.append(f"{k}:{call.__name__}")
     data["reactions"] = ";".join(reactions)
 
-    try:
-        ct[data["creature_id"]]
-    except fl.NotFoundError:
-        return ct.insert(**data)
-    else:
-        return ct.update(**data)
+    return ct.upsert(**data)

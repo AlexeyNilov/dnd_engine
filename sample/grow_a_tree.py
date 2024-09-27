@@ -38,4 +38,4 @@ while water.value > 0:
 stop_event_manager(thread)
 
 print("Fruits created:", len(fruits))
-print(tree.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills"}))
+print(tree.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills", "nature"}))

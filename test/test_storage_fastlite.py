@@ -44,6 +44,7 @@ def filled_db():
         max_hp=100,
         compatible_with="water;organic",
         reactions="hp:hp_tracker",
+        nature="organic"
     )
     return db
 
@@ -62,6 +63,7 @@ def test_load_creature(filled_db):
     assert "eat" in c.skills.keys()
     assert c.compatible_with == ["water", "organic"]
     assert "hp" in c.reactions.keys()
+    assert c.nature == "organic"
 
 
 def test_create_skill_records_table(empty_db):
