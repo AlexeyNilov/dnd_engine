@@ -24,3 +24,11 @@ def exec_on_deque(func: Callable) -> None:
             func(EVENTS.popleft())
         except IndexError:
             break
+
+
+def print_deque():
+
+    def print_event(e: Event):
+        print(f"{e.creature.name}: {e.msg}")
+
+    exec_on_deque(print_event)

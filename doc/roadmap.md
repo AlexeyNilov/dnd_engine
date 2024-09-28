@@ -1,13 +1,15 @@
 # Roadmap and plans
 
-## Fido combat
+## Dungeon arena
 
+* Creature refactoring?
 * Action points
 * Attack, Block, Dodge
 * Inventory and equipment
 * New stats (energy, mana, etc)
 * Luck
 * Skill learning
+* Combat decision making
 
 ## UFO: Tactical arena
 
@@ -21,3 +23,7 @@
 * Google Cloud hosting
 * CI/CD
 * Log history and events to external(out of object) event storage
+
+## Ideas
+
+* Heroes arena

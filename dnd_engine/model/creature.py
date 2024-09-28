@@ -36,16 +36,27 @@ class Creature(Entity):
 
     def apply(self, skill: Skill, to: Entity) -> bool:
         """Apply given skill to the Entity"""
+        if skill not in self.skills.values():
+            raise SkillTypeNotFound
+
         if skill.__class__.__name__ in ["Consume"]:
             return use_consume_skill(creature=self, skill=skill, to=to)
 
-        raise SkillTypeNotFound
+        result = skill.use(to)
+
+        if callable(self.events_publisher):
+            self.events_publisher(self, f"{skill.__class__.__name__} applied to {to.name} with result: {result}")
+
+        return bool(result)
 
     def get_skill_by_class(self, skill_class: str) -> Skill:
         for skill in self.skills.values():
             if skill.__class__.__name__ == skill_class:
                 return skill
         raise SkillTypeNotFound
+
+    def do(self, skill_class: str, to: Entity) -> bool:
+        return self.apply(skill=self.get_skill_by_class(skill_class), to=to)
 
 
 def publish_event(creature: Creature, msg: str):

@@ -95,7 +95,7 @@ def react(event: Event):
         is_dead(creature)
 
 
-for _ in range(1000):
+for _ in range(100):
     for creature in creatures:
         if not creature.is_alive:
             continue
@@ -104,11 +104,11 @@ for _ in range(1000):
 
         if resources:
             resource = random.choice(resources)  # TODO get compatible resource
-            creature.apply(skill=creature.get_skill_by_class("Consume"), to=resource)
+            creature.do("Consume", resource)
 
         exec_on_deque(react)
         sf.save_creature(creature)
-        sleep(0.1)
+        sleep(0.001)
 
 for item in creatures:
     print(item.model_dump(include={"id", "name", "hp", "max_hp", "is_alive", "skills"}))

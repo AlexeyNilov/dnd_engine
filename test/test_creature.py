@@ -4,6 +4,7 @@ from dnd_engine.data.logger import set_logging
 from dnd_engine.model import creature as cr
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill import Skill
+from dnd_engine.model.skill import SkillMethodNotImplemented
 from dnd_engine.model.skill import SkillTypeNotFound
 from dnd_engine.model.skill_library import Consume
 
@@ -37,8 +38,11 @@ def test_aliveness(creature):
 
 def test_apply_base_skill(creature):
     creature.skills["test"] = Skill()
-    with pytest.raises(SkillTypeNotFound):
+    with pytest.raises(SkillMethodNotImplemented):
         creature.apply(skill=creature.skills["test"], to=creature)
+
+    with pytest.raises(SkillTypeNotFound):
+        creature.apply(skill=Consume(), to=creature)
 
 
 def test_use_consume_skill_on_self(creature):
