@@ -1,0 +1,15 @@
+---
+Wolf:
+  hp: 13
+  max_hp: 13
+  nature: "organic"
+  compatible_with:
+  - "organic"
+  link: "https://www.d20pfsrd.com/bestiary/monster-listings/animals/canines/wolf/"
+Pig:
+  hp: 6
+  max_hp: 6
+  nature: "organic"
+  compatible_with:
+  - "organic"
+  link: "https://www.d20pfsrd.com/bestiary/monster-listings/animals/pig/"

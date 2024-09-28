@@ -1,14 +1,13 @@
 """ Logging configuration"""
 import logging
-
-from dnd_engine.data.config import get_ff
+import os
 
 
 logger = logging.getLogger(__name__)
 
 
 def set_logging():
-    log_level = get_ff("LOG_LEVEL").upper()
+    log_level = os.environ.get("LOG_LEVEL", "WARNING")
 
     formatter = logging.Formatter(
         "[%(asctime)s] %(levelname)-8s %(name)-20s %(message)s"

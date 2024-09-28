@@ -1,13 +1,9 @@
-from data.logger import set_logging
-
 from deprecated.storage_sqlite_dict import DB
 from deprecated.storage_sqlite_dict import save_creature
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.skill_tech import SkillRecord
 
 
-set_logging()
 DB.clear()
 
 data = {
@@ -17,7 +13,6 @@ data = {
     "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["organic"],
     "nature": "organic",
-    "reactions": DEFAULT_REACTIONS,
 }
 save_creature(Creature(**data), DB)
 
@@ -28,7 +23,6 @@ data = {
     "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["organic"],
     "nature": "organic",
-    "reactions": DEFAULT_REACTIONS,
 }
 save_creature(Creature(**data), DB)
 
@@ -39,7 +33,6 @@ data = {
     "skill_book": [SkillRecord(name="eat", type="Consume")],
     "compatible_with": ["water"],
     "nature": "organic",
-    "reactions": DEFAULT_REACTIONS,
 }
 save_creature(Creature(**data), DB)
 

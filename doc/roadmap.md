@@ -2,7 +2,6 @@
 
 ## Dungeon arena
 
-* Bestiary
 * Action points
 * Attack, Block, Dodge
 * Inventory and equipment

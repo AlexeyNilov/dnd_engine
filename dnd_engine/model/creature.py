@@ -30,7 +30,7 @@ class Creature(Entity):
         super().__setattr__(name, value)
 
         # React to changes
-        if name == 'hp':
+        if name == "hp":
             self.hp_tracker()
 
     def publish_event(self, msg: str):
@@ -43,7 +43,9 @@ class Creature(Entity):
             raise SkillTypeNotFound
 
         result = skill.use(who=self, to=to)
-        self.publish_event(f"{skill.__class__.__name__} applied to {to.name} with result: {result}")
+        self.publish_event(
+            f"{skill.__class__.__name__} applied to {to.name} with result: {result}"
+        )
         return bool(result)
 
     def get_skill_by_class(self, skill_class: str) -> Skill:

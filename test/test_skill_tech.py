@@ -11,4 +11,6 @@ def skill_book():
 
 
 def test_get_skills_from_book(skill_book):
-    assert get_skills_from_book(skill_book) == {"eat": Consume(used=0, level=1, base_rate=1)}
+    assert get_skills_from_book(skill_book) == {
+        "eat": Consume(used=0, level=1, base_rate=1)
+    }

@@ -24,5 +24,6 @@ Run linters and tests
 python -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 python -m flake8 . --count --exit-zero --statistics
 python -m pytest test/test_*.py
-python -m mypy .
+mypy .
+black dnd_engine/ sample/ test/
 ```

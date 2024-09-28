@@ -35,11 +35,7 @@ creature_structure = dict(
     compatible_with=str,
 )
 
-events_structure = dict(
-    id=int,
-    creature_id=str,
-    msg=str
-)
+events_structure = dict(id=int, creature_id=str, msg=str)
 
 
 def clear_events(db: Database = DB):
@@ -49,10 +45,7 @@ def clear_events(db: Database = DB):
 
 def save_event(event: Event, db: Database = DB) -> dict:
     events = db.t.events
-    data = {
-        "creature_id": event.creature.id,
-        "msg": event.msg
-    }
+    data = {"creature_id": event.creature.id, "msg": event.msg}
 
     return events.insert(**data)
 

@@ -37,7 +37,7 @@ class Consume(Skill):
 
 
 class Attack(Skill):
-    """ Attack another creature"""
+    """Attack another creature"""
 
     base_damage: PositiveInt = 1
 

@@ -59,7 +59,7 @@ def is_full(creature: Creature):
             max_hp=50,
             events_publisher=publish_deque,
             nature="organic",
-            compatible_with=["organic"]
+            compatible_with=["organic"],
         )
         creatures.append(new_pig)
         creature.hp -= start_hp

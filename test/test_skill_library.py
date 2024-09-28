@@ -7,11 +7,7 @@ from dnd_engine.model.skill_library import Consume
 
 @pytest.fixture
 def food():
-    data = {
-        "name": "food",
-        "value": 10,
-        "nature": "organic"
-    }
+    data = {"name": "food", "value": 10, "nature": "organic"}
     return Resource(**data)
 
 

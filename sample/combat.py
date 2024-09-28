@@ -1,14 +1,14 @@
-from dnd_engine.data.storage_fastlite import load_creature
+from dnd_engine.data.bestiary import get_creature
 from dnd_engine.model.event import print_deque
 from dnd_engine.model.event import publish_deque
 from dnd_engine.model.skill_library import Attack
 
 
-wolf = load_creature(creature_id="Creature_1")
-wolf.skills["attack"] = Attack(base_damage=30)
+wolf = get_creature("Wolf")
+wolf.skills["attack"] = Attack(base_damage=5)
 wolf.events_publisher = publish_deque
 
-pig = load_creature(creature_id="Creature_2")
+pig = get_creature("Pig")
 pig.events_publisher = publish_deque
 
 wolf.do_by_name("attack", pig)
