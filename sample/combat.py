@@ -5,13 +5,14 @@ from dnd_engine.model.skill_library import Attack
 
 
 wolf = load_creature(creature_id="Creature_1")
-wolf.skills["attack"] = Attack(base_damage=100)
+wolf.skills["attack"] = Attack(base_damage=30)
 wolf.events_publisher = publish_deque
 
 pig = load_creature(creature_id="Creature_2")
 pig.events_publisher = publish_deque
 
-wolf.do("Attack", pig)
+wolf.do_by_name("attack", pig)
+wolf.do_by_class("Attack", pig)
 print_deque()
 
 

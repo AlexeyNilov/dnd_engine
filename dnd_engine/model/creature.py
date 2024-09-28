@@ -52,8 +52,11 @@ class Creature(Entity):
                 return skill
         raise SkillTypeNotFound
 
-    def do(self, skill_class: str, to: Entity) -> bool:
+    def do_by_class(self, skill_class: str, to: Entity) -> bool:
         return self.apply(skill=self.get_skill_by_class(skill_class), to=to)
+
+    def do_by_name(self, skill_name: str, to: Entity) -> bool:
+        return self.apply(skill=self.skills[skill_name], to=to)
 
     def check_hp_above_zero(self):
         if self.is_alive and self.hp <= 0:

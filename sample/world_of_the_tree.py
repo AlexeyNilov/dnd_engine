@@ -102,7 +102,7 @@ for _ in range(100):
 
         if resources:
             resource = random.choice(resources)  # TODO get compatible resource
-            creature.do("Consume", resource)
+            creature.do_by_class("Consume", resource)
 
         exec_on_deque(react)
         sf.save_creature(creature)
