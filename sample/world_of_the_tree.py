@@ -88,10 +88,10 @@ def react(event: Event):
     # Save to Events table
     sf.save_event(event)
 
-    if event.msg == "is full":
+    if event.msg == "Full":
         is_full(event.creature)
 
-    if event.msg == "is dead":
+    if event.msg == "Died":
         is_dead(creature)
 
 

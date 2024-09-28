@@ -68,12 +68,12 @@ def check_hp_above_zero(creature: Creature):
     if creature.is_alive and creature.hp <= 0:
         creature.is_alive = False
         creature.hp = 0
-        publish_event(creature, "is dead")
+        publish_event(creature, "Died")
 
 
 def check_hp_less_than_max_hp(creature: Creature):
     if creature.hp == creature.max_hp:
-        publish_event(creature, "is full")
+        publish_event(creature, "Full")
 
     if creature.hp > creature.max_hp:
         creature.hp = creature.max_hp
