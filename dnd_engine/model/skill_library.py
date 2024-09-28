@@ -15,8 +15,14 @@ class Consume(Skill):
 
     base_rate: PositiveInt = 1
 
-    def use(self, to: Resource) -> int:
+    def use(self, who: Creature, to: Resource) -> int:
         if not isinstance(to, Resource):
+            return 0
+
+        if to.nature not in who.compatible_with:
+            return 0
+
+        if who.hp == who.max_hp:
             return 0
 
         effective_rate = self.base_rate * self.level
@@ -25,6 +31,8 @@ class Consume(Skill):
 
         gain = min(effective_rate, to.value)
         to.value -= gain
+        who.hp += gain
+
         return gain
 
 
@@ -33,7 +41,7 @@ class Attack(Skill):
 
     base_damage: PositiveInt = 1
 
-    def use(self, to: Creature) -> int:
+    def use(self, who: Creature, to: Creature) -> int:
         if not isinstance(to, Creature):
             return 0
 

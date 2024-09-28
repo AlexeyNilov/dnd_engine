@@ -15,7 +15,9 @@ set_logging()
 @pytest.fixture
 def creature():
     data = {"name": "hunter", "hp": 9, "max_hp": 10, "reactions": cr.DEFAULT_REACTIONS}
-    return cr.Creature(**data)
+    c = cr.Creature(**data)
+    c.skills["eat"] = Consume()
+    return c
 
 
 def test_hp_limit(creature):
@@ -37,6 +39,7 @@ def test_aliveness(creature):
 
 
 def test_apply_base_skill(creature):
+    creature.skills = {}
     creature.skills["test"] = Skill()
     with pytest.raises(SkillMethodNotImplemented):
         creature.apply(skill=creature.skills["test"], to=creature)
@@ -48,7 +51,7 @@ def test_apply_base_skill(creature):
 def test_use_consume_skill_on_self(creature):
     hp = creature.hp
     creature.compatible_with.append(creature.nature)
-    assert cr.use_consume_skill(creature=creature, skill=Consume(), to=creature) is False
+    assert creature.do("Consume", to=creature) is False
     assert creature.hp == hp
 
 
@@ -57,7 +60,7 @@ def test_use_consume_skill(creature):
     food = Resource(name="food")
     value = food.value
     creature.compatible_with.append(food.nature)
-    assert cr.use_consume_skill(creature=creature, skill=Consume(), to=food)
+    assert creature.do("Consume", to=food)
     assert creature.hp == hp + 1
     assert food.value == value - 1
 
@@ -67,10 +70,9 @@ def test_use_consume_skill_above_max_hp(creature):
     food = Resource(name="food")
     value = food.value
     creature.compatible_with.append(food.nature)
-    assert cr.use_consume_skill(creature=creature, skill=Consume(), to=food) is False
+    assert creature.do("Consume", to=food) is False
     assert food.value == value
 
 
 def test_get_skill_by_class(creature):
-    creature.skills["eat"] = Consume()
     assert creature.get_skill_by_class("Consume") == creature.skills["eat"]

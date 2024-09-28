@@ -39,10 +39,7 @@ class Creature(Entity):
         if skill not in self.skills.values():
             raise SkillTypeNotFound
 
-        if skill.__class__.__name__ in ["Consume"]:
-            return use_consume_skill(creature=self, skill=skill, to=to)
-
-        result = skill.use(to)
+        result = skill.use(who=self, to=to)
 
         if callable(self.events_publisher):
             self.events_publisher(self, f"{skill.__class__.__name__} applied to {to.name} with result: {result}")
@@ -86,27 +83,10 @@ def hp_tracker(creature: Creature):
 
 
 TRACKERS = [hp_tracker]
+DEFAULT_REACTIONS = {"hp": hp_tracker}
 
 
 def get_tracker(name):
     for tracker in TRACKERS:
         if tracker.__name__ == name:
             return tracker
-
-
-DEFAULT_REACTIONS = {"hp": hp_tracker}
-
-
-def use_consume_skill(creature: Creature, skill: Skill, to: Entity) -> bool:
-    """Apply given skill to the Entity if they are compatible, return False otherwise"""
-    if to.nature not in creature.compatible_with:
-        return False
-
-    if creature.hp == creature.max_hp:
-        return False
-
-    gain = skill.use(to)
-    if gain == 0:
-        return False
-    creature.hp += gain
-    return True
