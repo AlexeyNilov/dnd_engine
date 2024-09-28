@@ -2,6 +2,7 @@ import logging
 
 import fastlite as fl
 import pytest
+from sqlite_minutils.db import NotFoundError
 
 from dnd_engine.data import storage_fastlite as sf
 from dnd_engine.model.creature import Creature
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 @pytest.fixture
 def creature():
     return Creature(
-        name="test",
+        name="Test_Creature",
         hp=10,
         max_hp=20,
         compatible_with=["water"],
@@ -131,6 +132,15 @@ def test_save_skill_record_new(empty_db):
     }
 
 
+def test_delete_creature(empty_db, creature):
+    sf.create_creatures_table(empty_db)
+    sf.save_creature(creature=creature, db=empty_db)
+    sf.delete_creature(creature=creature, db=empty_db)
+    creature_id = creature.id
+    with pytest.raises(NotFoundError):
+        sf.load_creature(creature_id=creature_id, db=empty_db)
+
+
 def test_save_creature(empty_db, creature):
     sf.create_creatures_table(empty_db)
 
@@ -141,7 +151,7 @@ def test_save_creature(empty_db, creature):
         "hp": 10,
         "is_alive": 1,
         "max_hp": 20,
-        "name": "test",
+        "name": "Test_Creature",
         "nature": "unknown",
         "reactions": "hp:hp_tracker",
     }

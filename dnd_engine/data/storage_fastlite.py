@@ -156,6 +156,11 @@ def load_creatures(db: Database = DB) -> List[Creature]:
     return creatures
 
 
+def delete_creature(creature: Creature, db: Database = DB) -> dict:
+    ct = db.t.creatures
+    return ct.delete(creature.id)
+
+
 def save_creature(creature: Creature, db: Database = DB) -> dict:
     ct = db.t.creatures
     data = creature.model_dump()

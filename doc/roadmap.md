@@ -1,12 +1,12 @@
 # Roadmap and plans
 
-* Delete Creature from the table
 * Create balanced system (oak-pig-wolf)
-* Events table
 * Fastlite + UI + API(to start sim)
 
 ## Fido combat
 
+* Action points
+* Attack, Block, Dodge
 * Inventory and equipment
 * New stats (energy, mana, etc)
 * Luck

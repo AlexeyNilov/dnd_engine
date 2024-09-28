@@ -2,11 +2,8 @@ import random
 from time import sleep
 from typing import List
 
+from dnd_engine.data import storage_fastlite as sf
 from dnd_engine.data.logger import set_logging
-from dnd_engine.data.storage_fastlite import clear_events
-from dnd_engine.data.storage_fastlite import load_creatures
-from dnd_engine.data.storage_fastlite import save_creature
-from dnd_engine.data.storage_fastlite import save_event
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.event import Event
@@ -18,8 +15,8 @@ from dnd_engine.model.skill_library import Consume
 
 set_logging()
 
-clear_events()
-creatures = load_creatures()
+sf.clear_events()
+creatures = sf.load_creatures()
 head_count = 0
 for creature in creatures:
     head_count += 1
@@ -44,10 +41,8 @@ def remove_empty_resources():
 
 def remove_dead_creature(creature: Creature):
     global creatures
-    for c in creatures:
-        if c.id == creature.id:
-            creatures.remove(c)
-            return
+    sf.delete_creature(creature)
+    creatures.remove(creature)
 
 
 def is_full(creature: Creature):
@@ -84,7 +79,6 @@ def is_dead(creature: Creature):
     global resources
     new_water = Resource(**water)
     resources.append(new_water)
-    remove_dead_creature(creature)
 
 
 def react(event: Event):
@@ -92,7 +86,7 @@ def react(event: Event):
     global resources
 
     # Save to Events table
-    save_event(event)
+    sf.save_event(event)
 
     if event.msg == "is full":
         is_full(event.creature)
@@ -101,7 +95,7 @@ def react(event: Event):
         is_dead(creature)
 
 
-for _ in range(100):
+for _ in range(1000):
     for creature in creatures:
         if not creature.is_alive:
             continue
@@ -113,7 +107,7 @@ for _ in range(100):
             creature.apply(skill=creature.get_skill_by_class("Consume"), to=resource)
 
         exec_on_deque(react)
-        save_creature(creature)
+        sf.save_creature(creature)
         sleep(0.1)
 
 for item in creatures:
