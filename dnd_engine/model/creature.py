@@ -63,7 +63,6 @@ def check_hp_above_zero(creature: Creature):
 def check_hp_less_than_max_hp(creature: Creature):
     if creature.hp > creature.max_hp:
         creature.hp = creature.max_hp
-    if creature.hp == creature.max_hp:
         publish_event(creature, "is full")
 
 
