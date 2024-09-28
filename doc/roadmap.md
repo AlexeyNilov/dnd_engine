@@ -1,8 +1,5 @@
 # Roadmap and plans
 
-* Create balanced system (oak-pig-wolf)
-* Fastlite + UI + API(to start sim)
-
 ## Fido combat
 
 * Action points
