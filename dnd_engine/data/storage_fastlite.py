@@ -6,7 +6,6 @@ import fastlite as fl
 from sqlite_minutils.db import Database
 
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import get_tracker
 from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import get_skills_from_book
 from dnd_engine.model.skill_tech import SkillRecord
@@ -34,7 +33,6 @@ creature_structure = dict(
     hp=int,
     max_hp=int,
     compatible_with=str,
-    reactions=str,
 )
 
 events_structure = dict(
@@ -124,13 +122,6 @@ def convert_dict_to_creature(d: dict) -> Creature:
     d["id"] = d["creature_id"]
     d["compatible_with"] = d.get("compatible_with", "none").split(";")
 
-    if d.get("reactions"):
-        d["reactions"] = {
-            items[0]: get_tracker(items[1])
-            for pair in d["reactions"].split(";")
-            for items in [pair.split(":")]
-        }
-
     d = del_none(d)
     return Creature(**d)
 
@@ -175,10 +166,5 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
 
     for item in ["skills", "id", "events_publisher"]:
         del data[item]
-
-    reactions = []
-    for k, call in creature.reactions.items():
-        reactions.append(f"{k}:{call.__name__}")
-    data["reactions"] = ";".join(reactions)
 
     return ct.upsert(**data)

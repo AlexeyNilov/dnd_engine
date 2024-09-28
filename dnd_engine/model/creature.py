@@ -24,15 +24,18 @@ class Creature(Entity):
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
     skills: Dict[str, Skill] = {}
     compatible_with: List[ConstrainedStr] = ["none"]
-    reactions: Dict[str, Callable] = {}
     events_publisher: Optional[Callable] = None
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
 
         # React to changes
-        if name in self.reactions.keys():
-            self.reactions[name](self)
+        if name == 'hp':
+            self.hp_tracker()
+
+    def publish_event(self, msg: str):
+        if callable(self.events_publisher):
+            self.events_publisher(self, msg)
 
     def apply(self, skill: Skill, to: Entity) -> bool:
         """Apply given skill to the Entity"""
@@ -40,10 +43,7 @@ class Creature(Entity):
             raise SkillTypeNotFound
 
         result = skill.use(who=self, to=to)
-
-        if callable(self.events_publisher):
-            self.events_publisher(self, f"{skill.__class__.__name__} applied to {to.name} with result: {result}")
-
+        self.publish_event(f"{skill.__class__.__name__} applied to {to.name} with result: {result}")
         return bool(result)
 
     def get_skill_by_class(self, skill_class: str) -> Skill:
@@ -55,38 +55,20 @@ class Creature(Entity):
     def do(self, skill_class: str, to: Entity) -> bool:
         return self.apply(skill=self.get_skill_by_class(skill_class), to=to)
 
+    def check_hp_above_zero(self):
+        if self.is_alive and self.hp <= 0:
+            self.is_alive = False
+            self.hp = 0
+            self.publish_event("Died")
 
-def publish_event(creature: Creature, msg: str):
-    if callable(creature.events_publisher):
-        creature.events_publisher(creature, msg)
+    def check_hp_less_than_max_hp(self):
+        if self.hp == self.max_hp:
+            self.publish_event("Full")
 
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
 
-def check_hp_above_zero(creature: Creature):
-    if creature.is_alive and creature.hp <= 0:
-        creature.is_alive = False
-        creature.hp = 0
-        publish_event(creature, "Died")
-
-
-def check_hp_less_than_max_hp(creature: Creature):
-    if creature.hp == creature.max_hp:
-        publish_event(creature, "Full")
-
-    if creature.hp > creature.max_hp:
-        creature.hp = creature.max_hp
-
-
-def hp_tracker(creature: Creature):
-    check_hp_above_zero(creature)
-    if creature.is_alive:
-        check_hp_less_than_max_hp(creature)
-
-
-TRACKERS = [hp_tracker]
-DEFAULT_REACTIONS = {"hp": hp_tracker}
-
-
-def get_tracker(name):
-    for tracker in TRACKERS:
-        if tracker.__name__ == name:
-            return tracker
+    def hp_tracker(self):
+        self.check_hp_above_zero()
+        if self.is_alive:
+            self.check_hp_less_than_max_hp()

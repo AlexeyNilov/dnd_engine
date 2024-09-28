@@ -6,7 +6,6 @@ from sqlite_minutils.db import NotFoundError
 
 from dnd_engine.data import storage_fastlite as sf
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import SkillRecord
 
@@ -21,7 +20,6 @@ def creature():
         hp=10,
         max_hp=20,
         compatible_with=["water"],
-        reactions=DEFAULT_REACTIONS,
     )
 
 
@@ -65,7 +63,6 @@ def filled_db():
         hp=10,
         max_hp=100,
         compatible_with="water;organic",
-        reactions="hp:hp_tracker",
         nature="organic"
     )
     return db
@@ -101,7 +98,6 @@ def test_load_creature(filled_db):
     assert isinstance(c.skills, dict)
     assert "eat" in c.skills.keys()
     assert c.compatible_with == ["water", "organic"]
-    assert "hp" in c.reactions.keys()
     assert c.nature == "organic"
 
 
@@ -153,5 +149,4 @@ def test_save_creature(empty_db, creature):
         "max_hp": 20,
         "name": "Test_Creature",
         "nature": "unknown",
-        "reactions": "hp:hp_tracker",
     }

@@ -14,7 +14,7 @@ set_logging()
 
 @pytest.fixture
 def creature():
-    data = {"name": "hunter", "hp": 9, "max_hp": 10, "reactions": cr.DEFAULT_REACTIONS}
+    data = {"name": "hunter", "hp": 9, "max_hp": 10}
     c = cr.Creature(**data)
     c.skills["eat"] = Consume()
     return c

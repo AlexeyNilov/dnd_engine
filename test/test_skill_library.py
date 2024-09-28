@@ -1,7 +1,6 @@
 import pytest
 
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill_library import Consume
 
@@ -18,7 +17,7 @@ def food():
 
 @pytest.fixture
 def creature():
-    data = {"name": "hunter", "hp": 9, "max_hp": 10, "reactions": DEFAULT_REACTIONS}
+    data = {"name": "hunter", "hp": 9, "max_hp": 10}
     c = Creature(**data)
     c.compatible_with.append("organic")
     return c
