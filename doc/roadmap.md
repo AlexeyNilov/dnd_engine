@@ -2,7 +2,6 @@
 
 ## Dungeon arena
 
-* Creature refactoring?
 * Action points
 * Attack, Block, Dodge
 * Inventory and equipment

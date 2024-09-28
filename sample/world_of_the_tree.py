@@ -5,7 +5,6 @@ from typing import List
 from dnd_engine.data import storage_fastlite as sf
 from dnd_engine.data.logger import set_logging
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.event import Event
 from dnd_engine.model.event import exec_on_deque
 from dnd_engine.model.event import publish_deque
@@ -59,7 +58,6 @@ def is_full(creature: Creature):
             hp=start_hp,
             max_hp=50,
             events_publisher=publish_deque,
-            reactions=DEFAULT_REACTIONS,
             nature="organic",
             compatible_with=["organic"]
         )
