@@ -6,10 +6,22 @@ import pytest
 from dnd_engine.data import storage_fastlite as sf
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
+from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import SkillRecord
 
 
 logger = logging.getLogger(__name__)
+
+
+@pytest.fixture
+def creature():
+    return Creature(
+        name="test",
+        hp=10,
+        max_hp=20,
+        compatible_with=["water"],
+        reactions=DEFAULT_REACTIONS,
+    )
 
 
 @pytest.fixture
@@ -19,12 +31,21 @@ def empty_db():
         db.t.skill_records.drop()
     if "creatures" in db.t:
         db.t.creatures.drop()
+    if "events" in db.t:
+        db.t.events.drop()
     return db
 
 
 @pytest.fixture
 def filled_db():
     db = fl.database("db/test_filled.sqlite")
+
+    if "events" in db.t:
+        db.t.events.drop()
+    events = sf.create_events_table(db)
+    events.insert(
+        creature_id="Test_Creature_1", msg="test message"
+    )
 
     if "skill_records" in db.t:
         db.t.skill_records.drop()
@@ -47,6 +68,23 @@ def filled_db():
         nature="organic"
     )
     return db
+
+
+def test_create_events_table(empty_db):
+    table = sf.create_events_table(empty_db)
+    assert isinstance(table, fl.Table)
+    assert table.name == "events"
+
+
+def test_save_event(empty_db, creature):
+    sf.create_events_table(empty_db)
+    e = Event(creature=creature, msg="test_message")
+    r = sf.save_event(e, db=empty_db)
+    assert r == {'creature_id': creature.id, 'id': 1, 'msg': 'test_message'}
+
+
+def test_load_events(filled_db):
+    assert sf.load_events(filled_db) == [{'creature_id': 'Test_Creature_1', 'id': 1, 'msg': 'test message'}]
 
 
 def test_create_creatures_table(empty_db):
@@ -93,19 +131,13 @@ def test_save_skill_record_new(empty_db):
     }
 
 
-def test_save_creature(empty_db):
+def test_save_creature(empty_db, creature):
     sf.create_creatures_table(empty_db)
-    c = Creature(
-        name="test",
-        hp=10,
-        max_hp=20,
-        compatible_with=["water"],
-        reactions=DEFAULT_REACTIONS,
-    )
-    r = sf.save_creature(creature=c, db=empty_db)
+
+    r = sf.save_creature(creature=creature, db=empty_db)
     assert r == {
         "compatible_with": "water",
-        "creature_id": c.id,
+        "creature_id": creature.id,
         "hp": 10,
         "is_alive": 1,
         "max_hp": 20,

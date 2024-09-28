@@ -7,6 +7,7 @@ from sqlite_minutils.db import Database
 
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import get_tracker
+from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import get_skills_from_book
 from dnd_engine.model.skill_tech import SkillRecord
 
@@ -35,6 +36,39 @@ creature_structure = dict(
     compatible_with=str,
     reactions=str,
 )
+
+events_structure = dict(
+    id=int,
+    creature_id=str,
+    msg=str
+)
+
+
+def clear_events(db: Database = DB):
+    db.t.events.drop()
+    create_events_table()
+
+
+def save_event(event: Event, db: Database = DB) -> dict:
+    events = db.t.events
+    data = {
+        "creature_id": event.creature.id,
+        "msg": event.msg
+    }
+
+    return events.insert(**data)
+
+
+def load_events(db: Database = DB) -> list:
+    events = db.t.events
+    return events()
+
+
+def create_events_table(db=DB) -> fl.Table:
+    events = db.t.events
+    if events not in db.t:
+        events.create(events_structure, pk="id")
+    return events
 
 
 def create_skill_records_table(db=DB) -> fl.Table:

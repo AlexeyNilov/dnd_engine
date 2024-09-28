@@ -3,8 +3,10 @@ from time import sleep
 from typing import List
 
 from dnd_engine.data.logger import set_logging
+from dnd_engine.data.storage_fastlite import clear_events
 from dnd_engine.data.storage_fastlite import load_creatures
 from dnd_engine.data.storage_fastlite import save_creature
+from dnd_engine.data.storage_fastlite import save_event
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.creature import DEFAULT_REACTIONS
 from dnd_engine.model.event import Event
@@ -16,6 +18,7 @@ from dnd_engine.model.skill_library import Consume
 
 set_logging()
 
+clear_events()
 creatures = load_creatures()
 head_count = 0
 for creature in creatures:
@@ -88,7 +91,8 @@ def react(event: Event):
     global creatures
     global resources
 
-    # TODO save to Events table
+    # Save to Events table
+    save_event(event)
 
     if event.msg == "is full":
         is_full(event.creature)

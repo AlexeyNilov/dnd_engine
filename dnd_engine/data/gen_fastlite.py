@@ -8,6 +8,8 @@ sf.DB.t.creatures.drop()
 sf.create_creatures_table()
 sf.DB.t.skill_records.drop()
 sf.create_skill_records_table()
+sf.DB.t.events.drop()
+sf.create_events_table()
 
 data = {
     "name": "Wolf",
