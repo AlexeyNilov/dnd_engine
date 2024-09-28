@@ -33,5 +33,8 @@ while water.value > 0:
     tree.apply(skill=tree.skills["eat"], to=water)
     exec_on_deque(react)
 
+assert len(fruits) == 3
+assert tree.is_alive
+
 print("Fruits created:", len(fruits))
 print(tree.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills", "nature"}))
