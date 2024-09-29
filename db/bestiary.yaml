@@ -24,3 +24,6 @@ Pig:
     bite:
       type: Attack
       base: 1
+    dodge:
+      type: Move
+      base: 1

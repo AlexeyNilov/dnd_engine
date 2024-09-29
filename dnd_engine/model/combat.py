@@ -65,7 +65,7 @@ class Combat(EventModel):
         assert myself.skills
 
         print(f"I'm {myself.name}")
-        options = [skill.__class__.__name__ for skill in myself.skills.values()]
+        options = myself.get_skill_classes()
         print(f"I can: {options}")
 
         if len(options) == 1:
@@ -82,7 +82,9 @@ class Combat(EventModel):
             print(f"I have {hp_left}% HP")
             if hp_left < 50:
                 print("I chose to Move")
-                return myself.get_skill_by_class("Move")
+                skill = myself.get_skill_by_class("Move")
+                skill.is_activated = True
+                return skill
 
         print("I chose default: Attack")
         return myself.get_skill_by_class("Attack")
@@ -91,4 +93,4 @@ class Combat(EventModel):
         while not self.is_the_end():
             self.form_combat_queue()
             self.next_round()
-            break
+            # break

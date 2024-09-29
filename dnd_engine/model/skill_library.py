@@ -40,10 +40,18 @@ class Attack(Skill):
             return 0
 
         effective_damage = self.base * self.level
+
+        # Can the target evade?
+        dodge_chance = 0
+        if "dodge" in to.skills.keys() and to.skills["dodge"].is_activated:
+            dodge_chance = 0.5
+            effective_damage *= (1 - dodge_chance)
+            to.skills["dodge"].is_activated = False
+
         if to.hp <= 0:
             return 0
 
-        to.hp -= effective_damage
+        to.hp -= int(round(effective_damage, 0))
         return effective_damage
 
 

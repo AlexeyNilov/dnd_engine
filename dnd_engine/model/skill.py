@@ -52,6 +52,7 @@ class Skill(BaseModel):
     level: PositiveInt = 1
     ap: PositiveInt = 1  # Cost of use in Action Points
     base: PositiveInt = 1
+    is_activated: bool = False
 
     def use(self, *args, **kargs) -> int:
         raise SkillMethodNotImplemented

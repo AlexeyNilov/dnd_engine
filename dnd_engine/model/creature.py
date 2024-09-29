@@ -44,11 +44,14 @@ class Creature(Entity):
         )
         return bool(result)
 
+    def get_skill_classes(self) -> List[str]:
+        return [skill.__class__.__name__ for skill in self.skills.values()]
+
     def get_skill_by_class(self, skill_class: str) -> Skill:
-        for skill in self.skills.values():
-            if skill.__class__.__name__ == skill_class:
-                return skill
-        raise SkillTypeNotFound
+        skill = next((skill for skill in self.skills.values() if skill.__class__.__name__ == skill_class), None)
+        if skill is None:
+            raise SkillTypeNotFound
+        return skill
 
     def do_by_class(self, skill_class: str, to: Entity) -> bool:
         return self.apply(skill=self.get_skill_by_class(skill_class), to=to)
