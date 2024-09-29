@@ -33,10 +33,6 @@ class Creature(Entity):
         if name == "hp":
             self.hp_tracker()
 
-    def publish_event(self, msg: str):
-        if callable(self.events_publisher):
-            self.events_publisher(self, msg)
-
     def apply(self, skill: Skill, to: Entity) -> bool:
         """Apply given skill to the Entity"""
         if skill not in self.skills.values():

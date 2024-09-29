@@ -1,22 +1,13 @@
-from typing import Callable
 from typing import List
-from typing import Optional
-
-from pydantic import BaseModel
 
 from dnd_engine.model.creature import Creature
+from dnd_engine.model.shared import EventModel
 
 
-class Team(BaseModel):
-    name: str
+class Team(EventModel):
     members: List[Creature]
     is_loser: bool = False
     has_move: bool = False
-    events_publisher: Optional[Callable] = None
-
-    def publish_event(self, msg: str):
-        if callable(self.events_publisher):
-            self.events_publisher(self, msg)
 
     def remove_dead_members(self):
         self.members = [member for member in self.members if member.is_alive]

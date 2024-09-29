@@ -1,16 +1,14 @@
 from threading import Lock
 from typing import ClassVar
 
-from pydantic import BaseModel
-
 from dnd_engine.model.shared import ConstrainedStr
+from dnd_engine.model.shared import EventModel
 
 
-class Entity(BaseModel):
+class Entity(EventModel):
     """See doc/entity.md for details"""
 
     id: str  # Must be uniq globally
-    name: str
     nature: ConstrainedStr = "unknown"
 
     # Generate unique ID

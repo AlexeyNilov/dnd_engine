@@ -1,0 +1,51 @@
+import pytest
+
+from dnd_engine.data.bestiary import get_creature
+from dnd_engine.model.combat import Combat
+from dnd_engine.model.creature import Creature
+from dnd_engine.model.skill_library import Attack
+from dnd_engine.model.team import Team
+
+
+@pytest.fixture
+def team_red():
+    t = Team(name="Red", members=[get_creature("Wolf"), get_creature("Wolf")])
+    for c in t.members:
+        c.skills["attack"] = Attack(base_damage=1)
+    return t
+
+
+@pytest.fixture
+def team_blue():
+    t = Team(name="Blue", members=[get_creature("Pig"), get_creature("Pig")])
+    for c in t.members:
+        c.skills["attack"] = Attack(base_damage=1)
+    return t
+
+
+@pytest.fixture
+def combat(team_red, team_blue):
+    return Combat(name="Test", teams=[team_red, team_blue])
+
+
+def test_is_the_end(combat):
+    assert combat.is_the_end() is False
+    combat.teams[0].is_loser = True
+    assert combat.is_the_end()
+
+
+def test_form_combat_queue(combat):
+    combat.form_combat_queue()
+    assert isinstance(combat.queue, list)
+    assert len(combat.queue) == 4
+    assert isinstance(combat.queue[0], Creature)
+    combat.form_combat_queue()
+    assert len(combat.queue) == 4
+
+
+def test_get_target_for(combat, team_red, team_blue):
+    assert combat.get_target_for(attacker=team_red.members[0]) == team_blue.members[0]
+
+
+def test_get_skill_name(combat):
+    assert combat.get_skill_name(combat.teams[0].members[0]) == "attack"
