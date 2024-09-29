@@ -1,7 +1,7 @@
 from setuptools import find_packages
 from setuptools import setup
 
-VERSION = "0.2.2"
+VERSION = "0.2.3"
 DESCRIPTION = "DnD Engine"
 
 # Setting up
