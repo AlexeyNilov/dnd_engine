@@ -42,16 +42,16 @@ class Attack(Skill):
         effective_damage = self.base * self.level
 
         # Can the target evade?
-        dodge_chance = 0
+        dodge_chance = 0.0
         if "dodge" in to.skills.keys() and to.skills["dodge"].is_activated:
             dodge_chance = 0.5
-            effective_damage *= (1 - dodge_chance)
+            effective_damage = int(round(effective_damage * (1 - dodge_chance), 0))
             to.skills["dodge"].is_activated = False
 
         if to.hp <= 0:
             return 0
 
-        to.hp -= int(round(effective_damage, 0))
+        to.hp -= effective_damage
         return effective_damage
 
 
@@ -60,6 +60,9 @@ class Move(Skill):
     def use(self, who: Creature, to: Creature) -> int:
         if not isinstance(to, Creature):
             return 0
+
+        self.is_activated = True
+        return 1
 
 
 SKILL_MAP: Dict[str, Callable] = {

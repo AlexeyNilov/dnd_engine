@@ -33,6 +33,9 @@ class Creature(Entity):
         if name == "hp":
             self.hp_tracker()
 
+    def get_action_points(self) -> int:
+        return len(self.skills.keys())
+
     def apply(self, skill: Skill, to: Entity) -> bool:
         """Apply given skill to the Entity"""
         if skill not in self.skills.values():

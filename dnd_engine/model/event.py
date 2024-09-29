@@ -32,7 +32,7 @@ def print_deque() -> None:
     def print_event(e: Event):
         print(f"{e.source.name}: {e.msg}")
 
-    return exec_on_deque(print_event)
+    exec_on_deque(print_event)
 
 
 def get_deque() -> list:
