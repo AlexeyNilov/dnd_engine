@@ -3,24 +3,17 @@ import pytest
 from dnd_engine.data.bestiary import get_creature
 from dnd_engine.model.combat import Combat
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.skill_library import Attack
 from dnd_engine.model.team import Team
 
 
 @pytest.fixture
 def team_red():
-    t = Team(name="Red", members=[get_creature("Wolf"), get_creature("Wolf")])
-    for c in t.members:
-        c.skills["attack"] = Attack(base=1)
-    return t
+    return Team(name="Red", members=[get_creature("Wolf"), get_creature("Wolf")])
 
 
 @pytest.fixture
 def team_blue():
-    t = Team(name="Blue", members=[get_creature("Pig"), get_creature("Pig")])
-    for c in t.members:
-        c.skills["attack"] = Attack(base=1)
-    return t
+    return Team(name="Blue", members=[get_creature("Pig"), get_creature("Pig")])
 
 
 @pytest.fixture
@@ -48,4 +41,4 @@ def test_get_target_for(combat, team_red, team_blue):
 
 
 def test_get_skill_name(combat):
-    assert combat.get_skill_name(combat.teams[0].members[0]) == "attack"
+    assert combat.get_skill_name(combat.teams[0].members[0]) == "bite"
