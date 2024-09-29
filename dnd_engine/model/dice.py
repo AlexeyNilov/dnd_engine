@@ -1,7 +1,7 @@
 import random
 
 
-def roll_xdy(x, y, modifier=0):
+def roll_xdy(x: int, y: int, modifier: int = 0) -> int:
     return sum(random.randint(1, y) for _ in range(x)) + modifier
 
 
