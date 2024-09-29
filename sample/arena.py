@@ -6,8 +6,8 @@ from dnd_engine.model.team import Team
 
 
 # Team Red
-wolf = get_creature("Wolf")
-red = Team(name="Team Red", members=[wolf], events_publisher=publish_deque)
+wolfs = [get_creature("Wolf") for _ in range(2)]
+red = Team(name="Team Red", members=wolfs, events_publisher=publish_deque)
 
 # Team Blue
 pigs = [get_creature("Pig") for _ in range(2)]
@@ -19,6 +19,7 @@ combat.battle()
 
 print_deque()
 
-print(wolf.model_dump(include={"name", "is_alive", "hp", "skills"}))
+for wolf in wolfs:
+    print(wolf.model_dump(include={"name", "is_alive", "hp", "skills"}))
 for pig in pigs:
     print(pig.model_dump(include={"name", "is_alive", "hp", "skills"}))

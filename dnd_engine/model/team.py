@@ -7,7 +7,6 @@ from dnd_engine.model.shared import EventModel
 class Team(EventModel):
     members: List[Creature]
     is_loser: bool = False
-    has_move: bool = False
 
     def remove_dead_members(self):
         self.members = [member for member in self.members if member.is_alive]

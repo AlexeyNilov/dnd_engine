@@ -17,6 +17,7 @@
 
 ## Backlog
 
+* HP based Creature feeling/mood
 * Distance
 * Space
 * Time

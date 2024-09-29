@@ -12,6 +12,10 @@ class TargetNotFound(Exception):
     pass
 
 
+class TeamNotFound(Exception):
+    pass
+
+
 class Combat(EventModel):
     teams: List[Team]
     is_completed: bool = False
@@ -19,22 +23,30 @@ class Combat(EventModel):
     turn: PositiveInt = 1
 
     def is_the_end(self) -> bool:
-        for team in self.teams:
-            if team.is_loser:
-                self.is_completed = True
-                self.publish_event("The End")
-                return True
+        if any(team.is_loser for team in self.teams):
+            self.is_completed = True
+            self.publish_event("The End")
+            return True
         return False
 
     def form_combat_queue(self):
         self.queue = [member for team in self.teams for member in team.members]
         random.shuffle(self.queue)
 
+    def get_team(self, creature: Creature) -> Team:
+        team = next((team for team in self.teams if creature in team.members), None)
+        if team is None:
+            raise TeamNotFound
+        return team
+
+    def get_opposite_team(self, creature: Creature) -> Team:
+        team = next((team for team in self.teams if creature not in team.members), None)
+        if team is None:
+            raise TeamNotFound
+        return team
+
     def get_target_for(self, attacker: Creature) -> Creature:
-        for team in self.teams:
-            if team.members and attacker not in team.members:
-                return team.members[0]
-        raise TargetNotFound
+        return self.get_opposite_team(attacker).members[0]
 
     def next_round(self):
         self.publish_event(f"Turn {self.turn}")
@@ -49,7 +61,7 @@ class Combat(EventModel):
 
         self.turn += 1
 
-    def advice(self, myself: Creature, target: Creature, level: int = 0):
+    def advice(self, myself: Creature, target: Creature, level: int = 1):
         assert myself.skills
 
         print(f"I'm {myself.name}")
@@ -62,11 +74,18 @@ class Combat(EventModel):
 
         if level == 0:  # Random choice
             skill_name = str(random.choice(list(myself.skills.keys())))
+            print(f"I chose randomly: {myself.skills[skill_name].__class__.__name__}")
             return myself.skills[skill_name]
 
         if level == 1:  # HP based choice
             hp_left = int(round(100 * myself.hp / myself.max_hp, 0))
             print(f"I have {hp_left}% HP")
+            if hp_left < 50:
+                print("I chose to Move")
+                return myself.get_skill_by_class("Move")
+
+        print("I chose default: Attack")
+        return myself.get_skill_by_class("Attack")
 
     def battle(self):
         while not self.is_the_end():

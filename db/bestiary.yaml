@@ -10,6 +10,9 @@ Wolf:
     bite:
       type: Attack
       base: 2
+    dodge:
+      type: Move
+      base: 1
 Pig:
   hp: 6
   max_hp: 6

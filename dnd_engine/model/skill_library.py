@@ -47,7 +47,15 @@ class Attack(Skill):
         return effective_damage
 
 
+class Move(Skill):
+    """Move creature"""
+    def use(self, who: Creature, to: Creature) -> int:
+        if not isinstance(to, Creature):
+            return 0
+
+
 SKILL_MAP: Dict[str, Callable] = {
     "Attack": Attack,
-    "Consume": Consume
+    "Consume": Consume,
+    "Move": Move
 }

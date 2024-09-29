@@ -99,7 +99,7 @@ for _ in range(100):
         creature.hp -= 1  # Live sucks!
 
         if resources:
-            resource = random.choice(resources)  # TODO get compatible resource
+            resource = random.choice(resources)
             creature.do_by_class("Consume", resource)
 
         exec_on_deque(react)
