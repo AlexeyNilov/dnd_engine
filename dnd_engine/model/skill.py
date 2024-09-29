@@ -51,6 +51,7 @@ class Skill(BaseModel):
     used: GEZeroInt = 0
     level: PositiveInt = 1
     ap: PositiveInt = 1  # Cost of use in Action Points
+    base: PositiveInt = 1
 
     def use(self, *args, **kargs) -> int:
         raise SkillMethodNotImplemented

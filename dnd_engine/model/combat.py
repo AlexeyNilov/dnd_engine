@@ -1,4 +1,5 @@
 import random
+from time import sleep
 from typing import List
 
 from pydantic import PositiveInt
@@ -47,7 +48,8 @@ class Combat(EventModel):
         # Remove dead members from all teams
         [team.remove_dead_members() for team in self.teams]
 
-    def battle(self):
+    def battle(self, delay: float = 0.0):
         while not self.is_the_end():
             self.form_combat_queue()
             self.fight()
+            sleep(delay)

@@ -1,6 +1,6 @@
 import logging
-
-from pydantic import PositiveInt
+from typing import Callable
+from typing import Dict
 
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.resource import Resource
@@ -12,9 +12,6 @@ logger = logging.getLogger(__name__)
 
 class Consume(Skill):
     """Consume Resource entity with the given rate * skill level"""
-
-    base_rate: PositiveInt = 1
-
     def use(self, who: Creature, to: Resource) -> int:
         if not isinstance(to, Resource):
             return 0
@@ -25,7 +22,7 @@ class Consume(Skill):
         if who.hp == who.max_hp:
             return 0
 
-        effective_rate = self.base_rate * self.level
+        effective_rate = self.base * self.level
         if to.value <= 0:
             return 0
 
@@ -37,17 +34,20 @@ class Consume(Skill):
 
 
 class Attack(Skill):
-    """Attack another creature"""
-
-    base_damage: PositiveInt = 1
-
+    """Attack creature"""
     def use(self, who: Creature, to: Creature) -> int:
         if not isinstance(to, Creature):
             return 0
 
-        effective_damage = self.base_damage * self.level
+        effective_damage = self.base * self.level
         if to.hp <= 0:
             return 0
 
         to.hp -= effective_damage
         return effective_damage
+
+
+SKILL_MAP: Dict[str, Callable] = {
+    "Attack": Attack,
+    "Consume": Consume
+}

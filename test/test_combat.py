@@ -11,7 +11,7 @@ from dnd_engine.model.team import Team
 def team_red():
     t = Team(name="Red", members=[get_creature("Wolf"), get_creature("Wolf")])
     for c in t.members:
-        c.skills["attack"] = Attack(base_damage=1)
+        c.skills["attack"] = Attack(base=1)
     return t
 
 
@@ -19,7 +19,7 @@ def team_red():
 def team_blue():
     t = Team(name="Blue", members=[get_creature("Pig"), get_creature("Pig")])
     for c in t.members:
-        c.skills["attack"] = Attack(base_damage=1)
+        c.skills["attack"] = Attack(base=1)
     return t
 
 

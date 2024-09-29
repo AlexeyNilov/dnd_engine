@@ -39,7 +39,7 @@ def test_consume_empty_resource(food, consume, creature):
 
 def test_consume_when_value_less_then_rate(food, consume, creature):
     food.value = 1
-    consume.base_rate = 2
+    consume.base = 2
     gain = consume.use(who=creature, to=food)
     assert gain == 1
 

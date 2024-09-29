@@ -6,6 +6,10 @@ Wolf:
   compatible_with:
   - "organic"
   link: "https://www.d20pfsrd.com/bestiary/monster-listings/animals/canines/wolf/"
+  skills:
+    bite:
+      type: Attack
+      base: 2
 Pig:
   hp: 6
   max_hp: 6
@@ -13,3 +17,7 @@ Pig:
   compatible_with:
   - "organic"
   link: "https://www.d20pfsrd.com/bestiary/monster-listings/animals/pig/"
+  skills:
+    bite:
+      type: Attack
+      base: 1
