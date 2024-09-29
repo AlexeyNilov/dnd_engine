@@ -33,9 +33,7 @@ for _ in range(10):
 
 def remove_empty_resources():
     global resources
-    for r in resources:
-        if r.value <= 0:
-            resources.remove(r)
+    resources = [r for r in resources if r.value > 0]
 
 
 def remove_dead_creature(creature: Creature):
@@ -87,7 +85,7 @@ def react(event: Event):
     sf.save_event(event)
 
     if event.msg == "Full":
-        is_full(event.creature)
+        is_full(event.source)
 
     if event.msg == "Died":
         is_dead(creature)

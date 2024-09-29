@@ -42,7 +42,7 @@ def filled_db():
     if "events" in db.t:
         db.t.events.drop()
     events = sf.create_events_table(db)
-    events.insert(creature_id="Test_Creature_1", msg="test message")
+    events.insert(source="Test_Creature_1", msg="test message")
 
     if "skill_records" in db.t:
         db.t.skill_records.drop()
@@ -74,14 +74,14 @@ def test_create_events_table(empty_db):
 
 def test_save_event(empty_db, creature):
     sf.create_events_table(empty_db)
-    e = Event(creature=creature, msg="test_message")
+    e = Event(source=creature, msg="test_message")
     r = sf.save_event(e, db=empty_db)
-    assert r == {"creature_id": creature.id, "id": 1, "msg": "test_message"}
+    assert r == {"source": creature.name, "id": 1, "msg": "test_message"}
 
 
 def test_load_events(filled_db):
     assert sf.load_events(filled_db) == [
-        {"creature_id": "Test_Creature_1", "id": 1, "msg": "test message"}
+        {"source": "Test_Creature_1", "id": 1, "msg": "test message"}
     ]
 
 

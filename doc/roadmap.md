@@ -9,6 +9,7 @@
 * Luck
 * Skill learning
 * Combat decision making
+* Visual / text clues
 
 ## UFO: Tactical arena
 
