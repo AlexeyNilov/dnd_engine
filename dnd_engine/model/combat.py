@@ -36,22 +36,40 @@ class Combat(EventModel):
                 return team.members[0]
         raise TargetNotFound
 
-    def get_skill_name(self, creature: Creature) -> str:
-        return str(random.choice(list(creature.skills.keys())))
-
-    def fight(self):
+    def next_round(self):
         self.publish_event(f"Turn {self.turn}")
 
         # Process creatures in the combat queue
         for creature in filter(lambda c: c.is_alive, self.queue):
-            creature.do_by_name(self.get_skill_name(creature), self.get_target_for(creature))
+            skill = self.advice(creature, self.get_target_for(creature))
+            creature.apply(skill, self.get_target_for(creature))
 
         # Remove dead members from all teams
         [team.remove_dead_members() for team in self.teams]
 
         self.turn += 1
 
+    def advice(self, myself: Creature, target: Creature, level: int = 0):
+        assert myself.skills
+
+        print(f"I'm {myself.name}")
+        options = [skill.__class__.__name__ for skill in myself.skills.values()]
+        print(f"I can: {options}")
+
+        if len(options) == 1:
+            print(f"I have no choice: {options[0]}")
+            return myself.get_skill_by_class(options[0])
+
+        if level == 0:  # Random choice
+            skill_name = str(random.choice(list(myself.skills.keys())))
+            return myself.skills[skill_name]
+
+        if level == 1:  # HP based choice
+            hp_left = int(round(100 * myself.hp / myself.max_hp, 0))
+            print(f"I have {hp_left}% HP")
+
     def battle(self):
         while not self.is_the_end():
             self.form_combat_queue()
-            self.fight()
+            self.next_round()
+            break
