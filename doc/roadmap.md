@@ -2,8 +2,7 @@
 
 ## Dungeon arena
 
-* Action points
-* Attack, Block, Dodge
+* UI control?
 * Inventory and equipment
 * New stats (energy, mana, etc)
 * Luck

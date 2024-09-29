@@ -17,6 +17,10 @@ class TeamNotFound(Exception):
     pass
 
 
+class AdviceNotFound(Exception):
+    pass
+
+
 class Combat(EventModel):
     teams: List[Team]
     is_completed: bool = False
@@ -63,32 +67,41 @@ class Combat(EventModel):
 
         self.turn += 1
 
+    def advice_level_1(self, myself: Creature, ap: int) -> List[Skill]:
+        hp_left = int(round(100 * myself.hp / myself.max_hp, 0))
+        actions = list()
+        if hp_left < 50:
+            actions.append(myself.get_skill_by_class("Move"))
+        else:
+            actions.append(myself.get_skill_by_class("Attack"))
+        for _ in range(1, ap):
+            actions.append(myself.get_skill_by_class("Attack"))
+        return actions
+
+    def advice_random(self, myself: Creature, ap: int) -> List[Skill]:
+        actions = list()
+        for _ in range(ap):
+            skill_name = str(random.choice(list(myself.skills.keys())))
+            actions.append(myself.skills[skill_name])
+        return actions
+
     def advice(self, myself: Creature, target: Creature, level: int = 1) -> List[Skill]:
-        assert myself.skills
-
         ap = myself.get_action_points()
-        print(f"I'm {myself.name}, I have {ap} action points")
-        options = myself.get_skill_classes()
-        print(f"I can: {options}")
-
-        if len(options) == 1:
-            print(f"I have no choice: {options[0]}")
-            return [myself.get_skill_by_class(options[0])]
 
         if level == 0:  # Random choice
-            skill_name = str(random.choice(list(myself.skills.keys())))
-            print(f"I chose randomly: {myself.skills[skill_name].__class__.__name__}")
-            return [myself.skills[skill_name]]
+            return self.advice_random(myself, ap)
 
         if level == 1:  # HP based choice
-            hp_left = int(round(100 * myself.hp / myself.max_hp, 0))
-            print(f"I have {hp_left}% HP")
-            if hp_left < 50:
-                print("I chose to Move")
-                return [myself.get_skill_by_class("Move")]
+            return self.advice_level_1(myself, ap)
 
-        print("I chose default: Attack")
-        return [myself.get_skill_by_class("Attack")]
+        options = myself.get_skill_classes()
+        if len(options) == 1:
+            actions: List[Skill] = []
+            for _ in range(ap):
+                actions.append(myself.get_skill_by_class(options[0]))
+            return actions
+
+        raise AdviceNotFound
 
     def battle(self):
         while not self.is_the_end():
