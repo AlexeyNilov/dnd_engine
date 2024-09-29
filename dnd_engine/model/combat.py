@@ -40,12 +40,16 @@ class Combat(EventModel):
         return str(random.choice(list(creature.skills.keys())))
 
     def fight(self):
+        self.publish_event(f"Turn {self.turn}")
+
         # Process creatures in the combat queue
         for creature in filter(lambda c: c.is_alive, self.queue):
             creature.do_by_name(self.get_skill_name(creature), self.get_target_for(creature))
 
         # Remove dead members from all teams
         [team.remove_dead_members() for team in self.teams]
+
+        self.turn += 1
 
     def battle(self):
         while not self.is_the_end():

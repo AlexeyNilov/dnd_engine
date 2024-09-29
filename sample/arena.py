@@ -7,11 +7,11 @@ from dnd_engine.model.team import Team
 
 # Team Red
 wolf = get_creature("Wolf")
-red = Team(name="Red", members=[wolf], events_publisher=publish_deque)
+red = Team(name="Team Red", members=[wolf], events_publisher=publish_deque)
 
 # Team Blue
 pigs = [get_creature("Pig") for _ in range(2)]
-blue = Team(name="Blue", members=pigs, events_publisher=publish_deque)
+blue = Team(name="Team Blue", members=pigs, events_publisher=publish_deque)
 
 # Combat
 combat = Combat(name="Arena", events_publisher=publish_deque, teams=[red, blue])
