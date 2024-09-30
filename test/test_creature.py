@@ -50,7 +50,6 @@ def test_apply_base_skill(creature):
 
 def test_use_consume_skill_on_self(creature):
     hp = creature.hp
-    creature.compatible_with.append(creature.nature)
     assert creature.do_by_class("Consume", to=creature) is False
     assert creature.hp == hp
 
@@ -59,7 +58,6 @@ def test_use_consume_skill(creature):
     hp = creature.hp
     food = Resource(name="food")
     value = food.value
-    creature.compatible_with.append(food.nature)
     assert creature.do_by_name("eat", to=food)
     assert creature.hp == hp + 1
     assert food.value == value - 1
@@ -69,7 +67,6 @@ def test_use_consume_skill_above_max_hp(creature):
     creature.hp = creature.max_hp
     food = Resource(name="food")
     value = food.value
-    creature.compatible_with.append(food.nature)
     assert creature.do_by_class("Consume", to=food) is False
     assert food.value == value
 

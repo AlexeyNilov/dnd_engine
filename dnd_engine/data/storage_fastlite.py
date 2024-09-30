@@ -28,11 +28,9 @@ skill_record_structure = dict(
 creature_structure = dict(
     creature_id=str,
     name=str,
-    nature=str,
     is_alive=bool,
     hp=int,
     max_hp=int,
-    compatible_with=str,
 )
 
 events_structure = dict(id=int, source=str, msg=str)
@@ -113,7 +111,6 @@ def del_none(d: dict):
 def convert_dict_to_creature(d: dict) -> Creature:
     d["is_alive"] = bool(d["is_alive"])
     d["id"] = d["creature_id"]
-    d["compatible_with"] = d.get("compatible_with", "none").split(";")
 
     d = del_none(d)
     return Creature(**d)
@@ -149,7 +146,6 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
     ct = db.t.creatures
     data = creature.model_dump()
     data["creature_id"] = creature.id
-    data["compatible_with"] = ";".join(data["compatible_with"])
 
     for k, skill in creature.skills.items():
         r = SkillRecord(

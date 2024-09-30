@@ -15,7 +15,6 @@ def food():
 def creature():
     data = {"name": "hunter", "hp": 9, "max_hp": 10}
     c = Creature(**data)
-    c.compatible_with.append("organic")
     return c
 
 

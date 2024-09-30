@@ -1,5 +1,4 @@
 import random
-from time import sleep
 from typing import List
 
 from dnd_engine.data import storage_fastlite as sf
@@ -23,8 +22,8 @@ for creature in creatures:
 
 resources: List[Resource] = []
 
-water = {"name": "Water", "value": 50, "nature": "water"}
-food = {"name": "Food", "value": 50, "nature": "organic"}
+water = {"name": "Water", "value": 50}
+food = {"name": "Food", "value": 50}
 
 for _ in range(10):
     resources.append(Resource(**water))
@@ -56,8 +55,6 @@ def is_full(creature: Creature):
             hp=start_hp,
             max_hp=50,
             events_publisher=publish_deque,
-            nature="organic",
-            compatible_with=["organic"],
         )
         creatures.append(new_pig)
         creature.hp -= start_hp
@@ -104,7 +101,6 @@ for _ in range(100):
 
         exec_on_deque(react)
         sf.save_creature(creature)
-        sleep(0.001)
 
 for item in creatures:
     print(item.model_dump(include={"id", "name", "hp", "max_hp", "is_alive", "skills"}))

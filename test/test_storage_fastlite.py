@@ -19,7 +19,6 @@ def creature():
         name="Test_Creature",
         hp=10,
         max_hp=20,
-        compatible_with=["water"],
     )
 
 
@@ -60,8 +59,6 @@ def filled_db():
         is_alive=True,
         hp=10,
         max_hp=100,
-        compatible_with="water;organic",
-        nature="organic",
     )
     return db
 
@@ -97,8 +94,6 @@ def test_load_creature(filled_db):
     assert c.name == "Test_Creature"
     assert isinstance(c.skills, dict)
     assert "eat" in c.skills.keys()
-    assert c.compatible_with == ["water", "organic"]
-    assert c.nature == "organic"
 
 
 def test_create_skill_records_table(empty_db):
@@ -142,11 +137,9 @@ def test_save_creature(empty_db, creature):
 
     r = sf.save_creature(creature=creature, db=empty_db)
     assert r == {
-        "compatible_with": "water",
         "creature_id": creature.id,
         "hp": 10,
         "is_alive": 1,
         "max_hp": 20,
         "name": "Test_Creature",
-        "nature": "unknown",
     }

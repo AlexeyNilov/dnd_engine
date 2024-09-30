@@ -1,7 +1,6 @@
 from threading import Lock
 from typing import ClassVar
 
-from dnd_engine.model.shared import ConstrainedStr
 from dnd_engine.model.shared import EventModel
 
 
@@ -9,7 +8,6 @@ class Entity(EventModel):
     """See doc/entity.md for details"""
 
     id: str  # Must be uniq globally
-    nature: ConstrainedStr = "unknown"
 
     # Generate unique ID
     _id_counter: ClassVar[int] = 0

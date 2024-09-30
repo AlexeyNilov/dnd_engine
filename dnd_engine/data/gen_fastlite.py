@@ -10,13 +10,13 @@ sf.create_skill_records_table()
 sf.DB.t.events.drop()
 sf.create_events_table()
 
+
+# TODO Replace with bestiary calls
 data = {
     "name": "Wolf",
     "hp": 40,
     "max_hp": 50,
     "skills": {"eat": Consume()},
-    "compatible_with": ["organic"],
-    "nature": "organic",
 }
 sf.save_creature(Creature(**data))
 
@@ -26,8 +26,6 @@ data = {
     "hp": 40,
     "max_hp": 50,
     "skills": {"eat": Consume()},
-    "compatible_with": ["organic"],
-    "nature": "organic",
 }
 sf.save_creature(Creature(**data))
 
@@ -36,8 +34,6 @@ data = {
     "hp": 400,
     "max_hp": 500,
     "skills": {"eat": Consume()},
-    "compatible_with": ["water"],
-    "nature": "organic",
 }
 sf.save_creature(Creature(**data))
 

@@ -16,9 +16,6 @@ class Consume(Skill):
         if not isinstance(to, Resource):
             return 0
 
-        if to.nature not in who.compatible_with:
-            return 0
-
         if who.hp == who.max_hp:
             return 0
 

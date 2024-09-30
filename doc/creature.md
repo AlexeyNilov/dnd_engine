@@ -1,4 +1,4 @@
-# Creature
+# Creature aka Body
 
 *Refer to model/creature.py for the current implementation*
 
@@ -20,6 +20,11 @@ It seems logical that HP should have an upper limit. If that’s the case, growt
 Often, levels are used as a measure of growth, although I'm not sure if we need them.
 
 To grow, a creature must consume something—whether it's food, energy, knowledge, or something else.
+
+## Survival
+
+Constant/regular HP loss
+Consuming resources
 
 ## Skills
 

@@ -3,7 +3,7 @@ import logging
 from pydantic import BaseModel
 from pydantic import PositiveInt
 
-from dnd_engine.model.shared import GEZeroInt
+from dnd_engine.model.shared import ZeroInt
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ class SkillTypeNotFound(NotImplementedError):
 class SkillRecord(BaseModel):
     name: str
     skill_class: str
-    used: GEZeroInt = 0
+    used: ZeroInt = 0
     level: PositiveInt = 1
 
 
@@ -48,7 +48,7 @@ def calculate_level(use: int) -> int:
 
 
 class Skill(BaseModel):
-    used: GEZeroInt = 0
+    used: ZeroInt = 0
     level: PositiveInt = 1
     ap: PositiveInt = 1  # Cost of use in Action Points
     base: PositiveInt = 1

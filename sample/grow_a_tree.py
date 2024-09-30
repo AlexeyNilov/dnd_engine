@@ -14,10 +14,10 @@ tree = load_creature(creature_id="Creature_3")
 tree.hp = tree.max_hp - 10
 tree.events_publisher = publish_deque
 
-water_data = {"name": "Water", "value": 200, "nature": "water"}
+water_data = {"name": "Water", "value": 200}
 water = Resource(**water_data)
 
-fruit_data = {"name": "Fruit", "value": 50, "nature": "organic"}
+fruit_data = {"name": "Fruit", "value": 50}
 fruits: List[Resource] = list()
 
 
@@ -37,4 +37,4 @@ assert len(fruits) == 3
 assert tree.is_alive
 
 print("Fruits created:", len(fruits))
-print(tree.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills", "nature"}))
+print(tree.model_dump(include={"name", "hp", "max_hp", "is_alive", "skills"}))
