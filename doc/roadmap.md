@@ -2,14 +2,15 @@
 
 ## Dungeon arena
 
-* Combat table + owner based UI + table triggered combat
+* Combat table, combat class simplification
+* Owner based UI + table triggered combat
 * Battle spirit - random
-* UI control?
+* UI control: start battle, next round
 * Inventory and equipment
 * New stats (energy, mana, etc)
 * Luck
 * Skill learning (learn on failures?)
-* Combat decision making (OODA loop)
+* Combat decision making (OODA loop) (combat TRIZ)
 * Visual / text clues from events logs
 
 ## UFO: Tactical arena

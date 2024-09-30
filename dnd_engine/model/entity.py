@@ -9,7 +9,7 @@ class Entity(EventModel):
 
     id: str  # Must be uniq globally
 
-    # Generate unique ID
+    # TODO I' not satisfied with current the "generate unique ID"
     _id_counter: ClassVar[int] = 0
     _lock: ClassVar[Lock] = Lock()
 
