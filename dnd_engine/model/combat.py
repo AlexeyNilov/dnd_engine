@@ -25,7 +25,9 @@ class Combat(EventModel):
     teams: List[Team]
     is_completed: bool = False
     queue: List[Creature] = []
-    turn: PositiveInt = 1
+    round: PositiveInt = 1
+    owner: str
+    status: str = "Not started"
 
     def is_the_end(self) -> bool:
         if any(team.is_loser for team in self.teams):
@@ -54,7 +56,7 @@ class Combat(EventModel):
         return self.get_opposite_team(attacker).members[0]
 
     def next_round(self):
-        self.publish_event(f"Turn {self.turn}")
+        self.publish_event(f"Turn {self.round}")
 
         # Process creatures in the combat queue
         for creature in filter(lambda c: c.is_alive, self.queue):
@@ -65,7 +67,7 @@ class Combat(EventModel):
         # Remove dead members from all teams
         [team.remove_dead_members() for team in self.teams]
 
-        self.turn += 1
+        self.round += 1
 
     def advice_level_1(self, myself: Creature, ap: int) -> List[Skill]:
         hp_left = int(round(100 * myself.hp / myself.max_hp, 0))

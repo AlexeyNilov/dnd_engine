@@ -14,7 +14,7 @@ pigs = [get_creature("Pig") for _ in range(2)]
 blue = Team(name="Team Blue", members=pigs, events_publisher=publish_deque)
 
 # Combat
-combat = Combat(name="Arena", events_publisher=publish_deque, teams=[red, blue])
+combat = Combat(name="Arena", events_publisher=publish_deque, teams=[red, blue], owner="Arena")
 combat.battle()
 
 print_deque()

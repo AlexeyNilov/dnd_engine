@@ -18,7 +18,7 @@ def team_blue():
 
 @pytest.fixture
 def combat(team_red, team_blue):
-    return Combat(name="Test", teams=[team_red, team_blue])
+    return Combat(name="Test", teams=[team_red, team_blue], owner="Test")
 
 
 def test_is_the_end(combat):
