@@ -17,7 +17,7 @@ db_path = os.environ.get("DB_PATH", "db/dnd.sqlite")
 DB: Database = fl.database(db_path)
 
 skill_record_structure = dict(
-    skill_record_id=str,
+    id=str,
     name=str,
     type=str,
     used=int,
@@ -33,7 +33,7 @@ creature_structure = dict(
     max_hp=int,
 )
 
-events_structure = dict(id=int, source=str, msg=str)
+event_structure = dict(id=int, source=str, msg=str)
 
 
 def clear_events(db: Database = DB):
@@ -56,19 +56,19 @@ def load_events(db: Database = DB) -> list:
 def create_events_table(db=DB) -> fl.Table:
     events = db.t.events
     if events not in db.t:
-        events.create(events_structure, pk="id")
+        events.create(event_structure, pk="id")
     return events
 
 
 def create_skill_records_table(db=DB) -> fl.Table:
     skill_records = db.t.skill_records
     if skill_records not in db.t:
-        skill_records.create(skill_record_structure, pk="skill_record_id")
+        skill_records.create(skill_record_structure, pk="id")
     return skill_records
 
 
-def load_skill_record(skill_record_id: int, db: Database = DB) -> SkillRecord:
-    record: dict = db.t.skill_records[skill_record_id]
+def load_skill_record(id: str, db: Database = DB) -> SkillRecord:
+    record: dict = db.t.skill_records[id]
     record["used"] = 0 if record["used"] is None else record["used"]
     record["level"] = 1 if record["level"] is None else record["level"]
     return SkillRecord(**record)
@@ -78,7 +78,7 @@ def save_skill_record(creature_id: str, record: SkillRecord, db: Database = DB) 
     skill_records = db.t.skill_records
     data = record.model_dump()
     data["creature_id"] = creature_id
-    data["skill_record_id"] = f"{creature_id}_{record.name}"
+    data["id"] = f"{creature_id}_{record.name}"
 
     return skill_records.upsert(**data)
 
@@ -91,12 +91,12 @@ def create_creatures_table(db=DB) -> fl.Table:
 
 
 def load_skill_book(creature_id: str, db: Database = DB) -> list:
-    sql = f"SELECT skill_record_id FROM skill_records WHERE creature_id = '{creature_id}';"
+    sql = f"SELECT id FROM skill_records WHERE creature_id = '{creature_id}';"
     data = db.q(sql)
     skill_book = []
     for item in data:
         skill_book.append(
-            load_skill_record(skill_record_id=item["skill_record_id"], db=db)
+            load_skill_record(id=item["id"], db=db)
         )
     return skill_book
 

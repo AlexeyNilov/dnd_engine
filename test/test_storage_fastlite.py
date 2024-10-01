@@ -47,7 +47,7 @@ def filled_db():
         db.t.skill_records.drop()
     skill_records = sf.create_skill_records_table(db)
     skill_records.insert(
-        skill_record_id="1", creature_id="Test_Creature_1", name="eat", type="Consume"
+        id="1", creature_id="Test_Creature_1", name="eat", type="Consume"
     )
 
     if "creatures" in db.t:
@@ -103,7 +103,7 @@ def test_create_skill_records_table(empty_db):
 
 
 def test_load_skill_record(filled_db):
-    r = sf.load_skill_record(skill_record_id="1", db=filled_db)
+    r = sf.load_skill_record(id="1", db=filled_db)
     assert isinstance(r, SkillRecord)
     assert r.used == 0
     assert r.level == 1
@@ -114,7 +114,7 @@ def test_save_skill_record_new(empty_db):
     record = SkillRecord(name="test", type="consume")
     r = sf.save_skill_record(creature_id="Test_Creature", record=record, db=empty_db)
     assert r == {
-        "skill_record_id": "Test_Creature_test",
+        "id": "Test_Creature_test",
         "level": 1,
         "name": "test",
         "type": "consume",
