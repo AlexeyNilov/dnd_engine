@@ -26,7 +26,7 @@ skill_record_structure = dict(
 )
 
 creature_structure = dict(
-    creature_id=str,
+    id=str,
     name=str,
     is_alive=bool,
     hp=int,
@@ -86,7 +86,7 @@ def save_skill_record(creature_id: str, record: SkillRecord, db: Database = DB) 
 def create_creatures_table(db=DB) -> fl.Table:
     table = db.t.creatures
     if table not in db.t:
-        table.create(creature_structure, pk="creature_id")
+        table.create(creature_structure, pk="id")
     return table
 
 
@@ -110,17 +110,15 @@ def del_none(d: dict):
 
 def convert_dict_to_creature(d: dict) -> Creature:
     d["is_alive"] = bool(d["is_alive"])
-    d["id"] = d["creature_id"]
-
     d = del_none(d)
     return Creature(**d)
 
 
-def load_creature(creature_id: str, db: Database = DB) -> Creature:
-    c = db.t.creatures[creature_id]
+def load_creature(id: str, db: Database = DB) -> Creature:
+    c = db.t.creatures[id]
     creature = convert_dict_to_creature(c)
 
-    skill_book = load_skill_book(creature_id=creature_id, db=db)
+    skill_book = load_skill_book(creature_id=id, db=db)
     if skill_book:
         creature.skills = get_skills_from_book(skill_book)
 
@@ -129,10 +127,10 @@ def load_creature(creature_id: str, db: Database = DB) -> Creature:
 
 def load_creatures(db: Database = DB) -> List[Creature]:
     creatures = []
-    sql = "SELECT creature_id FROM creatures;"
+    sql = "SELECT id FROM creatures;"
     data = db.q(sql)
     for item in data:
-        creatures.append(load_creature(creature_id=item["creature_id"], db=db))
+        creatures.append(load_creature(id=item["id"], db=db))
 
     return creatures
 
@@ -145,7 +143,6 @@ def delete_creature(creature: Creature, db: Database = DB) -> dict:
 def save_creature(creature: Creature, db: Database = DB) -> dict:
     ct = db.t.creatures
     data = creature.model_dump()
-    data["creature_id"] = creature.id
 
     for k, skill in creature.skills.items():
         r = SkillRecord(
@@ -153,7 +150,7 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
         )
         save_skill_record(creature_id=creature.id, record=r, db=db)
 
-    for item in ["skills", "id", "events_publisher"]:
+    for item in ["skills", "events_publisher"]:
         del data[item]
 
     return ct.upsert(**data)

@@ -54,7 +54,7 @@ def filled_db():
         db.t.creatures.drop()
     creatures = sf.create_creatures_table(db)
     creatures.insert(
-        creature_id="Test_Creature_1",
+        id="Test_Creature_1",
         name="Test_Creature",
         is_alive=True,
         hp=10,
@@ -89,7 +89,7 @@ def test_create_creatures_table(empty_db):
 
 
 def test_load_creature(filled_db):
-    c = sf.load_creature(creature_id="Test_Creature_1", db=filled_db)
+    c = sf.load_creature(id="Test_Creature_1", db=filled_db)
     assert isinstance(c, Creature)
     assert c.name == "Test_Creature"
     assert isinstance(c.skills, dict)
@@ -129,7 +129,7 @@ def test_delete_creature(empty_db, creature):
     sf.delete_creature(creature=creature, db=empty_db)
     creature_id = creature.id
     with pytest.raises(NotFoundError):
-        sf.load_creature(creature_id=creature_id, db=empty_db)
+        sf.load_creature(id=creature_id, db=empty_db)
 
 
 def test_save_creature(empty_db, creature):
@@ -137,7 +137,7 @@ def test_save_creature(empty_db, creature):
 
     r = sf.save_creature(creature=creature, db=empty_db)
     assert r == {
-        "creature_id": creature.id,
+        "id": creature.id,
         "hp": 10,
         "is_alive": 1,
         "max_hp": 20,

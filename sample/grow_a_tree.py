@@ -10,7 +10,7 @@ from dnd_engine.model.resource import Resource
 
 set_logging()
 
-tree = load_creature(creature_id="Creature_3")
+tree = load_creature(id="Creature_3")
 tree.hp = tree.max_hp - 10
 tree.events_publisher = publish_deque
 
