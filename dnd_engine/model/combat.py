@@ -23,15 +23,13 @@ class AdviceNotFound(Exception):
 
 class Combat(EventModel):
     teams: List[Team]
-    is_completed: bool = False
     queue: List[Creature] = []
     round: PositiveInt = 1
     owner: str
-    status: str = "Not started"
+    status: str = "Not started"  # Not started, Started, Completed
 
     def is_the_end(self) -> bool:
         if any(team.is_loser for team in self.teams):
-            self.is_completed = True
             self.publish_event("The End")
             return True
         return False
@@ -106,7 +104,9 @@ class Combat(EventModel):
         raise AdviceNotFound
 
     def battle(self):
+        self.status = "Started"
         while not self.is_the_end():
             self.form_combat_queue()
             self.next_round()
             # break
+        self.status = "Completed"

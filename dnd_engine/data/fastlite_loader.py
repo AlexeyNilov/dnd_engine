@@ -6,6 +6,7 @@ import fastlite as fl
 from sqlite_minutils.db import Database
 
 from dnd_engine.data.fastlite_db import create_events_table
+from dnd_engine.model.combat import Combat
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import get_skills_from_book
@@ -119,4 +120,20 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
     for item in ["skills", "events_publisher"]:
         del data[item]
 
+    return ct.upsert(**data)
+
+
+def save_combat_view(combat: Combat, db: Database = DB) -> dict:
+    queue_str = ""
+    for creature in combat.queue:
+        for team in combat.teams:
+            if creature in team.members:
+                queue_str += f"{team.name}:{creature.id};"
+
+    data = combat.model_dump()
+    data["queue"] = queue_str
+    for item in ["teams", "events_publisher"]:
+        del data[item]
+
+    ct = db.t.combats
     return ct.upsert(**data)

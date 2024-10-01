@@ -29,10 +29,11 @@ creature_structure = dict(
 )
 
 combat_structure = dict(
-    id=int,
+    name=str,
     owner=str,
     status=str,
     round=int,
+    queue=str
 )
 
 event_structure = dict(id=int, source=str, msg=str)
@@ -62,7 +63,7 @@ def create_creatures_table(db=DB) -> fl.Table:
 def create_combats_table(db=DB) -> fl.Table:
     table = db.t.combats
     if table not in db.t:
-        table.create(combat_structure, pk="id")
+        table.create(combat_structure, pk="name")
     return table
 
 

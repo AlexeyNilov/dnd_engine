@@ -6,12 +6,32 @@ from sqlite_minutils.db import NotFoundError
 
 from dnd_engine.data import fastlite_db as fl_db
 from dnd_engine.data import fastlite_loader as fl_loader
+from dnd_engine.data.bestiary import get_creature
+from dnd_engine.model.combat import Combat
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import SkillRecord
+from dnd_engine.model.team import Team
 
 
 logger = logging.getLogger(__name__)
+
+
+@pytest.fixture
+def team_red():
+    return Team(name="Red", members=[get_creature("Wolf"), get_creature("Wolf")])
+
+
+@pytest.fixture
+def team_blue():
+    return Team(name="Blue", members=[get_creature("Pig"), get_creature("Pig")])
+
+
+@pytest.fixture
+def combat(team_red, team_blue):
+    c = Combat(name="Test", teams=[team_red, team_blue], owner="Test")
+    c.form_combat_queue()
+    return c
 
 
 @pytest.fixture
@@ -120,4 +140,16 @@ def test_save_creature(empty_db, creature):
         "is_alive": 1,
         "max_hp": 20,
         "name": "Test_Creature",
+    }
+
+
+def test_save_combat(empty_db, combat):
+    fl_db.create_combats_table(empty_db)
+    r = fl_loader.save_combat_view(combat=combat, db=empty_db)
+    del r["queue"]
+    assert r == {
+        "name": "Test",
+        "owner": "Test",
+        'round': 1,
+        'status': "Not started"
     }
