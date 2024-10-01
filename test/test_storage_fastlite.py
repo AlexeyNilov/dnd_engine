@@ -37,10 +37,9 @@ def filled_db():
     fl_db.recreate_db(db)
     db.t.events.insert(source="Test_Creature_1", msg="test message")
     db.t.skill_records.insert(
-        id="1", creature_id="Test_Creature_1", name="eat", type="Consume"
+        id="1", creature_id=1, name="eat", type="Consume"
     )
     db.t.creatures.insert(
-        id="Test_Creature_1",
         name="Test_Creature",
         is_alive=True,
         hp=10,
@@ -75,7 +74,7 @@ def test_create_creatures_table(empty_db):
 
 
 def test_load_creature(filled_db):
-    c = fl_loader.load_creature(id="Test_Creature_1", db=filled_db)
+    c = fl_loader.load_creature(id=1, db=filled_db)
     assert isinstance(c, Creature)
     assert c.name == "Test_Creature"
     assert isinstance(c.skills, dict)

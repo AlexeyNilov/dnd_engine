@@ -42,7 +42,7 @@ def load_skill_record(id: str, db: Database = DB) -> SkillRecord:
     return SkillRecord(**record)
 
 
-def save_skill_record(creature_id: str, record: SkillRecord, db: Database = DB) -> dict:
+def save_skill_record(creature_id: int, record: SkillRecord, db: Database = DB) -> dict:
     skill_records = db.t.skill_records
     data = record.model_dump()
     data["creature_id"] = creature_id
@@ -51,8 +51,8 @@ def save_skill_record(creature_id: str, record: SkillRecord, db: Database = DB) 
     return skill_records.upsert(**data)
 
 
-def load_skill_book(creature_id: str, db: Database = DB) -> list:
-    sql = f"SELECT id FROM skill_records WHERE creature_id = '{creature_id}';"
+def load_skill_book(creature_id: int, db: Database = DB) -> list:
+    sql = f"SELECT id FROM skill_records WHERE creature_id = {creature_id};"
     data = db.q(sql)
     skill_book = []
     for item in data:
@@ -75,7 +75,7 @@ def convert_dict_to_creature(d: dict) -> Creature:
     return Creature(**d)
 
 
-def load_creature(id: str, db: Database = DB) -> Creature:
+def load_creature(id: int, db: Database = DB) -> Creature:
     c = db.t.creatures[id]
     creature = convert_dict_to_creature(c)
 

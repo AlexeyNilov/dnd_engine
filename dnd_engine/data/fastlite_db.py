@@ -21,7 +21,7 @@ skill_record_structure = dict(
 )
 
 creature_structure = dict(
-    id=str,
+    id=int,
     name=str,
     is_alive=bool,
     hp=int,
