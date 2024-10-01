@@ -1,3 +1,4 @@
+""" Fastlite(sqlite) DB structure is described in this file """
 import os
 from typing import Callable
 from typing import Dict
@@ -66,7 +67,7 @@ def create_combats_table(db=DB) -> fl.Table:
 
 
 TABLES: Dict[str, Callable] = {
-    "skill_record": create_skill_records_table,
+    "skill_records": create_skill_records_table,
     "creatures": create_creatures_table,
     "events": create_events_table,
     "combats": create_combats_table

@@ -4,8 +4,8 @@ import fastlite as fl
 import pytest
 from sqlite_minutils.db import NotFoundError
 
-from dnd_engine.data import fastite_loader as fl_loader
 from dnd_engine.data import fastlite_db as fl_db
+from dnd_engine.data import fastlite_loader as fl_loader
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import SkillRecord

@@ -1,7 +1,7 @@
 import random
 from typing import List
 
-from dnd_engine.data import fastite_loader as fl_loader
+from dnd_engine.data import fastlite_loader as fl_loader
 from dnd_engine.data.logger import set_logging
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import Event

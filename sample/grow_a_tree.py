@@ -1,6 +1,6 @@
 from typing import List
 
-from dnd_engine.data.fastite_loader import load_creature
+from dnd_engine.data.fastlite_loader import load_creature
 from dnd_engine.data.logger import set_logging
 from dnd_engine.model.event import Event
 from dnd_engine.model.event import exec_on_deque

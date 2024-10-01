@@ -1,8 +1,9 @@
-from dnd_engine.data import fastite_loader as fl_loader
+from dnd_engine.data import fastlite_loader as fl_loader
 from dnd_engine.data.bestiary import get_creature
+from dnd_engine.data.fastlite_db import recreate_db
 
 
-fl_loader.recreate_db()
+recreate_db()
 fl_loader.save_creature(get_creature("Wolf"))
 fl_loader.save_creature(get_creature("Pig"))
 fl_loader.save_creature(get_creature("Oak"))
