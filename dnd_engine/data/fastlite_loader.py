@@ -134,6 +134,5 @@ def save_combat_view(combat: Combat, db: Database = DB) -> dict:
     data["queue"] = queue_str
     for item in ["teams", "events_publisher"]:
         del data[item]
-
     ct = db.t.combats
     return ct.upsert(**data)

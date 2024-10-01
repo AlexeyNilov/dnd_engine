@@ -1,4 +1,5 @@
 from dnd_engine.data.bestiary import get_creature
+from dnd_engine.data.fastlite_loader import save_combat_view
 from dnd_engine.model.combat import Combat
 from dnd_engine.model.event import print_deque
 from dnd_engine.model.event import publish_deque
@@ -15,7 +16,13 @@ blue = Team(name="Team Blue", members=pigs, events_publisher=publish_deque)
 
 # Combat
 combat = Combat(name="Arena", events_publisher=publish_deque, teams=[red, blue], owner="Arena")
-combat.battle()
+combat.status = "Started"
+while not combat.is_the_end():
+    combat.form_combat_queue()
+    combat.next_round()
+    save_combat_view(combat)
+    break
+combat.status = "Completed"
 
 print_deque()
 
