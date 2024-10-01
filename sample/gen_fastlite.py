@@ -1,6 +1,5 @@
 from dnd_engine.data import storage_fastlite as sf
-from dnd_engine.model.creature import Creature
-from dnd_engine.model.skill_library import Consume
+from dnd_engine.data.bestiary import get_creature
 
 
 sf.DB.t.creatures.drop()
@@ -11,31 +10,10 @@ sf.DB.t.events.drop()
 sf.create_events_table()
 
 
-# TODO Replace with bestiary calls
-data = {
-    "name": "Wolf",
-    "hp": 40,
-    "max_hp": 50,
-    "skills": {"eat": Consume()},
-}
-sf.save_creature(Creature(**data))
+sf.save_creature(get_creature("Wolf"))
+sf.save_creature(get_creature("Pig"))
+sf.save_creature(get_creature("Oak"))
 
-
-data = {
-    "name": "Pig",
-    "hp": 40,
-    "max_hp": 50,
-    "skills": {"eat": Consume()},
-}
-sf.save_creature(Creature(**data))
-
-data = {
-    "name": "The first oak",
-    "hp": 400,
-    "max_hp": 500,
-    "skills": {"eat": Consume()},
-}
-sf.save_creature(Creature(**data))
 
 for c in sf.DB.t.creatures():
     print(c)

@@ -2,9 +2,6 @@
 Wolf:
   hp: 13
   max_hp: 13
-  nature: "organic"
-  compatible_with:
-  - "organic"
   link: "https://www.d20pfsrd.com/bestiary/monster-listings/animals/canines/wolf/"
   skills:
     bite:
@@ -13,12 +10,12 @@ Wolf:
     dodge:
       type: Move
       base: 1
+    eat:
+      type: Consume
+      base: 1
 Pig:
   hp: 6
   max_hp: 6
-  nature: "organic"
-  compatible_with:
-  - "organic"
   link: "https://www.d20pfsrd.com/bestiary/monster-listings/animals/pig/"
   skills:
     bite:
@@ -26,4 +23,15 @@ Pig:
       base: 1
     dodge:
       type: Move
+      base: 1
+    eat:
+      type: Consume
+      base: 1
+Oak:
+  hp: 400
+  max_hp: 500
+  link: ""
+  skills:
+    eat:
+      type: Consume
       base: 1

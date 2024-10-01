@@ -16,6 +16,8 @@ logger = logging.getLogger(__name__)
 db_path = os.environ.get("DB_PATH", "db/dnd.sqlite")
 DB: Database = fl.database(db_path)
 
+# TODO Implement recreate DB method
+
 skill_record_structure = dict(
     id=str,
     name=str,
