@@ -35,7 +35,7 @@ def load_events(db: Database = DB) -> list:
     return events()
 
 
-def load_skill_record(id: str, db: Database = DB) -> SkillRecord:
+def load_skill_record(id: int, db: Database = DB) -> SkillRecord:
     record: dict = db.t.skill_records[id]
     record["used"] = 0 if record["used"] is None else record["used"]
     record["level"] = 1 if record["level"] is None else record["level"]
@@ -46,9 +46,14 @@ def save_skill_record(creature_id: int, record: SkillRecord, db: Database = DB) 
     skill_records = db.t.skill_records
     data = record.model_dump()
     data["creature_id"] = creature_id
-    data["id"] = f"{creature_id}_{record.name}"
 
-    return skill_records.upsert(**data)
+    sql = f"SELECT id FROM skill_records WHERE creature_id = {creature_id} AND name = {record.name};"
+    try:
+        sql_data = db.q(sql)
+        data["id"] = sql_data[0]["id"]
+        return skill_records.update(**data)
+    except Exception:
+        return skill_records.insert(**data)
 
 
 def load_skill_book(creature_id: int, db: Database = DB) -> list:

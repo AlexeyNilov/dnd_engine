@@ -36,15 +36,8 @@ def filled_db():
     db = fl.database("db/test_filled.sqlite")
     fl_db.recreate_db(db)
     db.t.events.insert(source="Test_Creature_1", msg="test message")
-    db.t.skill_records.insert(
-        id="1", creature_id=1, name="eat", type="Consume"
-    )
-    db.t.creatures.insert(
-        name="Test_Creature",
-        is_alive=True,
-        hp=10,
-        max_hp=100,
-    )
+    db.t.skill_records.insert(creature_id=1, name="eat", type="Consume")
+    db.t.creatures.insert(name="Test_Creature", is_alive=True, hp=10, max_hp=100)
     return db
 
 
@@ -97,14 +90,14 @@ def test_load_skill_record(filled_db):
 def test_save_skill_record_new(empty_db):
     fl_db.create_skill_records_table(empty_db)
     record = SkillRecord(name="test", type="consume")
-    r = fl_loader.save_skill_record(creature_id="Test_Creature", record=record, db=empty_db)
+    r = fl_loader.save_skill_record(creature_id=1, record=record, db=empty_db)
     assert r == {
-        "id": "Test_Creature_test",
+        "id": 1,
         "level": 1,
         "name": "test",
         "type": "consume",
         "used": 0,
-        "creature_id": "Test_Creature",
+        "creature_id": 1,
     }
 
 

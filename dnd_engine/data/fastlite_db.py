@@ -12,12 +12,12 @@ DB: Database = fl.database(db_path)
 
 
 skill_record_structure = dict(
-    id=str,
+    id=int,
     name=str,
     type=str,
     used=int,
     level=int,
-    creature_id=str,
+    creature_id=int,
 )
 
 creature_structure = dict(
