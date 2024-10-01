@@ -5,6 +5,7 @@ from typing import List
 import fastlite as fl
 from sqlite_minutils.db import Database
 
+from dnd_engine.data.fastlite_db import create_events_table
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import get_skills_from_book
@@ -16,31 +17,10 @@ logger = logging.getLogger(__name__)
 db_path = os.environ.get("DB_PATH", "db/dnd.sqlite")
 DB: Database = fl.database(db_path)
 
-# TODO Implement recreate DB method
-
-skill_record_structure = dict(
-    id=str,
-    name=str,
-    type=str,
-    used=int,
-    level=int,
-    creature_id=str,
-)
-
-creature_structure = dict(
-    id=str,
-    name=str,
-    is_alive=bool,
-    hp=int,
-    max_hp=int,
-)
-
-event_structure = dict(id=int, source=str, msg=str)
-
 
 def clear_events(db: Database = DB):
     db.t.events.drop()
-    create_events_table()
+    create_events_table(db)
 
 
 def save_event(event: Event, db: Database = DB) -> dict:
@@ -53,20 +33,6 @@ def save_event(event: Event, db: Database = DB) -> dict:
 def load_events(db: Database = DB) -> list:
     events = db.t.events
     return events()
-
-
-def create_events_table(db=DB) -> fl.Table:
-    events = db.t.events
-    if events not in db.t:
-        events.create(event_structure, pk="id")
-    return events
-
-
-def create_skill_records_table(db=DB) -> fl.Table:
-    skill_records = db.t.skill_records
-    if skill_records not in db.t:
-        skill_records.create(skill_record_structure, pk="id")
-    return skill_records
 
 
 def load_skill_record(id: str, db: Database = DB) -> SkillRecord:
@@ -83,13 +49,6 @@ def save_skill_record(creature_id: str, record: SkillRecord, db: Database = DB) 
     data["id"] = f"{creature_id}_{record.name}"
 
     return skill_records.upsert(**data)
-
-
-def create_creatures_table(db=DB) -> fl.Table:
-    table = db.t.creatures
-    if table not in db.t:
-        table.create(creature_structure, pk="id")
-    return table
 
 
 def load_skill_book(creature_id: str, db: Database = DB) -> list:

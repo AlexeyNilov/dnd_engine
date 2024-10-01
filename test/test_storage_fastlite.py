@@ -4,7 +4,8 @@ import fastlite as fl
 import pytest
 from sqlite_minutils.db import NotFoundError
 
-from dnd_engine.data import storage_fastlite as sf
+from dnd_engine.data import fastite_loader as fl_loader
+from dnd_engine.data import fastlite_db as fl_db
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import Event
 from dnd_engine.model.skill_tech import SkillRecord
@@ -25,35 +26,20 @@ def creature():
 @pytest.fixture
 def empty_db():
     db = fl.database("db/test_empty.sqlite")
-    if "skill_records" in db.t:
-        db.t.skill_records.drop()
-    if "creatures" in db.t:
-        db.t.creatures.drop()
-    if "events" in db.t:
-        db.t.events.drop()
+    for t in db.tables:
+        t.drop()
     return db
 
 
 @pytest.fixture
 def filled_db():
     db = fl.database("db/test_filled.sqlite")
-
-    if "events" in db.t:
-        db.t.events.drop()
-    events = sf.create_events_table(db)
-    events.insert(source="Test_Creature_1", msg="test message")
-
-    if "skill_records" in db.t:
-        db.t.skill_records.drop()
-    skill_records = sf.create_skill_records_table(db)
-    skill_records.insert(
+    fl_db.recreate_db(db)
+    db.t.events.insert(source="Test_Creature_1", msg="test message")
+    db.t.skill_records.insert(
         id="1", creature_id="Test_Creature_1", name="eat", type="Consume"
     )
-
-    if "creatures" in db.t:
-        db.t.creatures.drop()
-    creatures = sf.create_creatures_table(db)
-    creatures.insert(
+    db.t.creatures.insert(
         id="Test_Creature_1",
         name="Test_Creature",
         is_alive=True,
@@ -64,32 +50,32 @@ def filled_db():
 
 
 def test_create_events_table(empty_db):
-    table = sf.create_events_table(empty_db)
+    table = fl_db.create_events_table(empty_db)
     assert isinstance(table, fl.Table)
     assert table.name == "events"
 
 
 def test_save_event(empty_db, creature):
-    sf.create_events_table(empty_db)
+    fl_loader.create_events_table(empty_db)
     e = Event(source=creature, msg="test_message")
-    r = sf.save_event(e, db=empty_db)
+    r = fl_loader.save_event(e, db=empty_db)
     assert r == {"source": creature.name, "id": 1, "msg": "test_message"}
 
 
 def test_load_events(filled_db):
-    assert sf.load_events(filled_db) == [
+    assert fl_loader.load_events(filled_db) == [
         {"source": "Test_Creature_1", "id": 1, "msg": "test message"}
     ]
 
 
 def test_create_creatures_table(empty_db):
-    table = sf.create_creatures_table(empty_db)
+    table = fl_db.create_creatures_table(empty_db)
     assert isinstance(table, fl.Table)
     assert table.name == "creatures"
 
 
 def test_load_creature(filled_db):
-    c = sf.load_creature(id="Test_Creature_1", db=filled_db)
+    c = fl_loader.load_creature(id="Test_Creature_1", db=filled_db)
     assert isinstance(c, Creature)
     assert c.name == "Test_Creature"
     assert isinstance(c.skills, dict)
@@ -97,22 +83,22 @@ def test_load_creature(filled_db):
 
 
 def test_create_skill_records_table(empty_db):
-    table = sf.create_skill_records_table(empty_db)
+    table = fl_db.create_skill_records_table(empty_db)
     assert isinstance(table, fl.Table)
     assert table.name == "skill_records"
 
 
 def test_load_skill_record(filled_db):
-    r = sf.load_skill_record(id="1", db=filled_db)
+    r = fl_loader.load_skill_record(id="1", db=filled_db)
     assert isinstance(r, SkillRecord)
     assert r.used == 0
     assert r.level == 1
 
 
 def test_save_skill_record_new(empty_db):
-    sf.create_skill_records_table(empty_db)
+    fl_db.create_skill_records_table(empty_db)
     record = SkillRecord(name="test", type="consume")
-    r = sf.save_skill_record(creature_id="Test_Creature", record=record, db=empty_db)
+    r = fl_loader.save_skill_record(creature_id="Test_Creature", record=record, db=empty_db)
     assert r == {
         "id": "Test_Creature_test",
         "level": 1,
@@ -124,18 +110,18 @@ def test_save_skill_record_new(empty_db):
 
 
 def test_delete_creature(empty_db, creature):
-    sf.create_creatures_table(empty_db)
-    sf.save_creature(creature=creature, db=empty_db)
-    sf.delete_creature(creature=creature, db=empty_db)
+    fl_db.create_creatures_table(empty_db)
+    fl_loader.save_creature(creature=creature, db=empty_db)
+    fl_loader.delete_creature(creature=creature, db=empty_db)
     creature_id = creature.id
     with pytest.raises(NotFoundError):
-        sf.load_creature(id=creature_id, db=empty_db)
+        fl_loader.load_creature(id=creature_id, db=empty_db)
 
 
 def test_save_creature(empty_db, creature):
-    sf.create_creatures_table(empty_db)
+    fl_db.create_creatures_table(empty_db)
 
-    r = sf.save_creature(creature=creature, db=empty_db)
+    r = fl_loader.save_creature(creature=creature, db=empty_db)
     assert r == {
         "id": creature.id,
         "hp": 10,

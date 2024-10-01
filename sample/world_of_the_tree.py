@@ -1,7 +1,7 @@
 import random
 from typing import List
 
-from dnd_engine.data import storage_fastlite as sf
+from dnd_engine.data import fastite_loader as fl_loader
 from dnd_engine.data.logger import set_logging
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import Event
@@ -13,8 +13,8 @@ from dnd_engine.model.skill_library import Consume
 
 set_logging()
 
-sf.clear_events()
-creatures = sf.load_creatures()
+fl_loader.clear_events()
+creatures = fl_loader.load_creatures()
 head_count = 0
 for creature in creatures:
     head_count += 1
@@ -37,7 +37,7 @@ def remove_empty_resources():
 
 def remove_dead_creature(creature: Creature):
     global creatures
-    sf.delete_creature(creature)
+    fl_loader.delete_creature(creature)
     creatures.remove(creature)
 
 
@@ -79,7 +79,7 @@ def react(event: Event):
     global resources
 
     # Save to Events table
-    sf.save_event(event)
+    fl_loader.save_event(event)
 
     if event.msg == "Full":
         is_full(event.source)
@@ -100,7 +100,7 @@ for _ in range(100):
             creature.do_by_class("Consume", resource)
 
         exec_on_deque(react)
-        sf.save_creature(creature)
+        fl_loader.save_creature(creature)
 
 for item in creatures:
     print(item.model_dump(include={"id", "name", "hp", "max_hp", "is_alive", "skills"}))

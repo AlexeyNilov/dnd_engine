@@ -1,22 +1,15 @@
-from dnd_engine.data import storage_fastlite as sf
+from dnd_engine.data import fastite_loader as fl_loader
 from dnd_engine.data.bestiary import get_creature
 
 
-sf.DB.t.creatures.drop()
-sf.create_creatures_table()
-sf.DB.t.skill_records.drop()
-sf.create_skill_records_table()
-sf.DB.t.events.drop()
-sf.create_events_table()
+fl_loader.recreate_db()
+fl_loader.save_creature(get_creature("Wolf"))
+fl_loader.save_creature(get_creature("Pig"))
+fl_loader.save_creature(get_creature("Oak"))
 
 
-sf.save_creature(get_creature("Wolf"))
-sf.save_creature(get_creature("Pig"))
-sf.save_creature(get_creature("Oak"))
-
-
-for c in sf.DB.t.creatures():
+for c in fl_loader.DB.t.creatures():
     print(c)
 
-for s in sf.DB.t.skill_records():
+for s in fl_loader.DB.t.skill_records():
     print(s)
