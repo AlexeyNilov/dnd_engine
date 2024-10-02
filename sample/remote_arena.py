@@ -67,7 +67,7 @@ while True:
     combat_views = combats_table(limit=1)
     if combat_views:
         cv: Combats = combat_views[0]
-        publish_event(source="Engine", msg=f"Status {cv.status} {cv.round}")
+
         if cv.status == "Not started":
             combat = Combat(
                 name=cv.name,
