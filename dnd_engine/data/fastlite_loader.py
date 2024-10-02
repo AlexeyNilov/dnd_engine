@@ -26,14 +26,13 @@ def clear_events(db: Database = DB):
 
 def save_event(event: Event, db: Database = DB) -> dict:
     events = db.t.events
-    data = {"source": event.source.name, "msg": event.msg}
+    data = {"source": event.source, "msg": event.msg}
 
     return events.insert(**data)
 
 
 def load_events(db: Database = DB) -> list:
-    events = db.t.events
-    return events()
+    return db.t.events()
 
 
 def load_skill_record(id: int, db: Database = DB) -> SkillRecord:

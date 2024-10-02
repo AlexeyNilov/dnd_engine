@@ -1,19 +1,18 @@
 from collections import deque
-from typing import Any
 from typing import Callable
 
 from pydantic import BaseModel
 
 
 class Event(BaseModel):
-    source: Any
+    source: str
     msg: str
 
 
 EVENTS = deque[Event]()
 
 
-def publish_deque(source: Any, msg: str) -> None:
+def publish_deque(source: str, msg: str) -> None:
     EVENTS.append(Event(source=source, msg=msg))
 
 
@@ -30,7 +29,7 @@ def exec_on_deque(func: Callable) -> list:
 def print_deque() -> None:
 
     def print_event(e: Event):
-        print(f"{e.source.name}: {e.msg}")
+        print(f"{e.source}: {e.msg}")
 
     exec_on_deque(print_event)
 
@@ -38,6 +37,6 @@ def print_deque() -> None:
 def get_deque() -> list:
 
     def get_event(e: Event):
-        return f"{e.source.name}: {e.msg}"
+        return f"{e.source}: {e.msg}"
 
     return exec_on_deque(get_event)

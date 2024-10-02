@@ -1,10 +1,9 @@
 import random
 from typing import List
 
-from pydantic import PositiveInt
-
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.shared import EventModel
+from dnd_engine.model.shared import ZeroPositiveInt
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.team import Team
 
@@ -24,7 +23,7 @@ class AdviceNotFound(Exception):
 class Combat(EventModel):
     teams: List[Team]
     queue: List[Creature] = []
-    round: PositiveInt = 1
+    round: ZeroPositiveInt = 0
     owner: str
     status: str = "Not started"  # Not started, Started, Completed
 

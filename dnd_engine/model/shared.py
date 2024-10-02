@@ -7,7 +7,7 @@ from pydantic.types import StringConstraints
 from typing_extensions import Annotated
 
 
-ZeroInt = Annotated[int, Field(ge=0)]
+ZeroPositiveInt = Annotated[int, Field(ge=0)]
 ConstrainedStr = Annotated[
     str, StringConstraints(min_length=1, to_lower=True, strip_whitespace=True)
 ]
@@ -19,4 +19,4 @@ class EventModel(BaseModel):
 
     def publish_event(self, msg: str):
         if callable(self.events_publisher):
-            self.events_publisher(self, msg)
+            self.events_publisher(self.name, msg)

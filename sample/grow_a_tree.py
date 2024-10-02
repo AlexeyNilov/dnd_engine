@@ -25,7 +25,7 @@ def react(event: Event):
     if event.msg == "Full":
         fruit = Resource(**fruit_data)
         fruits.append(fruit)
-        event.source.hp -= fruit.value
+        tree.hp -= fruit.value
 
 
 while water.value > 0:

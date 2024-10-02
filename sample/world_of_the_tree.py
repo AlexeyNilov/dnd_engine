@@ -45,27 +45,28 @@ def is_full(creature: Creature):
     global creatures
     global resources
     global head_count
-    if creature.name == "Pig":
+    if creature == "Pig":
         start_hp = 20
         head_count += 1
         new_pig = Creature(
             id=f"Creature_{head_count}",
-            name="Pig",
+            name=f"Pig_{head_count}",
             skills={"eat": Consume()},
             hp=start_hp,
             max_hp=50,
             events_publisher=publish_deque,
         )
         creatures.append(new_pig)
-        creature.hp -= start_hp
+        # creature.hp -= start_hp # TODO get creature by name
 
-    if creature.name == "The first oak":
+    if creature == "The first oak":
         new_food = Resource(**food)
         resources.append(new_food)
-        creature.hp -= new_food.value
+        # creature.hp -= new_food.value # TODO get creature by name
 
-    if creature.name == "Wolf":
-        creature.max_hp *= 2
+    if creature == "Wolf":
+        pass
+        # creature.max_hp *= 2 # TODO get creature by name
 
 
 def is_dead(creature: Creature):

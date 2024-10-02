@@ -7,7 +7,7 @@ from typing import Optional
 from pydantic import PositiveInt
 
 from dnd_engine.model.entity import Entity
-from dnd_engine.model.shared import ZeroInt
+from dnd_engine.model.shared import ZeroPositiveInt
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.skill import SkillTypeNotFound
 
@@ -19,7 +19,7 @@ class Creature(Entity):
     """Simple creature, see doc/creature.md for details"""
 
     is_alive: bool = True
-    hp: ZeroInt  # Health points (measure of aliveness)
+    hp: ZeroPositiveInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
     skills: Dict[str, Skill] = {}  # TODO Convert to a list?
     events_publisher: Optional[Callable] = None
