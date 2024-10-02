@@ -53,7 +53,8 @@ class Combat(EventModel):
         return self.get_opposite_team(attacker).members[0]
 
     def next_round(self):
-        self.publish_event(f"Turn {self.round}")
+        self.round += 1
+        self.publish_event(f"Round {self.round}")
 
         # Process creatures in the combat queue
         for creature in filter(lambda c: c.is_alive, self.queue):
@@ -63,8 +64,6 @@ class Combat(EventModel):
 
         # Remove dead members from all teams
         [team.remove_dead_members() for team in self.teams]
-
-        self.round += 1
 
     def advice_level_1(self, myself: Creature, ap: int) -> List[Skill]:
         hp_left = int(round(100 * myself.hp / myself.max_hp, 0))
@@ -85,7 +84,8 @@ class Combat(EventModel):
         return actions
 
     def advice(self, myself: Creature, target: Creature, level: int = 1) -> List[Skill]:
-        ap = myself.get_action_points()
+        # ap = myself.get_action_points()
+        ap = 1
 
         if level == 0:  # Random choice
             return self.advice_random(myself, ap)
