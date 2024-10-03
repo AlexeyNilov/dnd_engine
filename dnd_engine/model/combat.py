@@ -28,7 +28,12 @@ class Combat(EventModel):
     status: str = "Not started"  # Not started, Started, Completed
 
     def is_the_end(self) -> bool:
+        for team in self.teams:
+            if not all(m.is_alive for m in team.members):
+                team.is_loser = True
+                break
         if any(team.is_loser for team in self.teams):
+            self.publish_event(f"{team.name} lost")
             self.publish_event("The End")
             return True
         return False

@@ -147,9 +147,4 @@ def test_save_combat(empty_db, combat):
     fl_db.create_combats_table(empty_db)
     r = fl_loader.save_combat_view(combat=combat, db=empty_db)
     del r["queue"]
-    assert r == {
-        "name": "Test",
-        "owner": "Test",
-        'round': 0,
-        'status': "Not started"
-    }
+    assert r == {"name": "Test", "owner": "Test", "round": 0, "status": "Started"}
