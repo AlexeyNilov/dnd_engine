@@ -106,7 +106,7 @@ class Combat(EventModel):
         return actions
 
     def advice(self, myself: Creature, level: int = 1) -> List[Tuple[Skill, Creature]]:
-        if isinstance(self.input_getter, Callable):
+        if isinstance(self.input_getter, Callable) and myself in self.teams[0].members:
             return self.input_getter(self, myself)
 
         # max_ap = myself.get_action_points()
