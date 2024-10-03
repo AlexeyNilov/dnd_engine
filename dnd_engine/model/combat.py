@@ -1,5 +1,7 @@
 import random
+from typing import Callable
 from typing import List
+from typing import Optional
 from typing import Tuple
 
 from dnd_engine.model.creature import Creature
@@ -27,6 +29,7 @@ class Combat(EventModel):
     round: ZeroPositiveInt = 0
     owner: str
     status: str = "Not started"  # Not started -> Started -> Completed
+    input_getter: Optional[Callable] = None
 
     def is_completed(self) -> bool:
         if self.status == "Completed":
@@ -103,6 +106,9 @@ class Combat(EventModel):
         return actions
 
     def advice(self, myself: Creature, level: int = 1) -> List[Tuple[Skill, Creature]]:
+        if isinstance(self.input_getter, Callable):
+            return self.input_getter(self, myself)
+
         # max_ap = myself.get_action_points()
         max_ap = 1
 
