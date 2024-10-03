@@ -7,7 +7,7 @@ from dnd_engine.service.battle import generate_teams
 combat = Combat(
     name="Arena",
     events_publisher=publish_deque,
-    teams=generate_teams(size=2, events_publisher=publish_deque),
+    teams=generate_teams(size=1, events_publisher=publish_deque),
     owner="Arena",
 )
 combat.form_combat_queue()

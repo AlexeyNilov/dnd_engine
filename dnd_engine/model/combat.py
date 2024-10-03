@@ -33,6 +33,7 @@ class Combat(EventModel):
                 team.is_loser = True
                 break
         if any(team.is_loser for team in self.teams):
+            self.status = "Completed"
             self.publish_event(f"{team.name} lost")
             self.publish_event("The End")
             return True

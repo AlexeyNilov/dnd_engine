@@ -38,9 +38,6 @@ def cycle_rounds(combat: Combat):
 
         sleep(1)
 
-    cv.status = "Completed"
-    combats_table.upsert(cv)
-
 
 while True:
     combat_views = combats_table(limit=1)
@@ -66,4 +63,5 @@ while True:
         save_team_members(combat)
         cycle_rounds(combat)
     else:
+        sleep(10)
         combats_table.delete(cv.name)
