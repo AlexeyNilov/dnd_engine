@@ -25,9 +25,9 @@ class Combat(EventModel):
     queue: List[Creature] = []
     round: ZeroPositiveInt = 0
     owner: str
-    status: str = "Not started"  # Not started, Started, Completed
+    status: str = "Not started"  # Not started -> Started -> Completed
 
-    def is_the_end(self) -> bool:
+    def is_completed(self) -> bool:
         for team in self.teams:
             if not all(m.is_alive for m in team.members):
                 team.is_loser = True
@@ -100,19 +100,19 @@ class Combat(EventModel):
         return actions
 
     def advice(self, myself: Creature, target: Creature, level: int = 1) -> List[Skill]:
-        # ap = myself.get_action_points()
-        ap = 1
+        # max_ap = myself.get_action_points()
+        max_ap = 1
 
         if level == 0:  # Random choice
-            return self.advice_random(myself, ap)
+            return self.advice_random(myself, max_ap)
 
         if level == 1:  # HP based choice
-            return self.advice_level_1(myself, ap)
+            return self.advice_level_1(myself, max_ap)
 
         options = myself.get_skill_classes()
         if len(options) == 1:
             actions: List[Skill] = []
-            for _ in range(ap):
+            for _ in range(max_ap):
                 actions.append(myself.get_skill_by_class(options[0]))
             return actions
 

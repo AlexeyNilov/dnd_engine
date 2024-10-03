@@ -27,7 +27,7 @@ def save_team_members(combat: Combat):
 
 
 def cycle_rounds(combat: Combat):
-    while not combat.is_the_end():
+    while not combat.is_completed():
         cv: Combats = combats_table[combat.name]
 
         if cv.status == "Started" and cv.round > combat.round:

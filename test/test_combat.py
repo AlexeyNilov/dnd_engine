@@ -22,9 +22,16 @@ def combat(team_red, team_blue):
 
 
 def test_is_the_end(combat):
-    assert combat.is_the_end() is False
+    assert combat.is_completed() is False
     combat.teams[0].is_loser = True
-    assert combat.is_the_end()
+    assert combat.is_completed()
+
+
+def test_is_the_end_no_alive_members(combat):
+    assert combat.is_completed() is False
+    for m in combat.teams[0].members:
+        m.is_alive = False
+    assert combat.is_completed()
 
 
 def test_form_combat_queue(combat):

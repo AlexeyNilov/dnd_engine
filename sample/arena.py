@@ -11,7 +11,7 @@ combat = Combat(
     owner="Arena",
 )
 combat.form_combat_queue()
-while not combat.is_the_end():
+while not combat.is_completed():
     combat.next_round()
 
 print_deque()
