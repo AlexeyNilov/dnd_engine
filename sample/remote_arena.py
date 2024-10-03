@@ -1,6 +1,6 @@
 from time import sleep
 
-from dnd_engine.data.db_dataclasses import Combats
+from dnd_engine.data.fastlite_dataclasses import Combats
 from dnd_engine.data.fastlite_db import DB
 from dnd_engine.data.fastlite_loader import save_combat_view
 from dnd_engine.data.fastlite_loader import save_creature
@@ -44,25 +44,26 @@ def cycle_rounds(combat: Combat):
 
 while True:
     combat_views = combats_table(limit=1)
-    # print(combat_views)
-    if combat_views:
-        cv: Combats = combat_views[0]
 
-        if cv.status == "Not started":
-            combat = Combat(
-                name=cv.name,
-                events_publisher=publish_event,
-                teams=generate_teams(events_publisher=publish_event),
-                owner=cv.owner,
-                round=cv.round,
-                status=cv.status,
-            )
-            combat.form_combat_queue()
-            combat.status = "Started"
-            save_combat_view(combat)
-            save_team_members(combat)
+    if not combat_views:
+        sleep(2)
+        continue
 
-        if cv.status == "Started":
-            cycle_rounds(combat)
+    cv: Combats = combat_views[0]
+    print(cv)
 
-    sleep(2)
+    if cv.status == "Not started":
+        combat = Combat(
+            name=cv.name,
+            events_publisher=publish_event,
+            teams=generate_teams(events_publisher=publish_event),
+            owner=cv.owner,
+            round=cv.round,
+            status=cv.status,
+        )
+        combat.form_combat_queue()
+        save_combat_view(combat)
+        save_team_members(combat)
+        cycle_rounds(combat)
+    else:
+        combats_table.delete(cv.name)

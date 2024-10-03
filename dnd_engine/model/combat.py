@@ -34,6 +34,7 @@ class Combat(EventModel):
         return False
 
     def form_combat_queue(self):
+        self.status = "Started"
         self.queue = [member for team in self.teams for member in team.members]
         random.shuffle(self.queue)
 
