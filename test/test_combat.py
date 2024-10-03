@@ -48,8 +48,10 @@ def test_get_target_for(combat, team_red, team_blue):
 
 
 def test_advice(combat):
-    r = combat.advice(combat.teams[0].members[0], combat.teams[1].members[1])
-    assert r == [combat.teams[0].members[0].skills["bite"]] * 1
+    r = combat.advice(combat.teams[0].members[0])
+    assert r == [
+        (combat.teams[0].members[0].skills["bite"], combat.teams[1].members[0])
+    ]
 
 
 def test_get_team(combat):

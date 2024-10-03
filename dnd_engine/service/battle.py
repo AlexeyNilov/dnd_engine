@@ -6,7 +6,7 @@ from dnd_engine.data.bestiary import get_creature
 from dnd_engine.model.team import Team
 
 
-def generate_teams(size: int = 4, events_publisher: Callable = None) -> List[Team]:
+def generate_teams(events_publisher: Callable, size: int = 4) -> List[Team]:
     # Team Red
     wolfs = [
         get_creature("Wolf", events_publisher=events_publisher)

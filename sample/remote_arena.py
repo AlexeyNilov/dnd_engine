@@ -30,7 +30,7 @@ def cycle_rounds(combat: Combat):
     while not combat.is_completed():
         cv: Combats = combats_table[combat.name]
 
-        if cv.status == "Started" and cv.round > combat.round:
+        if cv.status == "Started" and cv.round is not None and cv.round > combat.round:
             combat.next_round()
             cv.status = combat.status
             combats_table.upsert(cv)
