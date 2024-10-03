@@ -61,9 +61,7 @@ def load_skill_book(creature_id: int, db: Database = DB) -> list:
     data = db.q(sql)
     skill_book = []
     for item in data:
-        skill_book.append(
-            load_skill_record(id=item["id"], db=db)
-        )
+        skill_book.append(load_skill_record(id=item["id"], db=db))
     return skill_book
 
 
@@ -124,10 +122,15 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
 
 def save_combat_view(combat: Combat, db: Database = DB) -> dict:
     queue_str = ""
+    turn_map = {}
+    turn = 0
     for creature in combat.queue:
-        for team in combat.teams:
-            if creature in team.members:
-                queue_str += f"{team.name}:{creature.id};"
+        turn_map[creature.id] = turn
+        turn += 1
+
+    for team in combat.teams:
+        for creature in team.members:
+            queue_str += f"{team.name}:{creature.id}:{turn_map[creature.id]};"
 
     data = combat.model_dump()
     data["queue"] = queue_str
