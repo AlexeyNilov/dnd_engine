@@ -2,10 +2,10 @@
 
 ## Dungeon arena
 
-* Owner based UI + table triggered combat
 * Combat class simplification
 * Battle spirit - random
-* UI control: start battle, next round
+* UI: next creature turn
+* UI: control panel
 * Inventory and equipment
 * New stats (energy, mana, etc)
 * Luck

@@ -1,8 +1,5 @@
-from random import randint
 from time import sleep
-from typing import List
 
-from dnd_engine.data.bestiary import get_creature
 from dnd_engine.data.db_dataclasses import Combats
 from dnd_engine.data.fastlite_db import DB
 from dnd_engine.data.fastlite_loader import save_combat_view
@@ -10,7 +7,7 @@ from dnd_engine.data.fastlite_loader import save_creature
 from dnd_engine.data.fastlite_loader import save_event
 from dnd_engine.model.combat import Combat
 from dnd_engine.model.event import Event
-from dnd_engine.model.team import Team
+from dnd_engine.service.battle import generate_teams
 
 
 combats_table = DB.t.combats
@@ -21,24 +18,6 @@ combats_table.xtra(owner="Arena")
 def publish_event(source: str, msg: str) -> None:
     print(f"{source}: {msg}")
     save_event(Event(source=source, msg=msg))
-
-
-def generate_teams() -> List[Team]:
-    # Team Red
-    wolfs = [
-        get_creature("Wolf", events_publisher=publish_event)
-        for _ in range(randint(1, 4))
-    ]
-    red = Team(name="Team Red", members=wolfs, events_publisher=publish_event)
-
-    # Team Blue
-    pigs = [
-        get_creature("Pig", events_publisher=publish_event)
-        for _ in range(randint(1, 4))
-    ]
-    blue = Team(name="Team Blue", members=pigs, events_publisher=publish_event)
-
-    return [red, blue]
 
 
 def save_team_members(combat: Combat):
@@ -65,6 +44,7 @@ def cycle_rounds(combat: Combat):
 
 while True:
     combat_views = combats_table(limit=1)
+    # print(combat_views)
     if combat_views:
         cv: Combats = combat_views[0]
 
@@ -72,7 +52,7 @@ while True:
             combat = Combat(
                 name=cv.name,
                 events_publisher=publish_event,
-                teams=generate_teams(),
+                teams=generate_teams(events_publisher=publish_event),
                 owner=cv.owner,
                 round=cv.round,
                 status=cv.status,

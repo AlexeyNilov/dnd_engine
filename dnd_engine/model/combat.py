@@ -61,7 +61,9 @@ class Combat(EventModel):
         self.publish_event(f"Round {self.round}")
 
         # Process creatures in the combat queue
-        for creature in filter(lambda c: c.is_alive, self.queue):
+        for creature in self.queue:
+            if not creature.is_alive:
+                continue
             target = self.get_target_for(creature)
             if target is None:
                 break
@@ -108,11 +110,3 @@ class Combat(EventModel):
             return actions
 
         raise AdviceNotFound
-
-    def battle(self):
-        self.status = "Started"
-        while not self.is_the_end():
-            self.form_combat_queue()
-            self.next_round()
-            # break
-        self.status = "Completed"
