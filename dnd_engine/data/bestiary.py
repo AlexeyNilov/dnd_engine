@@ -7,7 +7,7 @@ from typing import Dict
 import yaml
 
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.event import publish_deque
+from dnd_engine.model.event import publish_to_deque
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.skill_library import SKILL_MAP
 
@@ -35,7 +35,7 @@ def get_skills(data: Dict[str, dict]) -> Dict[str, Skill]:
     return skills
 
 
-def get_creature(name: str, events_publisher: Callable = publish_deque) -> Creature:
+def get_creature(name: str, events_publisher: Callable = publish_to_deque) -> Creature:
     if name in BESTIARY:
         data = copy.deepcopy(BESTIARY[name])
         data["name"] = name

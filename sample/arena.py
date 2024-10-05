@@ -4,13 +4,13 @@ from dnd_engine.model.combat import Combat
 from dnd_engine.model.combat import Creature
 from dnd_engine.model.command import Command
 from dnd_engine.model.event import print_deque
-from dnd_engine.model.event import publish_deque
+from dnd_engine.model.event import publish_to_deque
 from dnd_engine.service.team import generate_teams
 
 
 combat = Combat(
     name="Combat 1",
-    events_publisher=publish_deque,
+    events_publisher=publish_to_deque,
     teams=generate_teams(size=1),
     owner="Arena",
 )
@@ -24,9 +24,9 @@ def get_input(creature: Creature) -> List[Command]:
 
 
 for team in combat.teams:
-    team.events_publisher = publish_deque
+    team.events_publisher = publish_to_deque
     for m in team.members:
-        m.events_publisher = publish_deque
+        m.events_publisher = publish_to_deque
         m.get_commands = get_input
 
 combat.form_combat_queue()

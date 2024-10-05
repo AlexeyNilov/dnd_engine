@@ -12,31 +12,35 @@ class Event(BaseModel):
 EVENTS = deque[Event]()
 
 
-def publish_deque(source: str, msg: str) -> None:
-    EVENTS.append(Event(source=source, msg=msg))
+def create_deque() -> deque:
+    return deque[Event]()
 
 
-def exec_on_deque(func: Callable) -> list:
+def publish_to_deque(source: str, msg: str, dq: deque = EVENTS) -> None:
+    dq.append(Event(source=source, msg=msg))
+
+
+def exec_on_deque(func: Callable, dq: deque = EVENTS) -> list:
     results = []
     while True:
         try:
-            results.append(func(EVENTS.popleft()))
+            results.append(func(dq.popleft()))
         except IndexError:
             break
     return results
 
 
-def print_deque() -> None:
+def print_deque(dq: deque = EVENTS) -> None:
 
     def print_event(e: Event):
         print(f"{e.source}: {e.msg}")
 
-    exec_on_deque(print_event)
+    exec_on_deque(print_event, dq=dq)
 
 
-def get_deque() -> list:
+def get_deque(dq: deque = EVENTS) -> list:
 
     def get_event(e: Event):
         return f"{e.source}: {e.msg}"
 
-    return exec_on_deque(get_event)
+    return exec_on_deque(get_event, dq=dq)

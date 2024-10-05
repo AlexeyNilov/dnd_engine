@@ -4,7 +4,7 @@ from dnd_engine.data.fastlite_loader import load_creature
 from dnd_engine.data.logger import set_logging
 from dnd_engine.model.event import Event
 from dnd_engine.model.event import exec_on_deque
-from dnd_engine.model.event import publish_deque
+from dnd_engine.model.event import publish_to_deque
 from dnd_engine.model.resource import Resource
 
 
@@ -12,7 +12,7 @@ set_logging()
 
 tree = load_creature(id=3)
 tree.hp = tree.max_hp - 10
-tree.events_publisher = publish_deque
+tree.events_publisher = publish_to_deque
 
 water_data = {"name": "Water", "value": 200}
 water = Resource(**water_data)
