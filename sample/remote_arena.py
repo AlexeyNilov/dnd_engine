@@ -1,4 +1,6 @@
 from time import sleep
+from typing import List
+from typing import Tuple
 
 from dnd_engine.data.fastlite_dataclasses import Combats
 from dnd_engine.data.fastlite_db import DB
@@ -6,8 +8,11 @@ from dnd_engine.data.fastlite_loader import save_combat_view
 from dnd_engine.data.fastlite_loader import save_creature
 from dnd_engine.data.fastlite_loader import save_event
 from dnd_engine.model.combat import Combat
+from dnd_engine.model.combat import Creature
 from dnd_engine.model.event import Event
+from dnd_engine.model.skill import Skill
 from dnd_engine.service.battle import generate_teams
+from dnd_engine.service.battle import next_round
 
 
 combats_table = DB.t.combats
@@ -26,12 +31,22 @@ def save_team_members(combat: Combat):
             save_creature(cr)
 
 
+def get_remote_input(
+    combat: Combat, creature: Creature
+) -> List[Tuple[Skill, Creature]]:
+    actions = list()
+    target = combat.get_target_for(creature)
+    skill = creature.get_skill_by_class("Attack")
+    actions.append((skill, target))
+    return actions
+
+
 def cycle_rounds(combat: Combat):
     while not combat.is_completed():
         cv: Combats = combats_table[combat.name]
 
         if cv.status == "Started" and cv.round is not None and cv.round > combat.round:
-            combat.next_round()
+            next_round(combat, input_getter=get_remote_input)
             cv.status = combat.status
             combats_table.upsert(cv)
             save_team_members(combat)

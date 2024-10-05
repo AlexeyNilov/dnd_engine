@@ -35,7 +35,21 @@ combat_structure = dict(
     queue=str,
 )
 
+action_structure = dict(
+    id=int,
+    attacker_id=int,
+    target_id=int,
+    skill_classes=str,
+)
+
 event_structure = dict(id=int, source=str, msg=str)
+
+
+def create_actions_table(db=DB) -> fl.Table:
+    actions = db.t.actions
+    if actions not in db.t:
+        actions.create(action_structure, pk="id")
+    return actions
 
 
 def create_events_table(db=DB) -> fl.Table:
@@ -71,6 +85,7 @@ TABLES: Dict[str, Callable] = {
     "creatures": create_creatures_table,
     "events": create_events_table,
     "combats": create_combats_table,
+    "actions": create_actions_table,
 }
 
 

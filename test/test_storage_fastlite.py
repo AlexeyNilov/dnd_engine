@@ -58,7 +58,30 @@ def filled_db():
     db.t.events.insert(source="Test_Creature_1", msg="test message")
     db.t.skill_records.insert(creature_id=1, name="eat", type="Consume")
     db.t.creatures.insert(name="Test_Creature", is_alive=True, hp=10, max_hp=100)
+    db.t.actions.insert(id=1, attacker_id=0, target_id=1)
     return db
+
+
+def test_create_actions_table(empty_db):
+    table = fl_db.create_actions_table(empty_db)
+    assert isinstance(table, fl.Table)
+    assert table.name == "actions"
+
+
+def test_load_action(filled_db):
+    assert fl_loader.load_action(1, filled_db) == {
+        "attacker_id": 0,
+        "id": 1,
+        "target_id": 1,
+        "skill_classes": None,
+    }
+
+
+def test_save_action(empty_db):
+    fl_db.create_actions_table(empty_db)
+    action = {"attacker_id": 0, "id": 1, "target_id": 1, "skill_classes": "Attack"}
+    r = fl_loader.save_action(action, empty_db)
+    assert r == action
 
 
 def test_create_events_table(empty_db):

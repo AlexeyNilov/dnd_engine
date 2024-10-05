@@ -19,6 +19,15 @@ db_path = os.environ.get("DB_PATH", "db/dnd.sqlite")
 DB: Database = fl.database(db_path)
 
 
+def load_action(id: int, db: Database = DB) -> dict:
+    return db.t.actions[id]
+
+
+def save_action(action: dict, db: Database = DB) -> dict:
+    actions = db.t.actions
+    return actions.upsert(**action)
+
+
 def clear_events(db: Database = DB):
     db.t.events.drop()
     create_events_table(db)

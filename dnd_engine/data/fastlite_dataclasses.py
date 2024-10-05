@@ -24,6 +24,13 @@ class Creatures:
 
 
 @dataclass
+class Events:
+    id: int | None = None
+    source: str | None = None
+    msg: str | None = None
+
+
+@dataclass
 class Combats:
     name: str | None = None
     owner: str | None = None
@@ -33,7 +40,8 @@ class Combats:
 
 
 @dataclass
-class Events:
+class Actions:
     id: int | None = None
-    source: str | None = None
-    msg: str | None = None
+    attacker_id: int | None = None
+    target_id: int | None = None
+    skill_classes: str | None = None
