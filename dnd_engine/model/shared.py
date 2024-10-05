@@ -19,4 +19,4 @@ class EventModel(BaseModel):
 
     def publish_event(self, msg: str):
         if callable(self.events_publisher):
-            self.events_publisher(self.name, msg)
+            self.events_publisher(self.name, msg, self)

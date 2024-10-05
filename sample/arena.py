@@ -9,7 +9,7 @@ from dnd_engine.service.team import generate_teams
 
 
 combat = Combat(
-    name="Combat 1",
+    name="Combat",
     events_publisher=publish_to_deque,
     teams=generate_teams(size=1),
     owner="Arena",
@@ -29,8 +29,6 @@ for team in combat.teams:
         m.events_publisher = publish_to_deque
         m.get_commands = get_input
 
-combat.form_combat_queue()
-while not combat.is_completed():
-    combat.next_round()
+combat.start()
 
 print_deque()

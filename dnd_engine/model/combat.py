@@ -70,3 +70,8 @@ class Combat(EventModel):
                 continue
 
             creature.act()
+
+    def start(self):
+        self.form_combat_queue()
+        while not self.is_completed():
+            self.next_round()

@@ -1,5 +1,7 @@
 from collections import deque
+from typing import Any
 from typing import Callable
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -7,6 +9,7 @@ from pydantic import BaseModel
 class Event(BaseModel):
     source: str
     msg: str
+    entity: Optional[Any] = None
 
 
 EVENTS = deque[Event]()
@@ -16,8 +19,13 @@ def create_deque() -> deque:
     return deque[Event]()
 
 
-def publish_to_deque(source: str, msg: str, dq: deque = EVENTS) -> None:
-    dq.append(Event(source=source, msg=msg))
+def publish_to_deque(
+    source: str,
+    msg: str,
+    entity: Optional[Any] = None,
+    dq: deque = EVENTS,
+) -> None:
+    dq.append(Event(source=source, msg=msg, entity=entity))
 
 
 def exec_on_deque(func: Callable, dq: deque = EVENTS) -> list:
