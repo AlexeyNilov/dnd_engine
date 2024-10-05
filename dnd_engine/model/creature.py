@@ -37,7 +37,7 @@ class Creature(Entity):
 
     def act(self) -> None:
         if callable(self.get_commands):
-            commands: List[Command] = self.get_commands()
+            commands: List[Command] = self.get_commands(self)
             ap = min(self.get_action_points(), len(commands))
             for command in commands[:ap]:
                 self.apply(

@@ -1,5 +1,6 @@
 from dnd_engine.data.fastlite_loader import load_creature
 from dnd_engine.model.command import Command
+from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import print_deque
 from dnd_engine.model.event import publish_deque
 
@@ -7,8 +8,8 @@ from dnd_engine.model.event import publish_deque
 cr = load_creature(id=1)
 
 
-def generate_command():
-    c = Command(skill_class="Attack", target=cr)
+def generate_command(creature: Creature):
+    c = Command(skill_class="Attack", target=creature)
     return [c] * 5
 
 
