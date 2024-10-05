@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Any
 from typing import List
 
 import fastlite as fl
@@ -150,3 +151,17 @@ def save_combat_view(combat: Combat, db: Database = DB) -> dict:
         del data[item]
     ct = db.t.combats
     return ct.upsert(**data)
+
+
+def save_event_related_entity(
+    source: str, msg: str, entity: Any, do_print: bool = False
+) -> None:
+    if do_print:
+        print(f"{source}: {msg}")
+
+    save_event(Event(source=source, msg=msg, entity=entity))
+
+    if isinstance(entity, Creature):
+        save_creature(entity)
+    if isinstance(entity, Combat):
+        save_combat_view(entity)

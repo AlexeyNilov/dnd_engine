@@ -6,6 +6,7 @@ from dnd_engine.model.command import Command
 from dnd_engine.model.event import print_deque
 from dnd_engine.model.event import publish_to_deque
 from dnd_engine.service.team import generate_teams
+from dnd_engine.service.team import prepare_teams
 
 
 combat = Combat(
@@ -23,11 +24,7 @@ def get_input(creature: Creature) -> List[Command]:
     return actions
 
 
-for team in combat.teams:
-    team.events_publisher = publish_to_deque
-    for m in team.members:
-        m.events_publisher = publish_to_deque
-        m.get_commands = get_input
+prepare_teams(combat.teams, event_publisher=publish_to_deque, get_commands=get_input)
 
 combat.start()
 

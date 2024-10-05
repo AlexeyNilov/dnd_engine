@@ -94,3 +94,4 @@ class Creature(Entity):
         self.check_hp_above_zero()
         if self.is_alive:
             self.check_hp_less_than_max_hp()
+        self.publish_event(f"{self.name} HP changed")
