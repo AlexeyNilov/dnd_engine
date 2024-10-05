@@ -2,10 +2,12 @@ import pytest
 
 from dnd_engine.data.logger import set_logging
 from dnd_engine.model import creature as cr
+from dnd_engine.model.command import Command
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.skill import SkillMethodNotImplemented
 from dnd_engine.model.skill import SkillTypeNotFound
+from dnd_engine.model.skill_library import Attack
 from dnd_engine.model.skill_library import Consume
 
 
@@ -18,6 +20,12 @@ def creature():
     c = cr.Creature(**data)
     c.skills["eat"] = Consume()
     return c
+
+
+@pytest.fixture
+def attack_creature(creature):
+    creature.skills["bite"] = Attack()
+    return creature
 
 
 def test_hp_limit(creature):
@@ -76,8 +84,19 @@ def test_get_skill_by_class(creature):
 
 
 def test_get_skill_classes(creature):
-    assert creature.get_skill_classes() == ['Consume']
+    assert creature.get_skill_classes() == ["Consume"]
 
 
 def test_get_action_points(creature):
     assert creature.get_action_points() == 1
+
+
+def test_act(attack_creature):
+
+    def generate_command():
+        c = Command(skill_class="Attack", target=attack_creature)
+        return [c] * 5
+
+    attack_creature.get_commands = generate_command
+    attack_creature.act()
+    assert attack_creature.hp == 7

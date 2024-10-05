@@ -9,7 +9,7 @@ cr = load_creature(id=1)
 
 def generate_command():
     c = Command(skill_class="Attack", target=cr)
-    return [c]
+    return [c] * 5
 
 
 cr.events_publisher = publish_deque

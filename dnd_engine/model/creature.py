@@ -38,7 +38,8 @@ class Creature(Entity):
     def act(self) -> None:
         if callable(self.get_commands):
             commands: List[Command] = self.get_commands()
-            for command in commands:
+            ap = min(self.get_action_points(), len(commands))
+            for command in commands[:ap]:
                 self.apply(
                     self.get_skill_by_class(command.skill_class), to=command.target
                 )
