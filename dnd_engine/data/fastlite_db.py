@@ -1,4 +1,3 @@
-""" Fastlite(sqlite) DB structure is described in this file """
 import os
 from typing import Callable
 from typing import Dict
@@ -33,7 +32,7 @@ combat_structure = dict(
     owner=str,
     status=str,
     round=int,
-    queue=str
+    queue=str,
 )
 
 event_structure = dict(id=int, source=str, msg=str)
@@ -71,7 +70,7 @@ TABLES: Dict[str, Callable] = {
     "skill_records": create_skill_records_table,
     "creatures": create_creatures_table,
     "events": create_events_table,
-    "combats": create_combats_table
+    "combats": create_combats_table,
 }
 
 

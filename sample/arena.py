@@ -7,6 +7,7 @@ from dnd_engine.model.event import print_deque
 from dnd_engine.model.event import publish_deque
 from dnd_engine.model.skill import Skill
 from dnd_engine.service.battle import generate_teams
+from dnd_engine.service.battle import next_round
 
 
 def get_input(combat: Combat, creature: Creature) -> List[Tuple[Skill, Creature]]:
@@ -22,10 +23,9 @@ combat = Combat(
     events_publisher=publish_deque,
     teams=generate_teams(size=1, events_publisher=publish_deque),
     owner="Arena",
-    input_getter=get_input,
 )
 combat.form_combat_queue()
 while not combat.is_completed():
-    combat.next_round()
+    next_round(combat, input_getter=get_input)
 
 print_deque()

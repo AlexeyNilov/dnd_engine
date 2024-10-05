@@ -47,13 +47,6 @@ def test_get_target_for(combat, team_red, team_blue):
     assert combat.get_target_for(attacker=team_red.members[0]) == team_blue.members[0]
 
 
-def test_advice(combat):
-    r = combat.advice(combat.teams[0].members[0])
-    assert r == [
-        (combat.teams[0].members[0].skills["bite"], combat.teams[1].members[0])
-    ]
-
-
 def test_get_team(combat):
     assert combat.get_team(combat.teams[0].members[0]).name == "Red"
 
