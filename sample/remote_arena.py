@@ -4,6 +4,7 @@ from typing import Tuple
 
 from dnd_engine.data.fastlite_dataclasses import Combats
 from dnd_engine.data.fastlite_db import DB
+from dnd_engine.data.fastlite_db import recreate_db
 from dnd_engine.data.fastlite_loader import load_action
 from dnd_engine.data.fastlite_loader import save_action
 from dnd_engine.data.fastlite_loader import save_combat_view
@@ -17,6 +18,7 @@ from dnd_engine.service.battle import generate_teams
 from dnd_engine.service.battle import next_round
 
 
+recreate_db()
 combats_table = DB.t.combats
 combats_table.dataclass()
 combats_table.xtra(owner="Arena")
@@ -46,6 +48,7 @@ def get_remote_input(
         if action["skill_classes"]:
             break
 
+    # TODO delete actions
     skill = creature.get_skill_by_class(action["skill_classes"])
     remote_input.append((skill, target))
     return remote_input
@@ -93,3 +96,4 @@ while True:
     else:
         sleep(5)
         combats_table.delete(cv.name)
+        # TODO delete creatures

@@ -41,5 +41,6 @@ def get_creature(name: str, events_publisher: Callable = publish_deque) -> Creat
         data["name"] = name
         data["events_publisher"] = events_publisher
         data["skills"] = get_skills(data["skills"])
+        data["hp"] = data["max_hp"]
         return Creature(**data)
     raise CreatureNotFound

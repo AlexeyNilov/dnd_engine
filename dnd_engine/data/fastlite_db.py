@@ -35,7 +35,7 @@ combat_structure = dict(
     queue=str,
 )
 
-action_structure = dict(
+action_structure = dict(  # TODO add combat id
     id=int,
     attacker_id=int,
     target_id=int,
