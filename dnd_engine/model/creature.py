@@ -6,6 +6,7 @@ from typing import Optional
 
 from pydantic import PositiveInt
 
+from dnd_engine.model.command import Command
 from dnd_engine.model.entity import Entity
 from dnd_engine.model.shared import ZeroPositiveInt
 from dnd_engine.model.skill import Skill
@@ -22,7 +23,7 @@ class Creature(Entity):
     hp: ZeroPositiveInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
     skills: Dict[str, Skill] = {}  # TODO Convert to a list?
-    events_publisher: Optional[Callable] = None
+    get_commands: Optional[Callable] = None
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
@@ -33,6 +34,14 @@ class Creature(Entity):
 
     def get_action_points(self) -> int:
         return len(self.skills.keys())
+
+    def act(self) -> None:
+        if callable(self.get_commands):
+            commands: List[Command] = self.get_commands()
+            for command in commands:
+                self.apply(
+                    self.get_skill_by_class(command.skill_class), to=command.target
+                )
 
     def apply(self, skill: Skill, to: Entity) -> bool:
         """Apply given skill to the Entity"""
@@ -49,7 +58,14 @@ class Creature(Entity):
         return [skill.__class__.__name__ for skill in self.skills.values()]
 
     def get_skill_by_class(self, skill_class: str) -> Skill:
-        skill = next((skill for skill in self.skills.values() if skill.__class__.__name__ == skill_class), None)
+        skill = next(
+            (
+                skill
+                for skill in self.skills.values()
+                if skill.__class__.__name__ == skill_class
+            ),
+            None,
+        )
         if skill is None:
             raise SkillTypeNotFound
         return skill

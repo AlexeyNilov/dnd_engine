@@ -33,3 +33,5 @@ For a creature to perform any action, it must know how to do it — this is wher
 *See doc/skill.md for more details*
 
 Action points = number of skills
+
+## Control

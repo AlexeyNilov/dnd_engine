@@ -126,7 +126,7 @@ def save_creature(creature: Creature, db: Database = DB) -> dict:
         )
         save_skill_record(creature_id=creature.id, record=r, db=db)
 
-    for item in ["skills", "events_publisher"]:
+    for item in ["skills", "events_publisher", "get_commands"]:
         del data[item]
 
     return ct.upsert(**data)
