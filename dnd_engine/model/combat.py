@@ -58,3 +58,15 @@ class Combat(EventModel):
         if target:
             return target
         raise TargetNotFound
+
+    def next_round(self):
+        self.round += 1
+        self.publish_event(f"Round {self.round}")
+
+        for creature in self.queue:
+            if self.is_completed():
+                break
+            if not creature.is_alive:
+                continue
+
+            creature.act()

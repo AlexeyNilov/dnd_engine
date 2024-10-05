@@ -14,8 +14,8 @@ from dnd_engine.model.combat import Combat
 from dnd_engine.model.combat import Creature
 from dnd_engine.model.event import Event
 from dnd_engine.model.skill import Skill
-from dnd_engine.service.battle import generate_teams
-from dnd_engine.service.battle import next_round
+from dnd_engine.service.team import generate_teams
+from dnd_engine.service.team import next_round
 
 
 recreate_db()
