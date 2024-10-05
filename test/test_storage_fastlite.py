@@ -79,8 +79,9 @@ def test_load_action(filled_db):
 
 def test_save_action(empty_db):
     fl_db.create_actions_table(empty_db)
-    action = {"attacker_id": 0, "id": 1, "target_id": 1, "skill_classes": "Attack"}
+    action = {"attacker_id": 0, "target_id": 1, "skill_classes": "Attack"}
     r = fl_loader.save_action(action, empty_db)
+    del r["id"]
     assert r == action
 
 

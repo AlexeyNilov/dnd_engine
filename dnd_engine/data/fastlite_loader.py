@@ -25,7 +25,10 @@ def load_action(id: int, db: Database = DB) -> dict:
 
 def save_action(action: dict, db: Database = DB) -> dict:
     actions = db.t.actions
-    return actions.upsert(**action)
+    if "id" in action.keys():
+        return actions.upsert(**action)
+    else:
+        return actions.insert(**action)
 
 
 def clear_events(db: Database = DB):

@@ -4,6 +4,8 @@ from typing import Tuple
 
 from dnd_engine.data.fastlite_dataclasses import Combats
 from dnd_engine.data.fastlite_db import DB
+from dnd_engine.data.fastlite_loader import load_action
+from dnd_engine.data.fastlite_loader import save_action
 from dnd_engine.data.fastlite_loader import save_combat_view
 from dnd_engine.data.fastlite_loader import save_creature
 from dnd_engine.data.fastlite_loader import save_event
@@ -34,16 +36,27 @@ def save_team_members(combat: Combat):
 def get_remote_input(
     combat: Combat, creature: Creature
 ) -> List[Tuple[Skill, Creature]]:
-    actions = list()
+    remote_input = list()
     target = combat.get_target_for(creature)
-    skill = creature.get_skill_by_class("Attack")
-    actions.append((skill, target))
-    return actions
+    action = save_action({"attacker_id": creature.id, "target_id": target.id})
+    print(action)
+    while True:
+        sleep(1)
+        action = load_action(id=action["id"])
+        if action["skill_classes"]:
+            break
+
+    skill = creature.get_skill_by_class(action["skill_classes"])
+    remote_input.append((skill, target))
+    return remote_input
 
 
 def cycle_rounds(combat: Combat):
     while not combat.is_completed():
-        cv: Combats = combats_table[combat.name]
+        try:
+            cv: Combats = combats_table[combat.name]
+        except Exception:
+            break
 
         if cv.status == "Started" and cv.round is not None and cv.round > combat.round:
             next_round(combat, input_getter=get_remote_input)
@@ -78,5 +91,5 @@ while True:
         save_team_members(combat)
         cycle_rounds(combat)
     else:
-        sleep(10)
+        sleep(5)
         combats_table.delete(cv.name)

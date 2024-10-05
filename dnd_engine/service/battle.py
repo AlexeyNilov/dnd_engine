@@ -87,8 +87,6 @@ def next_round(combat: Combat, input_getter: Callable = None):
         if not creature.is_alive:
             continue
 
-        combat.active_creature_id = creature.id
-
         actions = advice(combat=combat, myself=creature, input_getter=input_getter)
         for action, target in actions:
             creature.apply(action, target)
