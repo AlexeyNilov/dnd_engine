@@ -19,6 +19,11 @@ db_path = os.environ.get("DB_PATH", "db/dnd.sqlite")
 DB: Database = fl.database(db_path)
 
 
+def clear_combats(db: Database = DB):
+    for c in db.t.combats():
+        db.t.combats.delete(c["name"])
+
+
 def load_action(id: int, db: Database = DB) -> dict:
     return db.t.actions[id]
 
@@ -29,6 +34,11 @@ def save_action(action: dict, db: Database = DB) -> dict:
         return actions.upsert(**action)
     else:
         return actions.insert(**action)
+
+
+def clear_actions(db: Database = DB):
+    for a in db.t.actions():
+        db.t.actions.delete(a["id"])
 
 
 def clear_events(db: Database = DB):
@@ -153,7 +163,7 @@ def save_combat_view(combat: Combat, db: Database = DB) -> dict:
 
 
 def save_event_related_entity(
-    source: str, msg: str, entity: Any, do_print: bool = False
+    source: str, msg: str, entity: Any, do_print: bool = True
 ) -> None:
     if do_print:
         print(f"{source}: {msg}")
