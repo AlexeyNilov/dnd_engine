@@ -193,3 +193,10 @@ def save_event_related_entity(
         save_creature(entity)
     if isinstance(entity, Combat):
         save_combat_view(entity)
+
+
+def cleanup(db: Database = DB):
+    clear_creatures(db)
+    clear_events(db)
+    clear_actions(db)
+    clear_combats(db)

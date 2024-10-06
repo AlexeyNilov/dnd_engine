@@ -3,11 +3,8 @@ from typing import List
 
 from dnd_engine.data.fastlite_dataclasses import Combats
 from dnd_engine.data.fastlite_db import DB
-from dnd_engine.data.fastlite_db import recreate_db
+from dnd_engine.data.fastlite_loader import cleanup
 from dnd_engine.data.fastlite_loader import clear_actions
-from dnd_engine.data.fastlite_loader import clear_combats
-from dnd_engine.data.fastlite_loader import clear_creatures
-from dnd_engine.data.fastlite_loader import clear_events
 from dnd_engine.data.fastlite_loader import get_action_by_attacker
 from dnd_engine.data.fastlite_loader import save_event_related_entity
 from dnd_engine.model.combat import Combat
@@ -17,18 +14,10 @@ from dnd_engine.service.team import generate_teams
 from dnd_engine.service.team import prepare_teams
 
 
-recreate_db()
 combats_table = DB.t.combats
 combats_table.dataclass()
 combats_table.xtra(owner="Arena")
 creatures_table = DB.t.creatures
-
-
-def cleanup():
-    clear_creatures()
-    clear_events()
-    clear_actions()
-    clear_combats()
 
 
 def get_actions(creature: Creature, combat: Combat) -> List[Command]:
