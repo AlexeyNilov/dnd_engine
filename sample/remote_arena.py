@@ -42,8 +42,8 @@ def get_actions(creature: Creature, combat: Combat) -> List[Command]:
             except Exception:
                 continue
 
+            clear_actions()
             skill_classes = action["skill_classes"].split(";")
-            print(action, skill_classes)
             return [
                 Command(skill_class=skill_class, target=target)
                 for skill_class in skill_classes
