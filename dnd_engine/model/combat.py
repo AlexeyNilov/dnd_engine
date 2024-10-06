@@ -25,7 +25,7 @@ class Combat(EventModel):
         if self.status == "Completed":
             return True
         for team in self.teams:
-            if not all(m.is_alive for m in team.members):
+            if all(not m.is_alive for m in team.members):
                 team.is_loser = True
                 break
         if any(team.is_loser for team in self.teams):
@@ -38,12 +38,10 @@ class Combat(EventModel):
     def form_combat_queue(self):
         self.status = "Started"
         self.queue = []
-        c = 0
         for team in self.teams:
             for member in team.members:
                 self.queue.append(member)
-                member.publish_event(f"My number is {c}")
-                c += 1
+                member.publish_event(f"joined {team.name}")
         random.shuffle(self.queue)
 
     def get_team(self, creature: Creature) -> Team:

@@ -19,4 +19,7 @@ class EventModel(BaseModel):
 
     def publish_event(self, msg: str):
         if callable(self.events_publisher):
-            self.events_publisher(self.name, msg, self)
+            try:
+                self.events_publisher(f"{self.name}_{self.id}", msg, self)
+            except AttributeError:
+                self.events_publisher(f"{self.name}", msg, self)

@@ -70,7 +70,7 @@ while True:
     combat = Combat(
         name=cv.name,
         events_publisher=save_event_related_entity,
-        teams=generate_teams(size=1),
+        teams=generate_teams(size=5),
         owner=cv.owner,
         round=cv.round,
         status=cv.status,

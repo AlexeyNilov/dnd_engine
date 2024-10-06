@@ -36,7 +36,7 @@ class Creature(Entity):
         return len(self.skills.keys())
 
     def act(self) -> None:
-        self.publish_event(f"{self.name} it's my turn")
+        self.publish_event("It's my turn")
         if callable(self.get_commands):
             commands: List[Command] = self.get_commands(self)
             ap = min(self.get_action_points(), len(commands))
@@ -52,7 +52,7 @@ class Creature(Entity):
 
         result = skill.use(who=self, to=to)
         self.publish_event(
-            f"{skill.__class__.__name__} applied to {to.name} with result: {result}"
+            f"{skill.__class__.__name__} applied to {to.name}_{to.id} with result: {result}"
         )
         return bool(result)
 
@@ -82,11 +82,11 @@ class Creature(Entity):
         if self.is_alive and self.hp <= 0:
             self.is_alive = False
             self.hp = 0
-            self.publish_event("Died")
+            self.publish_event("I'm dead")
 
     def check_hp_less_than_max_hp(self):
         if self.hp == self.max_hp:
-            self.publish_event("Full")
+            self.publish_event("I'm full")
 
         if self.hp > self.max_hp:
             self.hp = self.max_hp
@@ -95,4 +95,4 @@ class Creature(Entity):
         self.check_hp_above_zero()
         if self.is_alive:
             self.check_hp_less_than_max_hp()
-        self.publish_event(f"{self.name} HP changed")
+        self.publish_event("My HP changed")
