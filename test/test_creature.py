@@ -79,14 +79,6 @@ def test_use_consume_skill_above_max_hp(creature):
     assert food.value == value
 
 
-# def test_get_skill_by_class(creature):
-#     assert creature.get_skill_by_class("Consume") == creature.skills["eat"]
-
-
-def test_get_skill_classes(creature):
-    assert creature.get_skill_classes() == ["Consume"]
-
-
 def test_get_action_points(creature):
     assert creature.get_action_points() == 1
 

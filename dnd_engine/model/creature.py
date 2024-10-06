@@ -54,12 +54,9 @@ class Creature(Entity):
 
         result = self.skills[skill_name].use(who=self, to=to)
         self.publish_event(
-            f"{skill_name} applied to {to.name}_{to.id} with result: {result}"
+            f"{skill_name.capitalize()} applied to {to.name}_{to.id} with result: {result}"
         )
         return bool(result)
-
-    def get_skill_classes(self) -> List[str]:
-        return [skill.__class__.__name__ for skill in self.skills.values()]
 
     def check_hp_above_zero(self):
         if self.is_alive and self.hp <= 0:
