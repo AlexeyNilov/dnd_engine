@@ -21,33 +21,35 @@ while True:
     combat_views = combats_table(limit=1)
 
     if not combat_views:
-        sleep(2)
+        sleep(1)
         continue
 
     cv: Combats = combat_views[0]
     print(cv)
 
-    if cv.status == "Not started":
+    if cv.status != "Not started":
+        sleep(1)
+        continue
 
-        def get_input(creature: Creature) -> List[Command]:
-            actions = list()
-            target = combat.get_target_for(creature)
-            actions.append(Command(skill_class="Attack", target=target))
-            return actions
+    combat = Combat(
+        name=cv.name,
+        events_publisher=save_event_related_entity,
+        teams=generate_teams(size=1),
+        owner=cv.owner,
+        round=cv.round,
+        status=cv.status,
+    )
 
-        combat = Combat(
-            name=cv.name,
-            events_publisher=save_event_related_entity,
-            teams=generate_teams(size=1),
-            owner=cv.owner,
-            round=cv.round,
-            status=cv.status,
-        )
+    def get_input(creature: Creature) -> List[Command]:
+        actions = list()
+        target = combat.get_target_for(creature)
+        actions.append(Command(skill_class="Attack", target=target))
+        return actions
 
-        prepare_teams(
-            combat.teams,
-            event_publisher=save_event_related_entity,
-            get_commands=get_input,
-        )
+    prepare_teams(
+        combat.teams,
+        event_publisher=save_event_related_entity,
+        get_commands=get_input,
+    )
 
-        combat.start()
+    combat.start()
