@@ -12,6 +12,9 @@ Wolf:
     eat:
       type: Consume
       base: 1
+    # growl:
+    #   type: Attack
+    #   base: 1
 Pig:
   max_hp: 6
   link: "https://www.d20pfsrd.com/bestiary/monster-listings/animals/pig/"

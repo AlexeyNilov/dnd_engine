@@ -2,12 +2,16 @@
 
 ## Dungeon arena
 
+* send skill names instead of classes
 * Battle spirit - random
+* Combat decision making (OODA loop) (combat TRIZ) (LLM)
+* Initiative roll minus max_hp
+* implement growl? (buff/curse)
+* Team leader
 * Inventory and equipment
 * New stats (energy, mana, etc)
 * Luck
 * Skill learning (learn on failures?)
-* Combat decision making (OODA loop) (combat TRIZ)
 * Visual / text clues from events logs
 
 ## UFO: Tactical arena
