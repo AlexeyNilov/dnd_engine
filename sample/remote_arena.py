@@ -8,6 +8,7 @@ from dnd_engine.data.fastlite_loader import clear_actions
 from dnd_engine.data.fastlite_loader import clear_combats
 from dnd_engine.data.fastlite_loader import clear_creatures
 from dnd_engine.data.fastlite_loader import clear_events
+from dnd_engine.data.fastlite_loader import get_action_by_attacker
 from dnd_engine.data.fastlite_loader import save_event_related_entity
 from dnd_engine.model.combat import Combat
 from dnd_engine.model.combat import Creature
@@ -32,15 +33,23 @@ def cleanup():
 
 
 def get_actions(creature: Creature, combat: Combat) -> List[Command]:
-    actions = list()
     target = combat.get_target_for(creature)
     if creature.name == "Wolf":
-        print("Wait for input")
-        sleep(5)
-        actions.append(Command(skill_class="Attack", target=target))
-    else:
-        actions.append(Command(skill_class="Attack", target=target))
-    return actions
+        while True:
+            sleep(0.1)
+            try:
+                action = get_action_by_attacker(attacker_id=creature.id)
+            except Exception:
+                continue
+
+            skill_classes = action["skill_classes"].split(";")
+            print(action, skill_classes)
+            return [
+                Command(skill_class=skill_class, target=target)
+                for skill_class in skill_classes
+            ]
+
+    return [Command(skill_class="Attack", target=target)]
 
 
 cleanup()

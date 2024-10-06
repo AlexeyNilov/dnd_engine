@@ -19,6 +19,10 @@ db_path = os.environ.get("DB_PATH", "db/dnd.sqlite")
 DB: Database = fl.database(db_path)
 
 
+class ActionNotFound(Exception):
+    pass
+
+
 def clear_combats(db: Database = DB):
     for c in db.t.combats():
         db.t.combats.delete(c["name"])
@@ -26,6 +30,15 @@ def clear_combats(db: Database = DB):
 
 def load_action(id: int, db: Database = DB) -> dict:
     return db.t.actions[id]
+
+
+def get_action_by_attacker(attacker_id: int, db: Database = DB) -> dict:
+    sql = f"SELECT id FROM actions WHERE attacker_id = {attacker_id};"
+    data = DB.q(sql)
+    if not data:
+        raise ActionNotFound
+    action_id = data[0]["id"]
+    return db.t.actions[action_id]
 
 
 def save_action(action: dict, db: Database = DB) -> dict:
