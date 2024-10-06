@@ -10,7 +10,7 @@ ID_COUNTER = 0
 class Entity(EventModel):
     """See doc/entity.md for details"""
 
-    id: int  # Must be uniq globally
+    id: int = 0  # Must be uniq globally
 
     _id_counter: ClassVar[int] = 0
     _lock: ClassVar[Lock] = Lock()
