@@ -1,7 +1,7 @@
 from pydantic import PositiveInt
 
-from dnd_engine.model.entity import Entity
+from dnd_engine.model.shared import EventModel
 
 
-class Resource(Entity):
+class Resource(EventModel):
     value: PositiveInt = 1

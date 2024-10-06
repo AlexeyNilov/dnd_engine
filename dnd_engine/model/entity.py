@@ -41,8 +41,13 @@ class Entity(EventModel):
             raise SkillNotFound
 
         result = self.skills[skill_name].use(who=self, to=to)
+        if hasattr(to, "id"):
+            target = f"{to.name}_{to.id}"
+        else:
+            target = to.name
+
         self.publish_event(
-            f"{skill_name.capitalize()} applied to {to.name}_{to.id} with result: {result}"
+            f"{skill_name.capitalize()} applied to {target} with result: {result}"
         )
         return bool(result)
 
