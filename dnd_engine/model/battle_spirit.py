@@ -1,10 +1,7 @@
-from typing import Dict
-
 from dnd_engine.model.combat import Combat
 from dnd_engine.model.command import Command
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.entity import Entity
-from dnd_engine.model.skill import Skill
 
 
 class BattleSpiritNotImplemented(NotImplementedError):
@@ -14,7 +11,6 @@ class BattleSpiritNotImplemented(NotImplementedError):
 class BattleSpirit(Entity):
     creature: Creature
     combat: Combat
-    skills: Dict[str, Skill] = {}
 
     def give_commands(self, *args, **kargs):
         raise BattleSpiritNotImplemented

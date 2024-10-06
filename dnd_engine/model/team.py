@@ -1,9 +1,9 @@
 from typing import List
 
 from dnd_engine.model.creature import Creature
-from dnd_engine.model.entity import Entity
+from dnd_engine.model.shared import EventModel
 
 
-class Team(Entity):
+class Team(EventModel):
     members: List[Creature]
     is_loser: bool = False

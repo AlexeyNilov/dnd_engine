@@ -1,6 +1,4 @@
-import logging
 from typing import Callable
-from typing import Dict
 from typing import List
 from typing import Optional
 
@@ -9,11 +7,6 @@ from pydantic import PositiveInt
 from dnd_engine.model.command import Command
 from dnd_engine.model.entity import Entity
 from dnd_engine.model.shared import ZeroPositiveInt
-from dnd_engine.model.skill import Skill
-from dnd_engine.model.skill import SkillNotFound
-
-
-logger = logging.getLogger(__name__)
 
 
 class Creature(Entity):
@@ -22,7 +15,6 @@ class Creature(Entity):
     is_alive: bool = True
     hp: ZeroPositiveInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
-    skills: Dict[str, Skill] = {}
     get_commands: Optional[Callable] = None
     is_active: bool = False  # Has turn
 
@@ -32,9 +24,6 @@ class Creature(Entity):
         # React to changes
         if name == "hp":
             self.hp_tracker()
-
-    def get_action_points(self) -> int:
-        return len(self.skills.keys())
 
     def act(self) -> None:
         self.is_active = True
@@ -46,17 +35,6 @@ class Creature(Entity):
                 self.apply(command.skill_name, to=command.target)
         self.is_active = False
         self.publish_event("Completed my turn")
-
-    def apply(self, skill_name: str, to: Entity) -> bool:
-        """Apply given skill to the Entity"""
-        if skill_name not in self.skills.keys():
-            raise SkillNotFound
-
-        result = self.skills[skill_name].use(who=self, to=to)
-        self.publish_event(
-            f"{skill_name.capitalize()} applied to {to.name}_{to.id} with result: {result}"
-        )
-        return bool(result)
 
     def check_hp_above_zero(self):
         if self.is_alive and self.hp <= 0:
