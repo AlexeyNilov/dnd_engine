@@ -2,7 +2,6 @@
 
 ## Dungeon arena
 
-* Send skill names instead of classes
 * Battle spirit - random
 * Combat decision making (OODA loop) (combat TRIZ)
 * LLM friendly: arena describes teams and sum up rounds

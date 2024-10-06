@@ -22,7 +22,7 @@ class Creature(Entity):
     is_alive: bool = True
     hp: ZeroPositiveInt  # Health points (measure of aliveness)
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
-    skills: Dict[str, Skill] = {}  # TODO Convert to a list?
+    skills: Dict[str, Skill] = {}
     get_commands: Optional[Callable] = None
     is_active: bool = False  # Has turn
 

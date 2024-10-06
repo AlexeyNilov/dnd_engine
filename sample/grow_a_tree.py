@@ -22,7 +22,7 @@ fruits: List[Resource] = list()
 
 
 def react(event: Event):
-    if event.msg == "Full":
+    if event.msg == "I'm full":
         fruit = Resource(**fruit_data)
         fruits.append(fruit)
         tree.hp -= fruit.value

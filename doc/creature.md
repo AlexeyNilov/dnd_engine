@@ -35,3 +35,6 @@ For a creature to perform any action, it must know how to do it — this is wher
 Action points = number of skills
 
 ## Control
+
+So far a creature doesn't have mind or will.
+Battle spirits merge with creatures and control them during a combat.
