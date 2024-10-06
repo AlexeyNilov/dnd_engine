@@ -37,7 +37,13 @@ class Combat(EventModel):
 
     def form_combat_queue(self):
         self.status = "Started"
-        self.queue = [member for team in self.teams for member in team.members]
+        self.queue = []
+        c = 0
+        for team in self.teams:
+            for member in team.members:
+                self.queue.append(member)
+                member.publish_event(f"My number is {c}")
+                c += 1
         random.shuffle(self.queue)
 
     def get_team(self, creature: Creature) -> Team:

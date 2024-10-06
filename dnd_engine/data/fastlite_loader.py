@@ -36,6 +36,11 @@ def save_action(action: dict, db: Database = DB) -> dict:
         return actions.insert(**action)
 
 
+def clear_creatures(db: Database = DB):
+    for c in db.t.creatures():
+        db.t.creatures.delete(c["id"])
+
+
 def clear_actions(db: Database = DB):
     for a in db.t.actions():
         db.t.actions.delete(a["id"])

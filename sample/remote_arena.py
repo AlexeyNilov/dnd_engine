@@ -6,6 +6,7 @@ from dnd_engine.data.fastlite_db import DB
 from dnd_engine.data.fastlite_db import recreate_db
 from dnd_engine.data.fastlite_loader import clear_actions
 from dnd_engine.data.fastlite_loader import clear_combats
+from dnd_engine.data.fastlite_loader import clear_creatures
 from dnd_engine.data.fastlite_loader import clear_events
 from dnd_engine.data.fastlite_loader import save_event_related_entity
 from dnd_engine.model.combat import Combat
@@ -22,10 +23,8 @@ combats_table.xtra(owner="Arena")
 creatures_table = DB.t.creatures
 
 
-def cleanup(combat: Combat):
-    for team in combat.teams:
-        for m in team.members:
-            creatures_table.delete(m.id)
+def cleanup():
+    clear_creatures()
     clear_events()
     clear_actions()
     clear_combats()
@@ -44,6 +43,7 @@ def get_actions(creature: Creature, combat: Combat) -> List[Command]:
     return actions
 
 
+cleanup()
 while True:
     combat_views = combats_table(limit=1)
 
@@ -78,4 +78,4 @@ while True:
 
     combat.start()
     sleep(1)
-    cleanup(combat)
+    cleanup()

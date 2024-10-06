@@ -92,7 +92,7 @@ def test_create_events_table(empty_db):
 
 
 def test_save_event(empty_db, creature):
-    fl_loader.create_events_table(empty_db)
+    fl_db.create_events_table(empty_db)
     e = Event(source=creature.name, msg="test_message")
     r = fl_loader.save_event(e, db=empty_db)
     assert r == {"source": creature.name, "id": 1, "msg": "test_message"}

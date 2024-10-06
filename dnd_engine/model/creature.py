@@ -36,6 +36,7 @@ class Creature(Entity):
         return len(self.skills.keys())
 
     def act(self) -> None:
+        self.publish_event(f"{self.name} it's my turn")
         if callable(self.get_commands):
             commands: List[Command] = self.get_commands(self)
             ap = min(self.get_action_points(), len(commands))
