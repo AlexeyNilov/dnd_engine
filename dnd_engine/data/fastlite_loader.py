@@ -6,7 +6,6 @@ from typing import List
 import fastlite as fl
 from sqlite_minutils.db import Database
 
-from dnd_engine.data.fastlite_db import create_events_table
 from dnd_engine.model.combat import Combat
 from dnd_engine.model.creature import Creature
 from dnd_engine.model.event import Event
@@ -33,8 +32,8 @@ def save_action(action: dict, db: Database = DB) -> dict:
 
 
 def clear_events(db: Database = DB):
-    db.t.events.drop()
-    create_events_table(db)
+    for e in db.t.events():
+        db.t.events.delete(e["id"])
 
 
 def save_event(event: Event, db: Database = DB) -> dict:

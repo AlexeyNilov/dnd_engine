@@ -4,6 +4,7 @@ from typing import List
 from dnd_engine.data.fastlite_dataclasses import Combats
 from dnd_engine.data.fastlite_db import DB
 from dnd_engine.data.fastlite_db import recreate_db
+from dnd_engine.data.fastlite_loader import clear_events
 from dnd_engine.data.fastlite_loader import save_event_related_entity
 from dnd_engine.model.combat import Combat
 from dnd_engine.model.combat import Creature
@@ -25,8 +26,7 @@ def cleanup(combat: Combat):
         for m in team.members:
             creatures_table.delete(m.id)
     combats_table.delete(combat.name)
-    for e in events_table():
-        events_table.delete(e["id"])
+    clear_events()
     print("Clean up completed")
 
 
