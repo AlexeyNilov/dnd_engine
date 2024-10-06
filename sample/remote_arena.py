@@ -43,13 +43,13 @@ def get_actions(creature: Creature, combat: Combat) -> List[Command]:
                 continue
 
             clear_actions()
-            skill_classes = action["skill_classes"].split(";")
+            skill_names = action["skill_names"].split(";")
             return [
-                Command(skill_class=skill_class, target=target)
-                for skill_class in skill_classes
+                Command(skill_name=skill_name, target=target)
+                for skill_name in skill_names
             ]
 
-    return [Command(skill_class="Attack", target=target)]
+    return [Command(skill_name="bite", target=target)]
 
 
 cleanup()

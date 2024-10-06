@@ -32,10 +32,7 @@ combat_structure = dict(
 )
 
 action_structure = dict(  # TODO add combat id
-    id=int,
-    attacker_id=int,
-    target_id=int,
-    skill_classes=str,
+    id=int, attacker_id=int, target_id=int, skill_names=str
 )
 
 event_structure = dict(id=int, source=str, msg=str)

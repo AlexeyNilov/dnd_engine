@@ -2,9 +2,11 @@
 
 ## Dungeon arena
 
-* send skill names instead of classes
+* Send skill names instead of classes
 * Battle spirit - random
-* Combat decision making (OODA loop) (combat TRIZ) (LLM)
+* Combat decision making (OODA loop) (combat TRIZ)
+* LLM friendly: arena describes teams and sum up rounds
+* LLM: combat language
 * Initiative roll minus max_hp
 * implement growl? (buff/curse)
 * Team leader
@@ -23,7 +25,7 @@
 * HP based Creature feeling/mood
 * Distance
 * Space
-* Time
+* Time -> Age
 * Google Cloud hosting
 * CI/CD
 * Log history and events to external(out of object) event storage
@@ -31,3 +33,4 @@
 ## Ideas
 
 * Heroes arena
+* Team bots

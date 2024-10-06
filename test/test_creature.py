@@ -94,7 +94,7 @@ def test_get_action_points(creature):
 def test_act(attack_creature):
 
     def generate_command(attack_creature: cr.Creature):
-        c = Command(skill_class="Attack", target=attack_creature)
+        c = Command(skill_name="bite", target=attack_creature)
         return [c] * 5
 
     attack_creature.get_commands = generate_command

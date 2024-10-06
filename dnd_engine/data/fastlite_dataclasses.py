@@ -21,6 +21,7 @@ class Creatures:
     is_alive: int | None = None
     hp: int | None = None
     max_hp: int | None = None
+    is_active: int | None = None
 
 
 @dataclass
@@ -44,4 +45,4 @@ class Actions:
     id: int | None = None
     attacker_id: int | None = None
     target_id: int | None = None
-    skill_classes: str | None = None
+    skill_names: str | None = None

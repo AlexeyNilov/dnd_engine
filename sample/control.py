@@ -9,7 +9,7 @@ cr = load_creature(id=1)
 
 
 def generate_command(creature: Creature):
-    c = Command(skill_class="Attack", target=creature)
+    c = Command(skill_name="Attack", target=creature)
     return [c] * 5
 
 

@@ -20,7 +20,7 @@ combat = Combat(
 def get_input(creature: Creature) -> List[Command]:
     actions = list()
     target = combat.get_target_for(creature)
-    actions.append(Command(skill_class="Attack", target=target))
+    actions.append(Command(skill_name="bite", target=target))
     return actions
 
 

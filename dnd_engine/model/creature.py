@@ -43,9 +43,7 @@ class Creature(Entity):
             commands: List[Command] = self.get_commands(self)
             ap = min(self.get_action_points(), len(commands))
             for command in commands[:ap]:
-                self.apply(
-                    self.get_skill_by_class(command.skill_class), to=command.target
-                )
+                self.apply(self.skills[command.skill_name], to=command.target)
         self.is_active = False
         self.publish_event("Completed my turn")
 
