@@ -2,7 +2,6 @@
 
 ## Dungeon arena
 
-* UI: control panel
 * Battle spirit - random
 * Inventory and equipment
 * New stats (energy, mana, etc)

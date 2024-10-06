@@ -34,8 +34,9 @@ def cleanup():
 def get_actions(creature: Creature, combat: Combat) -> List[Command]:
     target = combat.get_target_for(creature)
     if creature.name == "Wolf":
-        while True:
+        for _ in range(200):
             sleep(0.1)
+
             try:
                 action = get_action_by_attacker(attacker_id=creature.id)
             except Exception:
