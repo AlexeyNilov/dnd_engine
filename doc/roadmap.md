@@ -2,10 +2,8 @@
 
 ## Dungeon arena
 
-* Combat class simplification
-* Battle spirit - random
-* UI: next creature turn
 * UI: control panel
+* Battle spirit - random
 * Inventory and equipment
 * New stats (energy, mana, etc)
 * Luck

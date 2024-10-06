@@ -20,11 +20,7 @@ skill_record_structure = dict(
 )
 
 creature_structure = dict(
-    id=int,
-    name=str,
-    is_alive=bool,
-    hp=int,
-    max_hp=int,
+    id=int, name=str, is_alive=bool, hp=int, max_hp=int, is_active=bool
 )
 
 combat_structure = dict(

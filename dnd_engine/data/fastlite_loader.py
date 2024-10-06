@@ -114,6 +114,7 @@ def del_none(d: dict):
 
 def convert_dict_to_creature(d: dict) -> Creature:
     d["is_alive"] = bool(d["is_alive"])
+    d["is_active"] = bool(d["is_active"])
     d = del_none(d)
     return Creature(**d)
 

@@ -25,3 +25,7 @@ class Entity(EventModel):
         global ID_COUNTER
         ID_COUNTER += 1
         return ID_COUNTER
+
+    def publish_event(self, msg: str):
+        if callable(self.events_publisher):
+            self.events_publisher(f"{self.name}_{self.id}", msg, self)

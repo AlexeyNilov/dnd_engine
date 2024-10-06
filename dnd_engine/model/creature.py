@@ -24,6 +24,7 @@ class Creature(Entity):
     max_hp: PositiveInt  # Upper limit for health points (measure of growth)
     skills: Dict[str, Skill] = {}  # TODO Convert to a list?
     get_commands: Optional[Callable] = None
+    is_active: bool = False  # Has turn
 
     def __setattr__(self, name, value):
         super().__setattr__(name, value)
@@ -36,6 +37,7 @@ class Creature(Entity):
         return len(self.skills.keys())
 
     def act(self) -> None:
+        self.is_active = True
         self.publish_event("It's my turn")
         if callable(self.get_commands):
             commands: List[Command] = self.get_commands(self)
@@ -44,6 +46,8 @@ class Creature(Entity):
                 self.apply(
                     self.get_skill_by_class(command.skill_class), to=command.target
                 )
+        self.is_active = False
+        self.publish_event("Completed my turn")
 
     def apply(self, skill: Skill, to: Entity) -> bool:
         """Apply given skill to the Entity"""

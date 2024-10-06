@@ -164,6 +164,7 @@ def test_save_creature(empty_db, creature):
         "is_alive": 1,
         "max_hp": 20,
         "name": "Test_Creature",
+        "is_active": 0,
     }
 
 
