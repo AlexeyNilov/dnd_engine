@@ -10,7 +10,7 @@ from dnd_engine.model.command import Command
 from dnd_engine.model.entity import Entity
 from dnd_engine.model.shared import ZeroPositiveInt
 from dnd_engine.model.skill import Skill
-from dnd_engine.model.skill import SkillTypeNotFound
+from dnd_engine.model.skill import SkillNotFound
 
 
 logger = logging.getLogger(__name__)
@@ -43,42 +43,23 @@ class Creature(Entity):
             commands: List[Command] = self.get_commands(self)
             ap = min(self.get_action_points(), len(commands))
             for command in commands[:ap]:
-                self.apply(self.skills[command.skill_name], to=command.target)
+                self.apply(command.skill_name, to=command.target)
         self.is_active = False
         self.publish_event("Completed my turn")
 
-    def apply(self, skill: Skill, to: Entity) -> bool:
+    def apply(self, skill_name: str, to: Entity) -> bool:
         """Apply given skill to the Entity"""
-        if skill not in self.skills.values():
-            raise SkillTypeNotFound
+        if skill_name not in self.skills.keys():
+            raise SkillNotFound
 
-        result = skill.use(who=self, to=to)
+        result = self.skills[skill_name].use(who=self, to=to)
         self.publish_event(
-            f"{skill.__class__.__name__} applied to {to.name}_{to.id} with result: {result}"
+            f"{skill_name} applied to {to.name}_{to.id} with result: {result}"
         )
         return bool(result)
 
     def get_skill_classes(self) -> List[str]:
         return [skill.__class__.__name__ for skill in self.skills.values()]
-
-    def get_skill_by_class(self, skill_class: str) -> Skill:
-        skill = next(
-            (
-                skill
-                for skill in self.skills.values()
-                if skill.__class__.__name__ == skill_class
-            ),
-            None,
-        )
-        if skill is None:
-            raise SkillTypeNotFound
-        return skill
-
-    def do_by_class(self, skill_class: str, to: Entity) -> bool:
-        return self.apply(skill=self.get_skill_by_class(skill_class), to=to)
-
-    def do_by_name(self, skill_name: str, to: Entity) -> bool:
-        return self.apply(skill=self.skills[skill_name], to=to)
 
     def check_hp_above_zero(self):
         if self.is_alive and self.hp <= 0:

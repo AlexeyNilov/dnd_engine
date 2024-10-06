@@ -12,7 +12,11 @@ class SkillMethodNotImplemented(NotImplementedError):
     pass
 
 
-class SkillTypeNotFound(NotImplementedError):
+class SkillTypeNotFound(Exception):
+    pass
+
+
+class SkillNotFound(Exception):
     pass
 
 

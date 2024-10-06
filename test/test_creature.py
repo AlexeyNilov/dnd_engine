@@ -6,7 +6,7 @@ from dnd_engine.model.command import Command
 from dnd_engine.model.resource import Resource
 from dnd_engine.model.skill import Skill
 from dnd_engine.model.skill import SkillMethodNotImplemented
-from dnd_engine.model.skill import SkillTypeNotFound
+from dnd_engine.model.skill import SkillNotFound
 from dnd_engine.model.skill_library import Attack
 from dnd_engine.model.skill_library import Consume
 
@@ -15,7 +15,7 @@ set_logging()
 
 
 @pytest.fixture
-def creature():
+def creature() -> cr.Creature:
     data = {"name": "hunter", "hp": 9, "max_hp": 10}
     c = cr.Creature(**data)
     c.skills["eat"] = Consume()
@@ -23,7 +23,7 @@ def creature():
 
 
 @pytest.fixture
-def attack_creature(creature):
+def attack_creature(creature) -> cr.Creature:
     creature.skills["bite"] = Attack()
     return creature
 
@@ -50,15 +50,15 @@ def test_apply_base_skill(creature):
     creature.skills = {}
     creature.skills["test"] = Skill()
     with pytest.raises(SkillMethodNotImplemented):
-        creature.apply(skill=creature.skills["test"], to=creature)
+        creature.apply(skill_name="test", to=creature)
 
-    with pytest.raises(SkillTypeNotFound):
-        creature.apply(skill=Consume(), to=creature)
+    with pytest.raises(SkillNotFound):
+        creature.apply(skill_name="eat", to=creature)
 
 
 def test_use_consume_skill_on_self(creature):
     hp = creature.hp
-    assert creature.do_by_class("Consume", to=creature) is False
+    assert creature.apply("eat", to=creature) is False
     assert creature.hp == hp
 
 
@@ -66,7 +66,7 @@ def test_use_consume_skill(creature):
     hp = creature.hp
     food = Resource(name="food")
     value = food.value
-    assert creature.do_by_name("eat", to=food)
+    assert creature.apply("eat", to=food)
     assert creature.hp == hp + 1
     assert food.value == value - 1
 
@@ -75,12 +75,12 @@ def test_use_consume_skill_above_max_hp(creature):
     creature.hp = creature.max_hp
     food = Resource(name="food")
     value = food.value
-    assert creature.do_by_class("Consume", to=food) is False
+    assert creature.apply("eat", to=food) is False
     assert food.value == value
 
 
-def test_get_skill_by_class(creature):
-    assert creature.get_skill_by_class("Consume") == creature.skills["eat"]
+# def test_get_skill_by_class(creature):
+#     assert creature.get_skill_by_class("Consume") == creature.skills["eat"]
 
 
 def test_get_skill_classes(creature):

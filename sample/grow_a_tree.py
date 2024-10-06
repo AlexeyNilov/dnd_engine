@@ -30,7 +30,7 @@ def react(event: Event):
 
 while water.value > 0:
     tree.hp -= 1
-    tree.apply(skill=tree.skills["eat"], to=water)
+    tree.apply(skill_name=tree.skills["eat"], to=water)
     exec_on_deque(react)
 
 assert len(fruits) == 3
