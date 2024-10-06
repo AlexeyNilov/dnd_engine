@@ -29,7 +29,6 @@ def cleanup():
     clear_events()
     clear_actions()
     clear_combats()
-    print("Clean up completed")
 
 
 def get_actions(creature: Creature, combat: Combat) -> List[Command]:
@@ -61,7 +60,6 @@ while True:
         continue
 
     cv: Combats = combat_views[0]
-    print(cv)
 
     if cv.status != "Not started":
         sleep(0.1)
@@ -85,6 +83,7 @@ while True:
         get_commands=get_input,
     )
 
+    print("\n\n\n\nStart new combat!")
     combat.start()
     sleep(1)
     cleanup()
