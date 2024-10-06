@@ -16,6 +16,19 @@ recreate_db()
 combats_table = DB.t.combats
 combats_table.dataclass()
 combats_table.xtra(owner="Arena")
+creatures_table = DB.t.creatures
+events_table = DB.t.events
+
+
+def cleanup(combat: Combat):
+    for team in combat.teams:
+        for m in team.members:
+            creatures_table.delete(m.id)
+    combats_table.delete(combat.name)
+    for e in events_table():
+        events_table.delete(e["id"])
+    print("Clean up completed")
+
 
 while True:
     combat_views = combats_table(limit=1)
@@ -53,3 +66,5 @@ while True:
     )
 
     combat.start()
+    sleep(10)
+    cleanup(combat)
