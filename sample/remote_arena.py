@@ -53,6 +53,7 @@ def get_actions(creature: Creature, combat: Combat) -> List[Command]:
 
 cleanup()
 while True:
+    print("Waiting for combat to start", end="\r")
     combat_views = combats_table(limit=1)
 
     if not combat_views:
